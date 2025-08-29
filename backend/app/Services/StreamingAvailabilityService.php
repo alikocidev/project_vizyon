@@ -26,16 +26,18 @@ class StreamingAvailabilityService
     /**
      * Get platform popular shows.
      */
-    public function getPlatformPopularShows(string $platformName, string $cursor = null): Result
+    public function getPlatformPopularShows(string $platformName, ?string $cursor = null): Result
     {
-        $cacheKey = "platform_{$platformName}_{$cursor}";
-        $cachedData = null;
-        $ttl = Carbon::now()->addMonth();
+        // Cursor'un hash'ini alarak cache key'i daha stabil hale getiriyoruz
+        $cursorHash = $cursor ? md5($cursor) : 'default';
+        $cacheKey = "platform_popular_{$platformName}_{$cursorHash}";
+        
+        // TTL'yi sabit olarak tanımlayarak performansı artırıyoruz (6 saat)
+        $ttlMinutes = 360;
 
-        $cachedData = Cache::remember($cacheKey, $ttl, function () use ($platformName, $cursor) {
+        $cachedData = Cache::remember($cacheKey, $ttlMinutes, function () use ($platformName, $cursor) {
             try {
                 $queryParams = [
-                    'cursor' => $cursor,
                     'country' => 'tr',
                     'series_granularity' => 'show',
                     'order_direction' => 'desc',
@@ -43,19 +45,46 @@ class StreamingAvailabilityService
                     'output_language' => 'tr',
                     'catalogs' => $platformName
                 ];
+                
+                // Cursor varsa ekle
+                if ($cursor) {
+                    $queryParams['cursor'] = $cursor;
+                }
+
                 $response = $this->client->get("shows/search/filters", [
                     'query' => $queryParams,
+                    'timeout' => 10, // Timeout ekleyerek yavaş API çağrılarını önlüyoruz
                 ]);
 
                 if ($response->getStatusCode() !== 200) {
-                    Log::channel("rapidapi")->error("Error fetching data from RapidApi Service 'shows/search/filters'");
+                    Log::channel("rapidapi")->error("Error fetching data from RapidApi Service 'shows/search/filters'", [
+                        'status_code' => $response->getStatusCode(),
+                        'platform' => $platformName
+                    ]);
                     return null;
                 }
-                Log::channel("rapidapi")->info("Fetching data from RapidApi Service 'shows/search/filters'", $queryParams);
+                
+                Log::channel("rapidapi")->info("Fetching data from RapidApi Service 'shows/search/filters'", [
+                    'platform' => $platformName,
+                    'has_cursor' => !is_null($cursor)
+                ]);
+                
                 $data = json_decode($response->getBody()->getContents(), true);
+                
+                // JSON decode hatası kontrolü
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    Log::channel("rapidapi")->error("JSON decode error: " . json_last_error_msg());
+                    return null;
+                }
+                
                 return $data;
             } catch (\Exception $e) {
-                Log::channel("rapidapi")->error("Exception occurred: {$e->getMessage()}");
+                Log::channel("rapidapi")->error("Exception occurred in getPlatformPopularShows", [
+                    'message' => $e->getMessage(),
+                    'platform' => $platformName,
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ]);
                 return null;
             }
         });
@@ -64,11 +93,20 @@ class StreamingAvailabilityService
             return Result::failure('Error fetching data from RapidApi');
         }
 
+        // Data validation
+        if (!isset($cachedData['shows']) || !is_array($cachedData['shows'])) {
+            Log::channel("rapidapi")->warning("Invalid data structure received from API", [
+                'platform' => $platformName,
+                'data_keys' => array_keys($cachedData ?? [])
+            ]);
+            return Result::failure('Invalid data structure from API');
+        }
+
         $result = [
             'name' => $platformName,
             'shows' => $cachedData['shows'],
-            'hasMore' => $cachedData['hasMore'],
-            'nextCursor' => $cachedData['nextCursor'],
+            'hasMore' => $cachedData['hasMore'] ?? false,
+            'nextCursor' => $cachedData['nextCursor'] ?? null,
         ];
 
         return Result::success($result);

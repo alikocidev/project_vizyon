@@ -1,4 +1,4 @@
-export type PlatformTypes = "prime" | "netflix" | "disney" | "blutv";
+export type PlatformTypes = "prime" | "netflix" | "disney" | "hbo";
 
 type ShowGenreIds =
     | "action"

@@ -14,7 +14,7 @@ const Home = () => {
   const [theaters, setTheaters] = useState<iMovie[]>([]);
   const [upComings, setUpComings] = useState<iMovie[]>([]);
   const [platform, setPlatform] = useState<iPlatform | null>(null);
-  const [_, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +46,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return (
       <CoreLayout user={user || undefined} title="Anasayfa">
         <div className="flex justify-center items-center min-h-screen">

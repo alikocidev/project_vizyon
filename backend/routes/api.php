@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\PlatformController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\TrendingController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
@@ -55,8 +56,8 @@ Route::prefix('search')->group(function () {
 
 // Protected Routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function () {
-        return response()->json(['user' => auth()->user()]);
+    Route::get('/user', function (Request $request) {
+        return response()->json(['user' => $request->user()]);
     });
     
     // Profile Routes
