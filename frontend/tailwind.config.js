@@ -52,7 +52,7 @@ export default {
         "linear-light": "linear-gradient(to right, #12c2e9, #c471ed, #f64f59);",
         "linear-dark": "linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);",
         "fade-light": "linear-gradient(to right, rgba(255, 255, 255, 0) 0, #F7F2EB 100%)",
-        "fade-dark": "linear-gradient(to right, rgba(0, 0, 0, 0) 0, #111216 100%)",
+        "fade-dark": "linear-gradient(to right, rgba(0, 0, 0, 0) 0, #0F0E0E 100%)",
         "fade-primary": "linear-gradient(to right, rgba(0, 0, 0, 0) 0, #1e284d 100%)",
         "primary-gradient": "linear-gradient(to right, #5185e0, #3356c2)",
         "secondary-gradient": "linear-gradient(to right, #c76f6c, #944341)",

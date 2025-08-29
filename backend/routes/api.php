@@ -59,13 +59,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return response()->json(['user' => $request->user()]);
     });
-    
+
     // Profile Routes
     Route::prefix('profile')->group(function () {
         Route::get('/', [\App\Http\Controllers\ProfileController::class, 'show']);
         Route::put('/', [\App\Http\Controllers\ProfileController::class, 'update']);
         Route::delete('/', [\App\Http\Controllers\ProfileController::class, 'destroy']);
     });
-    
+
     // Add other protected routes here
 });

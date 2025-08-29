@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Services\StreamingAvailabilityService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class PlatformController extends Controller
 {
