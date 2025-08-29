@@ -5,18 +5,36 @@ import { GetMovieVideos } from "@/Services/Movie";
 import { iMovie } from "@/types/movie.type";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
+import apiClient from "@/Services";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-interface iUpComingPage {
-    upComings: iMovie[];
-}
-
-const MovieUpComing = ({ upComings }: iUpComingPage) => {
+const MovieUpComing = () => {
+    const [upComings, setUpComings] = useState<iMovie[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(
         undefined
     );
     const [fetchVideos, setFetchVideos] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchUpComings = async () => {
+            try {
+                setIsLoading(true);
+                const response = await apiClient.get("/movie/upcomings");
+                setUpComings(response.data || []);
+            } catch (error) {
+                console.error("Error fetching upcoming movies:", error);
+                setUpComings([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUpComings();
+    }, []);
 
     const handleOpenTrailerFrame = (id: number) => {
         setFetchVideos(id);
@@ -100,13 +118,25 @@ const MovieUpComing = ({ upComings }: iUpComingPage) => {
             <div className="w-full relative max-sm:px-2 sm:mb-20">
                 <div className="edge_fade_blur dark:after:bg-fade-dark">
                     <ScrollContainer className="flex gap-4 pt-2 pb-14">
-                        {upComings &&
+                        {isLoading ? (
+                            <SkeletonTheme baseColor="rgba(229, 231, 235, .5)" highlightColor="rgb(243, 244, 246)">
+                                {Array.from({ length: 6 }).map((_, index) => (
+                                    <div key={index} className="flex-shrink-0">
+                                        <Skeleton height={300} width={200} className="rounded-lg" />
+                                        <Skeleton height={20} width={180} className="mt-2" />
+                                        <Skeleton height={16} width={150} className="mt-1" />
+                                    </div>
+                                ))}
+                            </SkeletonTheme>
+                        ) : (
+                            upComings &&
                             upComings.length > 0 &&
                             upComings
                                 .filter((movie) => movie.poster_path)
                                 .map((movie, index) => (
                                     <GridMember key={index} movie={movie} />
-                                ))}
+                                ))
+                        )}
                     </ScrollContainer>
                 </div>
             </div>

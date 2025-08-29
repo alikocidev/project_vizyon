@@ -101,8 +101,6 @@ const Discover = ({ auth, shows }: DiscoverProps) => {
     };
 
     const handleOnSelectShow = (show: iShow) => {
-        console.log(show);
-
         setSelectedShow(show);
         setIsModalShow((p) => !p);
     };

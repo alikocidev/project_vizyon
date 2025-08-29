@@ -4,34 +4,56 @@ import { GetPlatformContent } from "@/Services/Platforms";
 import { iPlatform } from "@/types/platform.type";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+import apiClient from "@/Services";
 
-interface iPlatformComponent {
-    platform: iPlatform;
-}
-
-const PlatformContents = ({ platform }: iPlatformComponent) => {
+const PlatformContents = () => {
     const [platforms, setPlatforms] = useState<iPlatform[]>([
         { name: "prime", label: "Amazon", shows: [], isLoad: false },
         { name: "netflix", label: "Netflix", shows: [], isLoad: false },
         { name: "disney", label: "Disney+", shows: [], isLoad: false },
         { name: "hbo", label: "HBO", shows: [], isLoad: false },
     ]);
-    const [selectedPlatform, setSelectedPlatform] = useState<iPlatform>(platform);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [selectedPlatform, setSelectedPlatform] = useState<iPlatform>(platforms[1]); // Netflix default
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const existingPlatform = platforms.find((p) => p.name === platform.name);
-        const updatedPlatform: iPlatform = {
-            ...existingPlatform,
-            ...platform,
-            shows: platform.shows,
-            isLoad: true,
+        const fetchInitialPlatform = async () => {
+            try {
+                setIsLoading(true);
+                const response = await apiClient.get("/platform/netflix/popular");
+                const netflixPlatform: iPlatform = {
+                    name: "netflix",
+                    label: "Netflix", 
+                    shows: response.data?.shows || [],
+                    isLoad: true
+                };
+                setSelectedPlatform(netflixPlatform);
+                setPlatforms((prevPlatforms) =>
+                    prevPlatforms.map((p) =>
+                        p.name === "netflix" ? netflixPlatform : p
+                    )
+                );
+            } catch (error) {
+                console.error("Error fetching Netflix platform:", error);
+                // Set empty Netflix platform on error
+                const emptyNetflix: iPlatform = {
+                    name: "netflix",
+                    label: "Netflix",
+                    shows: [],
+                    isLoad: true
+                };
+                setSelectedPlatform(emptyNetflix);
+                setPlatforms((prevPlatforms) =>
+                    prevPlatforms.map((p) =>
+                        p.name === "netflix" ? emptyNetflix : p
+                    )
+                );
+            } finally {
+                setIsLoading(false);
+            }
         };
-        setPlatforms((prevPlatforms) =>
-            prevPlatforms.map((p) =>
-                p.name === platform.name ? updatedPlatform : p
-            )
-        );
+
+        fetchInitialPlatform();
     }, []);
 
     const handleChangePlatform = async (platformName: string) => {
