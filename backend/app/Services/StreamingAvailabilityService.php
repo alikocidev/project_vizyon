@@ -31,7 +31,7 @@ class StreamingAvailabilityService
         // Cursor'un hash'ini alarak cache key'i daha stabil hale getiriyoruz
         $cursorHash = $cursor ? md5($cursor) : 'default';
         $cacheKey = "platform_popular_{$platformName}_{$cursorHash}";
-        
+
         // TTL'yi sabit olarak tanımlayarak performansı artırıyoruz (6 saat)
         $ttlMinutes = 360;
 
@@ -45,7 +45,7 @@ class StreamingAvailabilityService
                     'output_language' => 'tr',
                     'catalogs' => $platformName
                 ];
-                
+
                 // Cursor varsa ekle
                 if ($cursor) {
                     $queryParams['cursor'] = $cursor;
@@ -63,20 +63,20 @@ class StreamingAvailabilityService
                     ]);
                     return null;
                 }
-                
+
                 Log::channel("rapidapi")->info("Fetching data from RapidApi Service 'shows/search/filters'", [
                     'platform' => $platformName,
                     'has_cursor' => !is_null($cursor)
                 ]);
-                
+
                 $data = json_decode($response->getBody()->getContents(), true);
-                
+
                 // JSON decode hatası kontrolü
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     Log::channel("rapidapi")->error("JSON decode error: " . json_last_error_msg());
                     return null;
                 }
-                
+
                 return $data;
             } catch (\Exception $e) {
                 Log::channel("rapidapi")->error("Exception occurred in getPlatformPopularShows", [

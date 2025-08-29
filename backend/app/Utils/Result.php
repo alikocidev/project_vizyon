@@ -8,7 +8,7 @@ class Result
     public $data;
     public $error;
 
-    private function __construct(bool $isSuccess, $data = null, string $error = null)
+    private function __construct(bool $isSuccess, $data = null, ?string $error = null)
     {
         $this->isSuccess = $isSuccess;
         $this->data = $data;

@@ -23,7 +23,7 @@ class TrendingController extends Controller
         ]);
         $page = $request->query('page', 1);
 
-        $result = $this->tmdbService->getTrending($type, $window, $page);
+        $result = $this->tmdbService->getTrending($type, $page, $window);
         if ($result->isSuccess) {
             return response()->json($result->data);
         } else {

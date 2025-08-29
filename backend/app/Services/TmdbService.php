@@ -203,7 +203,7 @@ class TmdbService
      * @param int $page for pagination.
      * @param string $window "day" or "week". Defaults to "week".
      */
-    public function getTrending(string $type, string $window = "week", int $page): Result
+    public function getTrending(string $type, int $page, string $window = "week"): Result
     {
         $cacheKey = "trending_{$type}_{$window}_{$page}";
         $ttl = Carbon::now()->diffInSeconds(Carbon::tomorrow());
