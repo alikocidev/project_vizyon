@@ -84,7 +84,7 @@ export default function SimpleHeader({ user, title }: { user?: User; title: stri
               <div className="shrink-0 flex items-center">
                 <Link to="/" className="flex items-center gap-2">
                   <ApplicationLogo className="block h-9 w-auto fill-current text-primary dark:text-secondary" />
-                  <span className="font-bold text-xl text-primary dark:text-dark-text">Project Vizyon</span>
+                  <span className="font-bold text-xl text-primary dark:text-dark-text">{import.meta.env.VITE_APP_NAME}</span>
                 </Link>
               </div>
 

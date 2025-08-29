@@ -3,6 +3,7 @@ import TextInput from "@/Components/TextInput";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
+import classNames from "classnames";
 
 const SearchDiv = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const SearchDiv = () => {
             id="search"
             type="text"
             name="search"
-            className="w-full sm:w-2/3 border rounded border-light-surface dark:border-dark-surface focus:!border-primary dark:focus:!border-secondary py-2.5 px-4 mr-2 bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text placeholder:text-neutral-500 dark:placeholder:text-neutral-400 focus:placeholder:text-transparent transition duration-150 ease-in-out"
+            className={classNames("w-full sm:w-2/3 border rounded py-2.5 px-4 mr-2 transition")}
             placeholder="Aklından neler geçiyor ?"
             autoComplete="off"
             value={searchQuery}
@@ -50,7 +51,14 @@ const SearchDiv = () => {
           />
           <button
             onClick={handleSearch}
-            className="p-2.5 bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text border rounded border-light-surface dark:border-dark-surface hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 transition duration-150 ease-in-out"
+            className={classNames(
+              "p-2.5 transition-colors border rounded",
+              "bg-light-primary dark:bg-dark-primary",
+              "text-light-text dark:text-dark-text",
+              "border-light-surface dark:border-dark-surface",
+              "hover:text-primary dark:hover:text-secondary",
+              "hover:border-primary dark:hover:border-secondary"
+            )}
           >
             {!isLoading ? <IoSearchSharp className="w-6 h-6" /> : <Loading w={24} />}
           </button>

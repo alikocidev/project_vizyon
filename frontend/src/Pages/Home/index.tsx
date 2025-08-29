@@ -14,7 +14,7 @@ const Home = () => {
   const [theaters, setTheaters] = useState<iMovie[]>([]);
   const [upComings, setUpComings] = useState<iMovie[]>([]);
   const [platform, setPlatform] = useState<iPlatform | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [_, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,11 +23,11 @@ const Home = () => {
 
         // Fetch theaters
         const theatersResponse = await apiClient.get("/movie/theaters");
-        setTheaters(theatersResponse.data?.results || []);
+        setTheaters(theatersResponse.data || []);
 
         // Fetch upcoming movies
         const upComingsResponse = await apiClient.get("/movie/upcomings");
-        setUpComings(upComingsResponse.data?.results || []);
+        setUpComings(upComingsResponse.data || []);
 
         // Fetch platform data (you might need to adjust this endpoint)
         try {
@@ -46,7 +46,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-  if (authLoading || loading) {
+  if (authLoading) {
     return (
       <CoreLayout user={user || undefined} title="Anasayfa">
         <div className="flex justify-center items-center min-h-screen">

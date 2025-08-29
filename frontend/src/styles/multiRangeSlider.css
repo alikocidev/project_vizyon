@@ -50,7 +50,7 @@
 }
 
 #multi-range-slider .thumb::-webkit-slider-thumb {
-    background-color: #3356c2;
+    background-color: #1e284d; /* primary color */
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -59,13 +59,23 @@
     margin-top: 4px;
     pointer-events: all;
     position: relative;
+    transition: background-color 0.15s ease-in-out;
 }
+
+#multi-range-slider .thumb::-webkit-slider-thumb:hover {
+    background-color: #3356c2; /* lighter primary on hover */
+}
+
 .dark #multi-range-slider .thumb::-webkit-slider-thumb {
-    background-color: #343846;
+    background-color: #c76f6c; /* secondary color for dark theme */
+}
+
+.dark #multi-range-slider .thumb::-webkit-slider-thumb:hover {
+    background-color: #944341; /* darker secondary on hover */
 }
 
 #multi-range-slider .thumb::-moz-range-thumb {
-    background-color: #3356c2;
+    background-color: #1e284d; /* primary color */
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -74,8 +84,17 @@
     margin-top: 4px;
     pointer-events: all;
     position: relative;
+    transition: background-color 0.15s ease-in-out;
 }
 
-.dark#multi-range-slider .thumb::-moz-range-thumb {
-    background-color: #343846;
+#multi-range-slider .thumb::-moz-range-thumb:hover {
+    background-color: #3356c2; /* lighter primary on hover */
+}
+
+.dark #multi-range-slider .thumb::-moz-range-thumb {
+    background-color: #c76f6c; /* secondary color for dark theme */
+}
+
+.dark #multi-range-slider .thumb::-moz-range-thumb:hover {
+    background-color: #944341; /* darker secondary on hover */
 }

@@ -58,12 +58,12 @@ const Theaters = ({ theaters }: iTheatersPage) => {
                         )}
                     >
                         <div className="mt-4 flex-col gap-1 w-full flex">
-                            <h1 className="w-min whitespace-nowrap py-0.5 px-1 text-sm border-l-2 border-royal-950 bg-royal-950/75 dark:border-copper-rose-800 dark:bg-copper-rose-700/75 text-white font-bold">
+                            <h1 className="w-min whitespace-nowrap py-0.5 px-1 text-sm border-l-2 border-primary bg-primary/75 dark:border-secondary dark:bg-secondary/75 text-white font-bold">
                                 {formatDateToTurkishMonthDay(
                                     movie.release_date
                                 )}
                             </h1>
-                            <h1 className="w-min whitespace-nowrap p-1 text-xs border-l-2 border-111216 bg-111216/75 text-white overflow-hidden max-w-[75%] text-ellipsis">
+                            <h1 className="w-min whitespace-nowrap p-1 text-xs border-l-2 border-light-text bg-light-text/75 dark:border-dark-text dark:bg-dark-text/75 text-white overflow-hidden max-w-[75%] text-ellipsis">
                                 {genreIdsToNamesForMovies(movie.genre_ids)}
                             </h1>
                         </div>
@@ -97,7 +97,7 @@ const Theaters = ({ theaters }: iTheatersPage) => {
             <div className="px-2 sm:px-0 mt-4 sm:mt-6 mb-4">
                 <div className="flex items-center justify-between">
                     <Link to="/movies/theaters">
-                        <h1 className="text-royal-950 dark:text-FFF2D7 drop-shadow-sm font-extrabold text-2xl sm:text-2xl">
+                        <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-2xl hover:text-primary dark:hover:text-secondary transition duration-150 ease-in-out">
                             Vizyondakiler
                         </h1>
                     </Link>
@@ -105,9 +105,9 @@ const Theaters = ({ theaters }: iTheatersPage) => {
                         <button
                             onClick={(e) => handlePageClick(e, false)}
                             className={classNames(
-                                "p-1.5 rounded-lg",
-                                "bg-royal-900 hover:bg-royal-950 dark:bg-lotus-700/50 dark:hover:bg-lotus-700",
-                                "text-white dark:text-FFF2D7"
+                                "p-1.5 rounded transition duration-150 ease-in-out",
+                                "bg-primary hover:bg-primary/90 dark:bg-secondary dark:hover:bg-secondary/90",
+                                "text-white dark:text-white"
                             )}
                         >
                             <MdArrowForwardIos className="rotate-180" />
@@ -115,9 +115,9 @@ const Theaters = ({ theaters }: iTheatersPage) => {
                         <button
                             onClick={(e) => handlePageClick(e, true)}
                             className={classNames(
-                                "p-1.5 rounded-lg",
-                                "bg-royal-900 hover:bg-royal-950 dark:bg-lotus-700/50 dark:hover:bg-lotus-700",
-                                "text-white dark:text-FFF2D7"
+                                "p-1.5 rounded transition duration-150 ease-in-out",
+                                "bg-primary hover:bg-primary/90 dark:bg-secondary dark:hover:bg-secondary/90",
+                                "text-white dark:text-white"
                             )}
                         >
                             <MdArrowForwardIos />
