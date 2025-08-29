@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { App as AppProvider } from "./Components/App";
 import { AuthProvider } from "./Providers/Auth";
 import TemporaryPage from "./Components/TemporaryPage";
 
@@ -11,11 +10,11 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <AppProvider>
+        <main className="bg-light-primary dark:bg-dark-secondary">
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />
-              
+
               {/* Temporary routes - will be migrated later */}
               <Route path="/discover" element={<TemporaryPage pageName="Discover" />} />
               <Route path="/movies/theaters" element={<TemporaryPage pageName="Movie Theaters" />} />
@@ -30,7 +29,7 @@ function App() {
               <Route path="/reset-password" element={<TemporaryPage pageName="Reset Password" />} />
             </Routes>
           </Router>
-        </AppProvider>
+        </main>
       </AuthProvider>
     </ThemeProvider>
   );

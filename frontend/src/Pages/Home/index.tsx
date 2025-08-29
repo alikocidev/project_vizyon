@@ -10,73 +10,70 @@ import { useAuth } from "@/Providers/Auth";
 import apiClient from "@/Services";
 
 const Home = () => {
-    const { user, loading: authLoading } = useAuth();
-    const [theaters, setTheaters] = useState<iMovie[]>([]);
-    const [upComings, setUpComings] = useState<iMovie[]>([]);
-    const [platform, setPlatform] = useState<iPlatform | null>(null);
-    const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useAuth();
+  const [theaters, setTheaters] = useState<iMovie[]>([]);
+  const [upComings, setUpComings] = useState<iMovie[]>([]);
+  const [platform, setPlatform] = useState<iPlatform | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                
-                // Fetch theaters
-                const theatersResponse = await apiClient.get('/movie/theaters');
-                setTheaters(theatersResponse.data?.results || []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-                // Fetch upcoming movies
-                const upComingsResponse = await apiClient.get('/movie/upcomings');
-                setUpComings(upComingsResponse.data?.results || []);
+        // Fetch theaters
+        const theatersResponse = await apiClient.get("/movie/theaters");
+        setTheaters(theatersResponse.data?.results || []);
 
-                // Fetch platform data (you might need to adjust this endpoint)
-                try {
-                    const platformResponse = await apiClient.get('/platform/netflix/popular');
-                    setPlatform(platformResponse.data);
-                } catch (platformError) {
-                    console.log('Platform data not available');
-                }
+        // Fetch upcoming movies
+        const upComingsResponse = await apiClient.get("/movie/upcomings");
+        setUpComings(upComingsResponse.data?.results || []);
 
-            } catch (error) {
-                console.error('Error fetching home data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        // Fetch platform data (you might need to adjust this endpoint)
+        try {
+          const platformResponse = await apiClient.get("/platform/netflix/popular");
+          setPlatform(platformResponse.data);
+        } catch (platformError) {
+          console.log("Platform data not available");
+        }
+      } catch (error) {
+        console.error("Error fetching home data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-    if (authLoading || loading) {
-        return (
-            <CoreLayout user={user || undefined} title="Anasayfa">
-                <div className="flex justify-center items-center min-h-screen">
-                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-                </div>
-            </CoreLayout>
-        );
-    }
-
+  if (authLoading || loading) {
     return (
-        <>
-            <CoreLayout user={user || undefined} title="Anasayfa">
-                <section id="search-article">
-                    <SearchDiv />
-                </section>
-                <section id="theaters">
-                    <Theaters theaters={theaters} />
-                </section>
-                <section id="up-coming">
-                    <MovieUpComing upComings={upComings} />
-                </section>
-                {platform && (
-                    <section id="platform-contents">
-                        <PlatformContents platform={platform} />
-                    </section>
-                )}
-            </CoreLayout>
-        </>
+      <CoreLayout user={user || undefined} title="Anasayfa">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+        </div>
+      </CoreLayout>
     );
+  }
+
+  return (
+    <CoreLayout user={user || undefined} title="Anasayfa">
+      <section id="search-article">
+        <SearchDiv />
+      </section>
+      <section id="theaters">
+        <Theaters theaters={theaters} />
+      </section>
+      <section id="up-coming">
+        <MovieUpComing upComings={upComings} />
+      </section>
+      {platform && (
+        <section id="platform-contents">
+          <PlatformContents platform={platform} />
+        </section>
+      )}
+    </CoreLayout>
+  );
 };
 
 export default Home;

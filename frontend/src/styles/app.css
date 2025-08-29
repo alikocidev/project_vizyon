@@ -53,7 +53,21 @@ div#app > main {
 }
 *::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: #dbdbdb;
+    background-color: transparent;
+}
+
+/* Mobilde scrollbar'ı gizle */
+@media (max-width: 768px) {
+    * {
+        scrollbar-width: none; /* Firefox için */
+        -ms-overflow-style: none; /* Internet Explorer ve Edge için */
+    }
+    
+    *::-webkit-scrollbar {
+        display: none; /* Chrome, Safari ve Opera için */
+        width: 0px;
+        background: transparent;
+    }
 }
 
 /* 

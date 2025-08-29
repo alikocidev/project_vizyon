@@ -1,257 +1,248 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
+import { motion, AnimatePresence } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { FiLogOut } from "react-icons/fi";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { IoCloseOutline } from "react-icons/io5";
-import { AiOutlineUser } from "react-icons/ai";
+import { FaArrowTrendUp } from "react-icons/fa6";
+import { IoMdHome } from "react-icons/io";
+import { MdMessage } from "react-icons/md";
+import { RiCompassDiscoverLine } from "react-icons/ri";
 import { User } from "@/types";
 import useTheme from "@/Hooks/theme/useTheme";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
-import NavLink from "@/Components/NavLink";
-import { HeaderItems } from "@/Components/Header/items";
 
-export default function Header({
-    user,
-    title,
-}: {
-    user?: User;
-    title: string;
-}) {
-    const { theme, toggleTheme } = useTheme();
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+type ItemType = {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+  isMobile?: boolean;
+};
 
-    const MobileMenuButton = () => (
-        <button
-            onClick={() =>
-                setShowingNavigationDropdown(!showingNavigationDropdown)
-            }
-            className="inline-flex items-center justify-center rounded text-white dark:text-FFF2D7 focus:outline-none hover:bg-white/20 dark:hover:bg-white/10 focus:text-white dark:focus:text-FFF2D7 sm:transition"
-        >
-            <HiMiniBars3BottomRight
-                className={classNames("w-6 h-6", {
-                    hidden: showingNavigationDropdown,
-                    "inline-flex": !showingNavigationDropdown,
+const HeaderItems: ItemType[] = [
+  {
+    href: "/",
+    label: "Ana Sayfa",
+    icon: IoMdHome,
+    isMobile: true,
+  },
+  {
+    href: "/movies/theaters",
+    icon: RiCompassDiscoverLine,
+    label: "Vizyondakiler",
+  },
+  {
+    href: "/discover",
+    icon: RiCompassDiscoverLine,
+    label: "Keşfet",
+  },
+  {
+    href: "/trends",
+    icon: FaArrowTrendUp,
+    label: "Trendler",
+    isMobile: true,
+  },
+  {
+    href: "/discussions",
+    icon: MdMessage,
+    label: "Tartışma",
+  },
+];
+
+export default function SimpleHeader({ user, title }: { user?: User; title: string }) {
+  const { theme, toggleTheme } = useTheme();
+  const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+  const MobileMenuButton = () => (
+    <button
+      onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
+      className="inline-flex items-center justify-center rounded text-light-text dark:text-dark-text focus:outline-none hover:bg-neutral-200 dark:hover:bg-neutral-800 focus:text-light-text dark:focus:text-dark-text sm:transition"
+    >
+      <HiMiniBars3BottomRight
+        className={classNames("w-6 h-6", {
+          hidden: showingNavigationDropdown,
+          "inline-flex": !showingNavigationDropdown,
+        })}
+      />
+      <IoCloseOutline
+        className={classNames("w-6 h-6", {
+          hidden: !showingNavigationDropdown,
+          "inline-flex": showingNavigationDropdown,
+        })}
+      />
+    </button>
+  );
+
+  return (
+    <header className="fixed top-0 w-full z-[999]">
+      <title>{title}</title>
+      <nav className={classNames("bg-light-primary dark:bg-dark-primary shadow-2xl")}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex">
+              <div className="shrink-0 flex items-center">
+                <Link to="/" className="flex items-center gap-2">
+                  <ApplicationLogo className="block h-9 w-auto fill-current text-primary dark:text-secondary" />
+                  <span className="font-bold text-xl text-primary dark:text-dark-text">Project Vizyon</span>
+                </Link>
+              </div>
+
+              <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                {HeaderItems.filter((item) => !item.isMobile).map((item) => {
+                  const IconComponent = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      className="inline-flex items-center gap-2 px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:border-primary dark:hover:border-secondary focus:outline-none focus:text-light-text dark:focus:text-dark-text focus:border-primary dark:focus:border-secondary transition duration-150 ease-in-out"
+                    >
+                      <IconComponent className="h-4 w-4" />
+                      {item.label}
+                    </Link>
+                  );
                 })}
-            />
-            <IoCloseOutline
-                className={classNames("w-6 h-6", {
-                    hidden: !showingNavigationDropdown,
-                    "inline-flex": showingNavigationDropdown,
-                })}
-            />
-        </button>
-    );
-
-    return (
-        <>
-            <Head title={title} />
-            <header
-                className={classNames(
-                    "fixed",
-                    "w-full h-16",
-                    "p-4",
-                    "z-[100]",
-                    "bg-royal-950 dark:bg-lotus-700"
-                )}
-            >
-                <div
-                    className={classNames(
-                        "w-full h-full mx-auto flex items-center gap-8",
-                        "xl:w-2/3 lg:w-3/4"
-                    )}
-                >
-                    <div className="flex items-center gap-2">
-                        <Link
-                            href="/"
-                            className="flex items-center gap-2 ring-0 focus:outline-white focus:rounded-sm active:outline-none"
-                        >
-                            <ApplicationLogo className="block h-9 w-auto fill-F7F2EB dark:fill-FFF2D7" />
-                            <h1 className="text-F7F2EB dark:text-FFF2D7 font-bold text-lg">
-                                {import.meta.env.VITE_APP_NAME}
-                            </h1>
-                        </Link>
-                    </div>
-                    <div className="flex items-center gap-8 max-sm:hidden">
-                        {HeaderItems.map(
-                            (item, i) =>
-                                !item.isMobile && (
-                                    <Link
-                                        key={i}
-                                        href={route(item.href)}
-                                        className={classNames(
-                                            "flex items-center gap-2 outline-none ring-0 border-b border-transparent transition-colors",
-                                            "hover:border-white dark:hover:border-FFF2D7"
-                                        )}
-                                    >
-                                        <h1 className="text-F7F2EB dark:text-FFF2D7 font-bold transition-none">
-                                            {item.label}
-                                        </h1>
-                                    </Link>
-                                )
-                        )}
-                    </div>
-                    <div className="ml-auto flex items-center gap-4 w-min whitespace-nowrap">
-                        <button className="w-5 group" onClick={toggleTheme}>
-                            {theme == "dark" ? (
-                                <MdDarkMode className="text-white dark:text-current w-full h-full transition-transform duration-[1.5s] group-hover:rotate-[360deg]" />
-                            ) : (
-                                <MdLightMode className="text-white dark:text-FFF2D7 w-full h-full transition-transform duration-[1.5s] group-hover:rotate-180" />
-                            )}
-                        </button>
-                        {user && (
-                            <div className="hidden sm:flex sm:items-center ms-2">
-                                <div className="relative">
-                                    <Dropdown>
-                                        <Dropdown.Trigger>
-                                            <span className="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white dark:text-FFF2D7 focus:outline-none transition ease-in-out duration-150"
-                                                >
-                                                    {user.name}
-                                                    <svg
-                                                        className="ms-2 -me-0.5 h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </Dropdown.Trigger>
-                                        <Dropdown.Content align="right">
-                                            <Dropdown.Link
-                                                href={route("profile.edit")}
-                                            >
-                                                <div className="flex items-center gap-1">
-                                                    <AiOutlineUser className="w-4 h-4" />
-                                                    <h1>Profil</h1>
-                                                </div>
-                                            </Dropdown.Link>
-                                            <Dropdown.Link
-                                                href={route("logout")}
-                                                method="post"
-                                                as="button"
-                                            >
-                                                <div className="flex items-center gap-1">
-                                                    <FiLogOut className="h-4 w-4" />
-                                                    <h1>Çıkış yap</h1>
-                                                </div>
-                                            </Dropdown.Link>
-                                        </Dropdown.Content>
-                                    </Dropdown>
-                                </div>
-                            </div>
-                        )}
-                        {!user && (
-                            <div className="hidden sm:flex items-center gap-4">
-                                <NavLink
-                                    as="button"
-                                    href={route("login")}
-                                    className="!text-white dark:!text-FFF2D7 hover:!border-white dark:hover:!border-FFF2D7 border-b border-transparent focus:!border-white dark:focus:!border-FFF2D7"
-                                >
-                                    <h1 className="text-sm">Giriş yap</h1>
-                                </NavLink>
-                                <NavLink
-                                    as="button"
-                                    href={route("register")}
-                                    className="!text-white dark:!text-FFF2D7 hover:!border-white dark:hover:!border-FFF2D7 border-b border-transparent focus:!border-white dark:focus:!border-FFF2D7"
-                                >
-                                    <h1 className="text-sm">Kayıt Ol</h1>
-                                </NavLink>
-                            </div>
-                        )}
-                        <div className="flex items-center sm:hidden">
-                            <MobileMenuButton />
-                        </div>
-                    </div>
-                </div>
-            </header>
-            {/* Mobile */}
-            <div className={classNames("fixed sm:hidden z-[99] w-full")}>
-                <div
-                    className={classNames(
-                        "absolute w-full p-1 py-3 shadow border-b transition-[opacity,transform] duration-200 mt-16",
-                        "bg-F7F2EB dark:bg-111216 dark:border-copper-rose-600 border-royal-950",
-                        {
-                            "opacity-0 -translate-y-full":
-                                !showingNavigationDropdown,
-                            "opacity-100 translate-y-0":
-                                showingNavigationDropdown,
-                        }
-                    )}
-                >
-                    {user && (
-                        <>
-                            <div className="px-4 border-l-2 border-royal-950 dark:border-lotus-700">
-                                <div className="font-medium text-gray-600 dark:text-FFF2D7 text-sm">
-                                    {user.name}
-                                </div>
-                                <div className="font-medium text-sm text-gray-400">
-                                    {user.email}
-                                </div>
-                            </div>
-
-                            <div className="my-2 space-y-2">
-                                <ResponsiveNavLink
-                                    href={route("profile.edit")}
-                                    className="border-l-2 border-royal-950 dark:border-lotus-700 flex items-center gap-1"
-                                >
-                                    <AiOutlineUser />
-                                    <h1>Profil</h1>
-                                </ResponsiveNavLink>
-                                <ResponsiveNavLink
-                                    method="post"
-                                    href={route("logout")}
-                                    as="button"
-                                    className="border-l-2 border-royal-950 dark:border-lotus-700"
-                                >
-                                    Çıkış yap
-                                </ResponsiveNavLink>
-                            </div>
-                        </>
-                    )}
-                    {!user && (
-                        <div className="my-2 space-y-2">
-                            <ResponsiveNavLink
-                                href={route("login")}
-                                className="border-l-2 border-royal-950 dark:border-lotus-700"
-                            >
-                                <h1>Giriş Yap</h1>
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                href={route("register")}
-                                className="border-l-2 border-royal-950 dark:border-lotus-700"
-                            >
-                                <h1>Kayıt Ol</h1>
-                            </ResponsiveNavLink>
-                        </div>
-                    )}
-                    <hr className="border-gray-300 dark:border-lotus-700/50" />
-                    <div className="space-y-2 mt-2">
-                        {HeaderItems.map((item, i) => (
-                            <ResponsiveNavLink
-                                key={i}
-                                href={route(item.href)}
-                                className="border-l-2 border-royal-950 dark:border-lotus-700 flex items-center gap-2"
-                            >
-                                <item.icon />
-                                <h1>{item.label}</h1>
-                            </ResponsiveNavLink>
-                        ))}
-                    </div>
-                </div>
+              </div>
             </div>
-        </>
-    );
+
+            <div className="hidden sm:flex sm:items-center sm:ml-6">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-md text-neutral-500 hover:text-primary dark:hover:text-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition duration-150 ease-in-out"
+              >
+                {theme === "dark" ? <MdLightMode className="h-5 w-5" /> : <MdDarkMode className="h-5 w-5" />}
+              </button>
+
+              {user ? (
+                <div className="ml-3 relative">
+                  <span className="text-sm text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
+                </div>
+              ) : (
+                <div className="ml-3 flex items-center justify-center gap-4">
+                  <Link to="/login" className="text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-dark-text font-medium">
+                    Giriş
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="inline-flex items-center px-4 py-2 bg-primary dark:bg-secondary border border-transparent rounded-md font-medium text-xs text-white dark:text-white uppercase tracking-widest hover:bg-primary/90 dark:hover:bg-secondary/90 focus:bg-primary/90 dark:focus:bg-secondary/90 active:bg-primary/80 dark:active:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:ring-offset-2 dark:focus:ring-offset-dark-primary transition ease-in-out duration-150"
+                  >
+                    Kayıt
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <div className="-mr-2 flex items-center sm:hidden">
+              <MobileMenuButton />
+            </div>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {showingNavigationDropdown && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="sm:hidden overflow-hidden"
+            >
+              <motion.div
+                initial={{ y: -20 }}
+                animate={{ y: 0 }}
+                exit={{ y: -20 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="pt-2 pb-3 space-y-1"
+              >
+                {HeaderItems.map((item, index) => {
+                  const IconComponent = item.icon;
+                  return (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{
+                        duration: 0.3,
+                        delay: index * 0.1,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <Link
+                        to={item.href}
+                        className="flex items-center gap-3 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface hover:border-primary dark:hover:border-secondary focus:outline-none focus:text-light-text dark:focus:text-dark-text focus:bg-light-surface dark:focus:bg-dark-surface focus:border-primary dark:focus:border-secondary transition duration-150 ease-in-out"
+                        onClick={() => setShowingNavigationDropdown(false)}
+                      >
+                        <IconComponent className="h-5 w-5" />
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+                
+                {/* Mobil için tema toggle butonu */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: HeaderItems.length * 0.1,
+                    ease: "easeInOut",
+                  }}
+                  className="border-t border-light-surface dark:border-dark-surface pt-2 mt-2"
+                >
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-3 pl-3 pr-4 py-2 w-full text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface transition duration-150 ease-in-out"
+                  >
+                    {theme === "dark" ? <MdLightMode className="h-5 w-5" /> : <MdDarkMode className="h-5 w-5" />}
+                    {theme === "dark" ? "Açık Tema" : "Koyu Tema"}
+                  </button>
+                </motion.div>
+
+                {/* Mobil için kullanıcı kısmı */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: (HeaderItems.length + 1) * 0.1,
+                    ease: "easeInOut",
+                  }}
+                  className="border-t border-light-surface dark:border-dark-surface pt-2 mt-2"
+                >
+                  {user ? (
+                    <div className="pl-3 pr-4 py-2">
+                      <span className="text-base font-medium text-light-text dark:text-dark-text">
+                        Hoş geldin, {user.name}!
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 justify-center">
+                      <Link
+                        to="/login"
+                        className="flex items-center w-full justify-center gap-3 pl-3 pr-4 py-2 text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface transition duration-150 ease-in-out"
+                        onClick={() => setShowingNavigationDropdown(false)}
+                      >
+                        Giriş
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="flex items-center w-full justify-center gap-3 pl-3 pr-4 py-2 text-base font-medium bg-primary dark:bg-secondary text-white hover:bg-primary/90 dark:hover:bg-secondary/90 transition duration-150 ease-in-out mx-3 rounded-md"
+                        onClick={() => setShowingNavigationDropdown(false)}
+                      >
+                        Kayıt
+                      </Link>
+                    </div>
+                  )}
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </header>
+  );
 }
