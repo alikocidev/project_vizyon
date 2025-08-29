@@ -10,19 +10,19 @@ interface iPlatformComponent {
 }
 
 const PlatformContents = ({ platform }: iPlatformComponent) => {
-    const [Platforms, setPlatforms] = useState<iPlatform[]>([
+    const [platforms, setPlatforms] = useState<iPlatform[]>([
         { name: "prime", label: "Amazon", shows: [], isLoad: false },
         { name: "netflix", label: "Netflix", shows: [], isLoad: false },
         { name: "disney", label: "Disney+", shows: [], isLoad: false },
         { name: "hbo", label: "HBO", shows: [], isLoad: false },
     ]);
-    const [sPlatform, setSelectedPlatform] = useState<iPlatform>(platform);
-    const [wait, setWait] = useState<boolean>(false);
+    const [selectedPlatform, setSelectedPlatform] = useState<iPlatform>(platform);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        const _platform = Platforms.find((p) => p.name === platform.name);
+        const existingPlatform = platforms.find((p) => p.name === platform.name);
         const updatedPlatform: iPlatform = {
-            ..._platform,
+            ...existingPlatform,
             ...platform,
             shows: platform.shows,
             isLoad: true,
@@ -35,26 +35,44 @@ const PlatformContents = ({ platform }: iPlatformComponent) => {
     }, []);
 
     const handleChangePlatform = async (platformName: string) => {
-        if (wait) return;
-        const platform = Platforms.find((p) => p.name === platformName);
-        if (platform) {
-            if (!platform.isLoad) {
-                setWait(true);
-                const response = await GetPlatformContent(platform.name);
-                setWait(false);
-                const updatedPlatform: iPlatform = {
-                    ...platform,
-                    shows: response.shows,
-                    isLoad: true,
-                };
-                setPlatforms((prevPlatforms) =>
-                    prevPlatforms.map((p) =>
-                        p.name === platformName ? updatedPlatform : p
-                    )
-                );
-                setSelectedPlatform(updatedPlatform);
-            } else {
-                setSelectedPlatform(platform);
+        if (isLoading) return;
+        const targetPlatform = platforms.find((p) => p.name === platformName);
+        if (targetPlatform) {
+            // Hemen platform değiştir (UI responsiveness için)
+            setSelectedPlatform(targetPlatform);
+            
+            if (!targetPlatform.isLoad) {
+                setIsLoading(true);
+                try {
+                    const response = await GetPlatformContent(targetPlatform.name);
+                    const updatedPlatform: iPlatform = {
+                        ...targetPlatform,
+                        shows: response.shows,
+                        isLoad: true,
+                    };
+                    setPlatforms((prevPlatforms) =>
+                        prevPlatforms.map((p) =>
+                            p.name === platformName ? updatedPlatform : p
+                        )
+                    );
+                    setSelectedPlatform(updatedPlatform);
+                } catch (error) {
+                    console.error('Platform content loading error:', error);
+                    // Hata durumunda boş shows array ile platform'u güncelle
+                    const errorPlatform: iPlatform = {
+                        ...targetPlatform,
+                        shows: [],
+                        isLoad: true,
+                    };
+                    setPlatforms((prevPlatforms) =>
+                        prevPlatforms.map((p) =>
+                            p.name === platformName ? errorPlatform : p
+                        )
+                    );
+                    setSelectedPlatform(errorPlatform);
+                } finally {
+                    setIsLoading(false);
+                }
             }
         }
     };
@@ -70,7 +88,7 @@ const PlatformContents = ({ platform }: iPlatformComponent) => {
                     "bg-cover bg-no-repeat transition-[background] bg-[center_center]"
                 )}
                 style={{
-                    backgroundImage: `url(assets/images/platforms/${sPlatform.name}/background.jpg)`,
+                    backgroundImage: `url(assets/images/platforms/${selectedPlatform.name}/background.jpg)`,
                 }}
             >
                 <>
@@ -78,7 +96,7 @@ const PlatformContents = ({ platform }: iPlatformComponent) => {
                     <div className="absolute left-2 bottom-2">
                         <img
                             width={52}
-                            src={`assets/images/platforms/${sPlatform.name}/logo.png`}
+                            src={`assets/images/platforms/${selectedPlatform.name}/logo.png`}
                             alt="platform-logo"
                         />
                     </div>
@@ -87,37 +105,43 @@ const PlatformContents = ({ platform }: iPlatformComponent) => {
                     <div className="flex max-md:flex-col md:items-center gap-4 pr-4">
                         <div className="lg:mr-14">
                             <h1 className="text-xl font-semibold tracking-wide text-white">
-                                Son Zamanlarda {sPlatform.label}
+                                Son Zamanlarda {selectedPlatform.label}
                             </h1>
                         </div>
                         <div className="w-min overflow-auto scrollbar-hide flex items-center border rounded-3xl border-royal-500 dark:border-white/30">
-                            {Platforms.map((platform, i) => (
+                            {platforms.map((platformItem, index) => (
                                 <div
-                                    key={i}
+                                    key={index}
                                     onClick={() =>
-                                        handleChangePlatform(platform.name)
+                                        handleChangePlatform(platformItem.name)
                                     }
                                     className={classNames(
                                         "px-4 py-0.5 rounded-3xl cursor-pointer",
-                                        "transition-colors",
+                                        "transition-colors relative",
                                         {
                                             "bg-linear-3 dark:bg-linear-1":
-                                                sPlatform.name == platform.name,
+                                                selectedPlatform.name === platformItem.name,
+                                            "opacity-50 cursor-wait": isLoading && selectedPlatform.name === platformItem.name,
                                         }
                                     )}
                                 >
                                     <h1 className="font-semibold tracking-wide text-white">
-                                        {platform.label}
+                                        {platformItem.label}
                                     </h1>
+                                    {isLoading && selectedPlatform.name === platformItem.name && (
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
                     </div>
-                    {sPlatform.shows.length > 0 && (
+                    {selectedPlatform.shows.length > 0 && !isLoading && (
                         <div className="edge_fade_blur after:bg-fade-royal dark:after:bg-fade-dark mt-4">
                             <div className="w-full overflow-auto">
                                 <ScrollContainer className="flex gap-4 pt-2 pb-8">
-                                    {sPlatform.shows.map((content, i) => {
+                                    {selectedPlatform.shows.map((content, contentIndex) => {
                                         const imageSet =
                                             content.imageSet?.horizontalPoster;
                                         let image = undefined;
@@ -134,7 +158,7 @@ const PlatformContents = ({ platform }: iPlatformComponent) => {
 
                                         return (
                                             <div
-                                                key={i}
+                                                key={contentIndex}
                                                 className="flex flex-col items-center cursor-pointer"
                                             >
                                                 <div className="w-72 rounded-lg overflow-hidden shadow">
@@ -159,6 +183,35 @@ const PlatformContents = ({ platform }: iPlatformComponent) => {
                                     })}
                                 </ScrollContainer>
                             </div>
+                        </div>
+                    )}
+                    {isLoading && (
+                        <div className="edge_fade_blur after:bg-fade-royal dark:after:bg-fade-dark mt-4">
+                            <div className="w-full overflow-auto">
+                                <ScrollContainer className="flex gap-4 pt-2 pb-8">
+                                    {Array.from({ length: 6 }).map((_, skeletonIndex) => (
+                                        <div
+                                            key={skeletonIndex}
+                                            className="flex flex-col items-center"
+                                        >
+                                            <div className="w-72 h-40 rounded-lg overflow-hidden shadow bg-gray-300 dark:bg-gray-700 animate-pulse">
+                                                {/* Skeleton image */}
+                                            </div>
+                                            <div className="mt-2 text-center w-full">
+                                                <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded animate-pulse mb-1 w-3/4 mx-auto"></div>
+                                                <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded animate-pulse w-1/2 mx-auto"></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </ScrollContainer>
+                            </div>
+                        </div>
+                    )}
+                    {!isLoading && selectedPlatform.shows.length === 0 && selectedPlatform.isLoad && (
+                        <div className="mt-4 text-center">
+                            <p className="text-white/70 dark:text-white/50">
+                                Bu platform için henüz içerik bulunamadı.
+                            </p>
                         </div>
                     )}
                 </div>
