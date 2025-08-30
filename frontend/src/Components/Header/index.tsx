@@ -9,6 +9,7 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
 import { MdMessage } from "react-icons/md";
 import { RiCompassDiscoverLine } from "react-icons/ri";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
 import useTheme from "@/Hooks/theme/useTheme";
 import ApplicationLogo from "@/Components/ApplicationLogo";
@@ -50,7 +51,7 @@ const HeaderItems: ItemType[] = [
   },
 ];
 
-export default function SimpleHeader({ user, title }: { user?: User; title: string }) {
+export default function SimpleHeader({ user, title, loading }: { user?: User; title: string; loading?: boolean }) {
   const { theme, toggleTheme } = useTheme();
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
@@ -113,7 +114,11 @@ export default function SimpleHeader({ user, title }: { user?: User; title: stri
                 {theme === "dark" ? <MdLightMode className="h-5 w-5" /> : <MdDarkMode className="h-5 w-5" />}
               </button>
 
-              {user ? (
+              {loading ? (
+                <div className="ml-3 flex items-center">
+                  <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin text-primary dark:text-secondary" />
+                </div>
+              ) : user ? (
                 <div className="ml-3 relative">
                   <span className="text-sm text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
                 </div>
@@ -179,7 +184,7 @@ export default function SimpleHeader({ user, title }: { user?: User; title: stri
                     </motion.div>
                   );
                 })}
-                
+
                 {/* Mobil için tema toggle butonu */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -213,11 +218,13 @@ export default function SimpleHeader({ user, title }: { user?: User; title: stri
                   }}
                   className="border-t border-light-surface dark:border-dark-surface pt-2 mt-2"
                 >
-                  {user ? (
+                  {loading ? (
+                    <div className="pl-3 pr-4 py-2 flex items-center justify-center">
+                      <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin text-primary dark:text-secondary" />
+                    </div>
+                  ) : user ? (
                     <div className="pl-3 pr-4 py-2">
-                      <span className="text-base font-medium text-light-text dark:text-dark-text">
-                        Hoş geldin, {user.name}!
-                      </span>
+                      <span className="text-base font-medium text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-1 justify-center">

@@ -10,6 +10,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import React from "react";
 import apiClient from "@/Services";
+import useTheme from "@/Hooks/theme/useTheme";
 
 interface MovieButtonProps {
   movie: iMovie;
@@ -25,6 +26,7 @@ const Theaters = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [theaters, setTheaters] = useState<iMovie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchTheaters = async () => {
@@ -87,7 +89,7 @@ const Theaters = () => {
   const MovieButton: React.FC<MovieButtonProps> = ({ movie, isLoading = false }) => {
     if (isLoading) {
       return (
-        <SkeletonTheme baseColor="rgba(229, 231, 235, .5)" highlightColor="rgb(243, 244, 246)">
+        <SkeletonTheme baseColor={theme == "dark" ? "#111216" : "white"} highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}>
           <motion.div className="flex relative group" variants={movieVariants} initial="hidden" animate="visible">
             <div className="flex w-full h-full relative overflow-hidden">
               <div className="w-full h-[420px] dark:bg-dark-primary dark:animate-pulse">

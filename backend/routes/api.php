@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DiscoverController;
 use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\PlatformController;
@@ -11,16 +12,18 @@ use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
 Route::prefix('auth')->group(function () {
-    Route::post('/register', function () {
-        return response()->json(['message' => 'Register endpoint - implement with Sanctum']);
-    });
-    Route::post('/login', function () {
-        return response()->json(['message' => 'Login endpoint - implement with Sanctum']);
-    });
-    Route::post('/logout', function () {
-        return response()->json(['message' => 'Logout endpoint - implement with Sanctum']);
-    })->middleware('auth:sanctum');
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
+
+// CSRF Test Route
+Route::post('/csrf-test', function () {
+    return response()->json([
+        'message' => 'CSRF koruması çalışıyor!',
+        'timestamp' => now()->toISOString()
+    ]);
+})->middleware('web'); // Web middleware ile CSRF koruması aktif
 
 // Public Movie Routes
 Route::prefix('movie')->group(function () {
@@ -53,9 +56,7 @@ Route::prefix('search')->group(function () {
 
 // Protected Routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return response()->json(['user' => $request->user()]);
-    });
+    Route::get('/user', [AuthController::class, 'user']);
 
     // Profile Routes
     Route::prefix('profile')->group(function () {

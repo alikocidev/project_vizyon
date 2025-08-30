@@ -7,6 +7,16 @@ Route::get('/', function () {
     return view('app');
 })->name('api.info');
 
+// Login route for API authentication middleware redirect
+Route::get('/login', function () {
+    return response()->json([
+        'message' => 'Authentication required',
+        'error' => 'Please authenticate using the API endpoints',
+        'login_endpoint' => url('/api/auth/login'),
+        'register_endpoint' => url('/api/auth/register')
+    ], 401);
+})->name('login');
+
 // API Health Check
 Route::get('/health', function () {
     return response()->json([

@@ -66,23 +66,25 @@ export default function Login() {
     setIsLoading(true);
     setErrors({});
 
-    try {
-      const success = await login(formData.email, formData.password);
-      if (success) {
-        navigate("/", { replace: true });
-      } else {
+    setTimeout(async () => {
+      try {
+        const success = await login(formData.email, formData.password);
+        if (success) {
+          navigate("/", { replace: true });
+        } else {
+          setErrors({
+            general: "E-posta adresi veya şifre hatalı. Lütfen tekrar deneyiniz.",
+          });
+          setCanResetPassword(true);
+        }
+      } catch (error) {
         setErrors({
-          general: "E-posta adresi veya şifre hatalı. Lütfen tekrar deneyiniz.",
+          general: "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyiniz.",
         });
-        setCanResetPassword(true);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setErrors({
-        general: "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyiniz.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    }, 500);
   };
 
   return (

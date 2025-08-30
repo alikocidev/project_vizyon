@@ -10,8 +10,10 @@ import ReactPlayer from "react-player";
 import apiClient from "@/Services";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import useTheme from "@/Hooks/theme/useTheme";
 
 const MovieUpComing = () => {
+  const { theme } = useTheme();
   const [upComings, setUpComings] = useState<iMovie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(undefined);
@@ -101,7 +103,7 @@ const MovieUpComing = () => {
         <div className="edge_fade_blur dark:after:bg-fade-dark">
           <ScrollContainer className="flex gap-4 pt-2 pb-14">
             {isLoading ? (
-              <SkeletonTheme baseColor="rgba(229, 231, 235, .5)" highlightColor="rgb(243, 244, 246)">
+              <SkeletonTheme baseColor={theme == "dark" ? "#111216" : "white"} highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}>
                 {Array.from({ length: 6 }).map((_, index) => (
                   <div key={index} className="flex-shrink-0">
                     <Skeleton height={300} width={200} className="rounded-lg" />

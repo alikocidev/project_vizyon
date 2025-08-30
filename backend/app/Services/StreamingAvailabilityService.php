@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Utils\Result;
-use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -131,19 +130,6 @@ class StreamingAvailabilityService
                 'imageSet' => $this->filterImageSet($show['imageSet'] ?? []),
             ];
         }, $shows);
-    }
-
-    /**
-     * Genre verilerini filtrele
-     */
-    private function filterGenres(array $genres): array
-    {
-        return array_map(function ($genre) {
-            return [
-                'id' => $genre['id'] ?? null,
-                'name' => $genre['name'] ?? null
-            ];
-        }, $genres);
     }
 
     /**
