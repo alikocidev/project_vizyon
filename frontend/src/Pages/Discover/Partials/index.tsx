@@ -1,4 +1,4 @@
-import FilterBar from "@/Pages/Discover/Partials/FilterBar";
-import ShowList from "@/Pages/Discover/Partials/ShowList";
+import FilterBar from "@/Pages/Discover/partials/filterBar";
+import ShowList from "@/Pages/Discover/partials/showList";
 
 export { FilterBar, ShowList };

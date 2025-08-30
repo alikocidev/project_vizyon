@@ -6,7 +6,7 @@ import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
 import { PageProps } from "@/types";
-import Loading from "@/Components/Loading";
+import Loading from "@/components/Loading";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,

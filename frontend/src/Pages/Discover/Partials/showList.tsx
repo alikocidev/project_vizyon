@@ -1,5 +1,5 @@
-import LazyLoadedImage from "@/Components/LazyLoadedImage";
-import LoadingDot from "@/Components/LoadingDot";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import LoadingDot from "@/components/LoadingDot";
 import { iShow } from "@/types/discover.type";
 import classNames from "classnames";
 import { MdFullscreen } from "react-icons/md";

@@ -1,4 +1,4 @@
-import apiClient from "@/Services";
+import apiClient from "@/services";
 import { iGetTrendingMovieResponse } from "@/types/trending.type";
 
 export const GetTrendingMovie = async (

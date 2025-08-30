@@ -1,6 +1,6 @@
-import MultiRangeSlider from "@/Components/MultiRangeSlider";
-import SelectMenu from "@/Components/SelectMenu";
-import { Tmdb_MovieGenres, Tmdb_TvGenres } from "@/Utils/misc";
+import MultiRangeSlider from "@/components/MultiRangeSlider";
+import SelectMenu from "@/components/SelectMenu";
+import { Tmdb_MovieGenres, Tmdb_TvGenres } from "@/utils/misc";
 import {
     iFilterGenres,
     iFilterKeys,

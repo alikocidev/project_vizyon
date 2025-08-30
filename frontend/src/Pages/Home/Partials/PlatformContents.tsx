@@ -1,10 +1,10 @@
-import LazyLoadedImage from "@/Components/LazyLoadedImage";
-import ScrollContainer from "@/Components/ScrollContainer";
-import { GetPlatformContent } from "@/Services/Platforms";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import ScrollContainer from "@/components/ScrollContainer";
+import { GetPlatformContent } from "@/services/platforms";
 import { iPlatform } from "@/types/platform.type";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import apiClient from "@/Services";
+import apiClient from "@/services";
 
 const PlatformContents = () => {
     const [platforms, setPlatforms] = useState<iPlatform[]>([

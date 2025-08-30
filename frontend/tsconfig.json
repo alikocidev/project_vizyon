@@ -1,43 +1,40 @@
 {
-    "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "skipLibCheck": true,
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
 
-        /* Bundler mode */
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
 
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
 
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["src/*"],
-            "@/Components/*": ["src/Components/*"],
-            "@/Pages/*": ["src/Pages/*"],
-            "@/Layouts/*": ["src/Layouts/*"],
-            "@/Providers/*": ["src/Providers/*"],
-            "@/Services/*": ["src/Services/*"],
-            "@/Utils/*": ["src/Utils/*"],
-            "@/Hooks/*": ["src/Hooks/*"],
-            "@/types/*": ["src/types/*"],
-            "@/components/*": ["src/components/*"],
-            "@/pages/*": ["src/pages/*"],
-            "@/services/*": ["src/services/*"],
-            "@/utils/*": ["src/utils/*"],
-            "@/hooks/*": ["src/hooks/*"]
-        }
-    },
-    "include": ["src"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/Components/*": ["src/components/*"],
+      "@/Pages/*": ["src/Pages/*"],
+      "@/Layouts/*": ["src/layouts/*"],
+      "@/providers/*": ["src/providers/*"],
+      "@/types/*": ["src/types/*"],
+      "@/components/*": ["src/components/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/services/*": ["src/services/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/hooks/*": ["src/hooks/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

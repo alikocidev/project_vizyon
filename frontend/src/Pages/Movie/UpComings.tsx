@@ -1,13 +1,13 @@
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import { PageProps } from "@/types";
 import { iMovie } from "@/types/movie.type";
-import { SelectTabs, Title } from "./Partials";
+import { SelectTabs, Title } from "./partials";
 import classNames from "classnames";
-import LazyLoadedImage from "@/Components/LazyLoadedImage";
-import CircularProgressBar from "@/Components/CircularProgressBar";
-import LoadingDot from "@/Components/LoadingDot";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import CircularProgressBar from "@/components/CircularProgressBar";
+import LoadingDot from "@/components/LoadingDot";
 import { useState } from "react";
-import { GetMovieUpComings } from "@/Services/Movie";
+import { GetMovieUpComings } from "@/services/movie";
 
 interface UpComingsProps extends PageProps {
     upComings: iMovie[];

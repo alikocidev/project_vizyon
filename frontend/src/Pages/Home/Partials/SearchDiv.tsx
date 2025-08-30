@@ -1,5 +1,4 @@
-import Loading from "@/Components/Loading";
-import TextInput from "@/Components/TextInput";
+import Loading from "@/components/Loading";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
@@ -38,7 +37,7 @@ const SearchDiv = () => {
           <h1 className="font-extrabold text-xl text-light-primary dark:text-dark-text drop-shadow-lg">İzlenilecek bir şeyler keşfet</h1>
         </div>
         <div className="flex items-center">
-          <TextInput
+          <input
             id="search"
             type="text"
             name="search"

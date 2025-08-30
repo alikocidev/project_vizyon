@@ -1,12 +1,12 @@
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import { PageProps } from "@/types";
 import { iMovie } from "@/types/movie.type";
-import { SelectTabs, Title } from "./Partials";
+import { SelectTabs, Title } from "./partials";
 import classNames from "classnames";
-import LazyLoadedImage from "@/Components/LazyLoadedImage";
-import LoadingDot from "@/Components/LoadingDot";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import LoadingDot from "@/components/LoadingDot";
 import { useState } from "react";
-import { GetMoviePopular } from "@/Services/Movie";
+import { GetMoviePopular } from "@/services/movie";
 import { IoIosStats } from "react-icons/io";
 
 interface PopularProps extends PageProps {

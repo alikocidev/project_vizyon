@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import ApplicationLogo from "@/Components/ApplicationLogo";
+import ApplicationLogo from "@/components/ApplicationLogo";
 
 export default function Footer() {
   return (

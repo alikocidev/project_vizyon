@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { AuthState } from '@/types';
-import apiClientWithCSRF, { getCsrfToken } from '@/Services/apiWithCSRF';
+import apiClientWithCSRF, { getCsrfToken } from '@/services/apiWithCSRF';
 
 interface AuthContextType extends AuthState {
     login: (email: string, password: string) => Promise<boolean>;

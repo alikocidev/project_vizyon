@@ -1,11 +1,11 @@
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import Alert from "@/Components/Alert";
+import Alert from "@/components/Alert";
 
 export default function ForgotPassword({ status }: { status?: string }) {
     const { data, setData, post, processing, errors } = useForm({

@@ -1,5 +1,5 @@
 import { useEffect, FormEventHandler } from "react";
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";

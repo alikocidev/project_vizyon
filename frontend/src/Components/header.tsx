@@ -11,10 +11,10 @@ import { MdMessage } from "react-icons/md";
 import { RiCompassDiscoverLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
-import useTheme from "@/Hooks/theme/useTheme";
-import ApplicationLogo from "@/Components/ApplicationLogo";
+import useTheme from "@/hooks/theme/useTheme";
+import ApplicationLogo from "@/components/ApplicationLogo";
 import { IoIosLogOut } from "react-icons/io";
-import { useAuth } from "@/Providers/Auth";
+import { useAuth } from "@/providers/auth";
 
 type ItemType = {
   href: string;
@@ -53,7 +53,7 @@ const HeaderItems: ItemType[] = [
   },
 ];
 
-export default function SimpleHeader({ user, title, loading }: { user?: User; title: string; loading?: boolean }) {
+export default function Header({ user, title, loading }: { user: User | null; title: string; loading?: boolean }) {
   const { theme, toggleTheme } = useTheme();
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
   const { logout } = useAuth();

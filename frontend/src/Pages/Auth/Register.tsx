@@ -1,12 +1,12 @@
 import { useEffect, FormEventHandler } from "react";
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
 import classNames from "classnames";
-import Loading from "@/Components/Loading";
+import Loading from "@/components/Loading";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({

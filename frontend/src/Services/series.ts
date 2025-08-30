@@ -1,5 +1,5 @@
 import { iUpComingSeries } from "@/types/series.type";
-import apiClient from "@/Services";
+import apiClient from "@/services";
 
 export const GetUpComingSeries = async (
     page?: number

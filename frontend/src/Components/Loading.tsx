@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import { motion } from "framer-motion";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function Loading({
     className = "",
@@ -10,15 +12,25 @@ export default function Loading({
     h?: number;
 }) {
     return (
-        <div role="spinbutton" className="flex">
-            <span
+        <div role="status" className="flex items-center justify-center">
+            <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
                 className={classNames(
-                    "anim-loading",
-                    "border-2 border-solid border-gray-200 border-b-royal-950 dark:border-b-FF3D00",
+                    "text-royal-950 dark:text-FF3D00",
                     className
                 )}
                 style={{ width: w, height: h || w }}
-            ></span>
+            >
+                <AiOutlineLoading3Quarters 
+                    size={w} 
+                    className="w-full h-full"
+                />
+            </motion.div>
             <span className="sr-only">Loading...</span>
         </div>
     );

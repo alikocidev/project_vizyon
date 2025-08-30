@@ -1,4 +1,4 @@
-import apiClient from "@/Services";
+import apiClient from "@/services";
 import { iFilterKeys } from "@/types/discover.type";
 import { iShow } from "@/types/discover.type";
 

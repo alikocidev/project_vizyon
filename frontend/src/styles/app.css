@@ -78,7 +78,7 @@ Home:SearchDiv
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url("/assets/images/search_bg.jpg");
+  background-image: url("/assets/images/searchbar_background.jpg");
   background-size: 100%;
   animation: move 125s infinite linear;
 }
@@ -98,21 +98,6 @@ Home:SearchDiv
 /*
 End:Home:SearchDiv
 */
-
-.anim-loading {
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 /*
 Start:Home:PlatformContent

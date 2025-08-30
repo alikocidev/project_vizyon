@@ -1,4 +1,4 @@
-import Title from "./Title";
-import SelectTabs from "./SelectTabs";
+import Title from "./title";
+import SelectTabs from "./selectTabs";
 
 export { Title, SelectTabs };

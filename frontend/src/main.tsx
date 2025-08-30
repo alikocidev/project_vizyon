@@ -1,13 +1,13 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./Providers/Auth";
-import TemporaryPage from "./Components/TemporaryPage";
-import { ThemeProvider } from "./Providers/Theme";
+import { AuthProvider } from "./providers/auth";
+import TemporaryPage from "./components/TemporaryPage";
+import { ThemeProvider } from "./providers/theme";
 
 // Pages
 import "./styles/app.css";
-import Home from "./Pages/Home";
-import Login from "./Pages/Auth/Login";
+import Home from "./Pages/home";
+import Login from "./Pages/auth/login";
 
 function App() {
   return (

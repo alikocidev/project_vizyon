@@ -1,9 +1,9 @@
-import DeleteUserForm from "@/Pages/Profile/Partials/DeleteUserForm";
-import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm";
+import DeleteUserForm from "@/Pages/profile/partials/deleteUserForm";
+import UpdatePasswordForm from "@/Pages/profile/partials/updatePasswordForm";
+import UpdateProfileInformationForm from "@/Pages/profile/partials/updateProfileInformationForm";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 
 export default function Edit({
     auth,

@@ -1,9 +1,9 @@
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import SecondaryButton from "@/Components/SecondaryButton";
-import Loading from "@/Components/Loading";
+import Loading from "@/components/Loading";
 
 export default function VerifyEmail({ status }: { status?: string }) {
     const { post, processing } = useForm({});

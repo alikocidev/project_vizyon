@@ -1,15 +1,15 @@
-import CoreLayout from "@/Layouts/Core";
+import CoreLayout from "@/layouts/Core";
 import { PageProps } from "@/types";
-import { FilterBar, ShowList } from "@/Pages/Discover/Partials";
+import { FilterBar, ShowList } from "@/Pages/Discover/partials";
 import TextInput from "@/Components/TextInput";
 import { useEffect, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { iFilterKeys, iShow } from "@/types/discover.type";
-import { DiscoverNewThings, SearchNewThings } from "@/Services/Discover";
+import { DiscoverNewThings, SearchNewThings } from "@/services/discover";
 import classNames from "classnames";
-import LoadingDot from "@/Components/LoadingDot";
-import { deepEqual, genreIdsToNamesForMovies, genreIdsToNamesForTV } from "@/Utils/misc";
-import Modal from "@/Components/Modal";
+import LoadingDot from "@/components/LoadingDot";
+import { deepEqual, genreIdsToNamesForMovies, genreIdsToNamesForTV } from "@/utils/misc";
+import Modal from "@/components/Modal";
 import { MdOutlineMenuOpen } from "react-icons/md";
 
 interface DiscoverProps extends PageProps {

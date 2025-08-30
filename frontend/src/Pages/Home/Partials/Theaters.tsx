@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import classNames from "classnames";
 import { iMovie } from "@/types/movie.type";
 import { MdArrowForwardIos } from "react-icons/md";
-import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/Utils/misc";
-import LazyLoadedImage from "@/Components/LazyLoadedImage";
+import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import React from "react";
-import apiClient from "@/Services";
-import useTheme from "@/Hooks/theme/useTheme";
+import apiClient from "@/services";
+import useTheme from "@/hooks/theme/useTheme";
 
 interface MovieButtonProps {
   movie: iMovie;

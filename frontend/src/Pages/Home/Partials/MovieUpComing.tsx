@@ -1,16 +1,16 @@
-import LazyLoadedImage from "@/Components/LazyLoadedImage";
-import Modal from "@/Components/Modal";
-import ScrollContainer from "@/Components/ScrollContainer";
-import { GetMovieVideos } from "@/Services/Movie";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import Modal from "@/components/Modal";
+import ScrollContainer from "@/components/ScrollContainer";
+import { GetMovieVideos } from "@/services/movie";
 import { iMovie } from "@/types/movie.type";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
-import apiClient from "@/Services";
+import apiClient from "@/services";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import useTheme from "@/Hooks/theme/useTheme";
+import useTheme from "@/hooks/theme/useTheme";
 
 const MovieUpComing = () => {
   const { theme } = useTheme();

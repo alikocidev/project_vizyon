@@ -4,7 +4,7 @@ import {
     iGetMovieUpComingsResponse,
     iGetMoviePopularResponse,
 } from "@/types/movie.type";
-import apiClient from "@/Services";
+import apiClient from "@/services";
 
 export const GetMovieTheaters = async (
     page: number

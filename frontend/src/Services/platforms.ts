@@ -1,4 +1,4 @@
-import apiClient from "@/Services";
+import apiClient from "@/services";
 import { iPlatform, PlatformTypes } from "@/types/platform.type";
 
 export const GetPlatformContent = async (

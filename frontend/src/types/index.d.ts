@@ -1,25 +1,27 @@
 import { ReactNode } from "react";
 
 export interface User {
-    id: number;
-    name: string;
-    email: string;
-    email_verified_at?: string;
+  id: number;
+  name: string;
+  email: string;
+  email_verified_at?: string;
 }
 
 export interface AuthState {
-    user: User | null;
-    token: string | null;
-    isAuthenticated: boolean;
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
 }
 
 export interface ApiResponse<T = any> {
-    data?: T;
-    error?: string;
-    message?: string;
-    status?: number;
+  data?: T;
+  error?: string;
+  message?: string;
+  status?: number;
 }
 
-export type PageComponent = React.FC & {
-    layout?: (page: ReactNode) => ReactNode;
-};
+export interface PageProps {
+  user: User | null;
+  title: string;
+  loading?: boolean;
+}
