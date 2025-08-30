@@ -13,6 +13,8 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
 import useTheme from "@/Hooks/theme/useTheme";
 import ApplicationLogo from "@/Components/ApplicationLogo";
+import { IoIosLogOut } from "react-icons/io";
+import { useAuth } from "@/Providers/Auth";
 
 type ItemType = {
   href: string;
@@ -54,6 +56,7 @@ const HeaderItems: ItemType[] = [
 export default function SimpleHeader({ user, title, loading }: { user?: User; title: string; loading?: boolean }) {
   const { theme, toggleTheme } = useTheme();
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+  const { logout } = useAuth();
 
   const MobileMenuButton = () => (
     <button
@@ -74,6 +77,11 @@ export default function SimpleHeader({ user, title, loading }: { user?: User; ti
       />
     </button>
   );
+
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    logout();
+  };
 
   return (
     <header className="fixed top-0 w-full z-[999]">
@@ -119,8 +127,14 @@ export default function SimpleHeader({ user, title, loading }: { user?: User; ti
                   <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin text-primary dark:text-secondary" />
                 </div>
               ) : user ? (
-                <div className="ml-3 relative">
+                <div className="ml-3 relative flex items-center gap-1">
                   <span className="text-sm text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded-full border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
+                  >
+                    <IoIosLogOut className="h-4 w-4 text-primary dark:text-secondary" />
+                  </button>
                 </div>
               ) : (
                 <div className="ml-3 flex items-center justify-center gap-4">

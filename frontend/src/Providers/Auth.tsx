@@ -111,6 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
+      setLoading(true);
       await apiClient.post("/auth/logout");
     } catch (error) {
       // Even if the API call fails, we should log out locally
@@ -122,6 +123,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         token: null,
         isAuthenticated: false,
       });
+      setLoading(false);
     }
   };
 
