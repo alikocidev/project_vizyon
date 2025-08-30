@@ -8,16 +8,18 @@ import { ThemeProvider } from "./providers/theme";
 import "./styles/app.css";
 import Home from "./pages/home";
 import Login from "./pages/auth/login";
+import Profile from "./pages/profile";
 
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <main className="bg-light-primary dark:bg-dark-secondary">
+        <main className="bg-light-primary dark:bg-dark-secondary flex flex-col w-full h-full">
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />} />
               {/* Temporary routes - will be migrated later */}
               <Route path="/discover" element={<TemporaryPage pageName="Discover" />} />
               <Route path="/movies/theaters" element={<TemporaryPage pageName="Movie Theaters" />} />
@@ -25,7 +27,6 @@ function App() {
               <Route path="/movies/popular" element={<TemporaryPage pageName="Movie Popular" />} />
               <Route path="/movies/upcoming" element={<TemporaryPage pageName="Movie Upcoming" />} />
               <Route path="/movies/goat" element={<TemporaryPage pageName="Movie GOAT" />} />
-              <Route path="/profile" element={<TemporaryPage pageName="Profile" />} />
               <Route path="/register" element={<TemporaryPage pageName="Register" />} />
               <Route path="/forgot-password" element={<TemporaryPage pageName="Forgot Password" />} />
               <Route path="/reset-password" element={<TemporaryPage pageName="Reset Password" />} />

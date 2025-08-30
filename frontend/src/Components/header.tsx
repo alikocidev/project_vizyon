@@ -5,15 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { IoCloseOutline } from "react-icons/io5";
-import { FaArrowTrendUp } from "react-icons/fa6";
-import { IoMdHome } from "react-icons/io";
+import { FaArrowTrendUp, FaUserGear } from "react-icons/fa6";
+import { IoMdHome, IoIosLogOut } from "react-icons/io";
 import { MdMessage } from "react-icons/md";
 import { RiCompassDiscoverLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
 import useTheme from "@/hooks/useTheme";
 import { ApplicationLogo } from "@/components/applicationLogo";
-import { IoIosLogOut } from "react-icons/io";
 import { useAuth } from "@/providers/auth";
 
 type ItemType = {
@@ -127,11 +126,17 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                   <AiOutlineLoading3Quarters className="h-4 w-4 animate-spin text-primary dark:text-secondary" />
                 </div>
               ) : user ? (
-                <div className="ml-3 relative flex items-center gap-1">
+                <div className="ml-3 relative flex items-center gap-2">
                   <span className="text-sm text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
+                  <Link
+                    to="/profile"
+                    className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
+                  >
+                    <FaUserGear className="h-4 w-4 text-primary dark:text-secondary" />
+                  </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded-full border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
+                    className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
                   >
                     <IoIosLogOut className="h-4 w-4 text-primary dark:text-secondary" />
                   </button>
@@ -237,8 +242,22 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                       <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin text-primary dark:text-secondary" />
                     </div>
                   ) : user ? (
-                    <div className="pl-3 pr-4 py-2">
-                      <span className="text-base font-medium text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
+                    <div className="pl-3 pr-2 flex items-center justify-between gap-2">
+                      <span className="text-sm font-medium text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
+                      <div className="flex items-center gap-2">
+                        <Link
+                          to="/profile"
+                          className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
+                        >
+                          <FaUserGear className="h-4 w-4 text-primary dark:text-secondary" />
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
+                        >
+                          <IoIosLogOut className="h-4 w-4 text-primary dark:text-secondary" />
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex items-center gap-1 justify-center">

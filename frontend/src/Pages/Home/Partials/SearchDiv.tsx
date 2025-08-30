@@ -13,16 +13,15 @@ const SearchDiv = () => {
     const query = searchQuery.trim().toLowerCase();
     if (isLoading || query.length < 3) return;
     setIsLoading(true);
-
     // Navigate to discover page with search query
     navigate(`/discover?s=${encodeURIComponent(query)}`);
     setIsLoading(false);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleSearch();
-    }
+    if (isLoading) return;
+    if (event.key !== "Enter") return;
+    handleSearch();
   };
 
   return (
@@ -41,7 +40,15 @@ const SearchDiv = () => {
             id="search"
             type="text"
             name="search"
-            className={classNames("w-full sm:w-2/3 border rounded py-2.5 px-4 mr-2 transition")}
+            className={classNames(
+              "w-full sm:w-2/3 border rounded py-2.5 px-4 mr-2 transition text-sm",
+              "bg-light-primary dark:bg-dark-primary",
+              "text-light-text dark:text-dark-text",
+              "border-light-surface dark:border-dark-surface",
+              "hover:text-primary dark:hover:text-secondary",
+              "hover:border-primary dark:hover:border-secondary",
+              "focus:outline-none focus:ring-primary dark:focus:ring-secondary"
+            )}
             placeholder="Aklından neler geçiyor ?"
             autoComplete="off"
             value={searchQuery}
@@ -59,7 +66,7 @@ const SearchDiv = () => {
               "hover:border-primary dark:hover:border-secondary"
             )}
           >
-            {!isLoading ? <IoSearchSharp className="w-6 h-6" /> : <Loading w={24} />}
+            {!isLoading ? <IoSearchSharp className="w-5 h-5" /> : <Loading w={24} />}
           </button>
         </div>
       </div>
