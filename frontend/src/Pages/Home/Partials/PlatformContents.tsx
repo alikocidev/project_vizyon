@@ -1,5 +1,5 @@
-import LazyLoadedImage from "@/components/LazyLoadedImage";
-import ScrollContainer from "@/components/ScrollContainer";
+import LazyLoadedImage from "@/components/lazyLoadedImage";
+import ScrollContainer from "@/components/scrollContainer";
 import { GetPlatformContent } from "@/services/platforms";
 import { iPlatform } from "@/types/platform.type";
 import classNames from "classnames";

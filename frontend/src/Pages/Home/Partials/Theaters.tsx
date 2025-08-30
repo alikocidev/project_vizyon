@@ -3,14 +3,14 @@ import classNames from "classnames";
 import { iMovie } from "@/types/movie.type";
 import { MdArrowForwardIos } from "react-icons/md";
 import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
-import LazyLoadedImage from "@/components/LazyLoadedImage";
+import LazyLoadedImage from "@/components/lazyLoadedImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import React from "react";
 import apiClient from "@/services";
-import useTheme from "@/hooks/theme/useTheme";
+import useTheme from "@/hooks/useTheme";
 
 interface MovieButtonProps {
   movie: iMovie;

@@ -11,8 +11,8 @@ import { MdMessage } from "react-icons/md";
 import { RiCompassDiscoverLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
-import useTheme from "@/hooks/theme/useTheme";
-import ApplicationLogo from "@/components/ApplicationLogo";
+import useTheme from "@/hooks/useTheme";
+import { ApplicationLogo } from "@/components/applicationLogo";
 import { IoIosLogOut } from "react-icons/io";
 import { useAuth } from "@/providers/auth";
 

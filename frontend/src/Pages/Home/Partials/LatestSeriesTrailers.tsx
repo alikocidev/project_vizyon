@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import Modal from "@/components/Modal";
-import ScrollContainer from "@/components/ScrollContainer";
+import Modal from "@/components/modal";
+import ScrollContainer from "@/components/scrollContainer";
 import { iUpComingSeries } from "@/types/series.type";
 
 const LatestSeriesTrailers = () => {

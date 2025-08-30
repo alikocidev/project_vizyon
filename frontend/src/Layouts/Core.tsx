@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
 import classNames from "classnames";
 import { User } from "@/types";
-import Footer from "@/components/Footer";
-import ScrollToTopButton from "@/components/ScrollToTop";
-import Header from "@/components/Header";
+import Footer from "@/components/footer";
+import ScrollToTopButton from "@/components/scrollToTop";
+import Header from "@/components/header";
 
 const CoreLayout = ({
   user,

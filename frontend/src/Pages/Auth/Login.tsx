@@ -1,8 +1,8 @@
 import { useState, FormEventHandler, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import CoreLayout from "@/layouts/Core";
+import CoreLayout from "@/layouts/core";
 import { useAuth } from "@/providers/auth";
-import Alert from "@/components/Alert";
+import Alert from "@/components/alert";
 
 interface LoginFormData {
   email: string;
@@ -89,7 +89,7 @@ export default function Login() {
   };
 
   return (
-    <CoreLayout title="Giriş Yap">
+    <CoreLayout user={user} title="Giriş Yap">
       <div className="w-full h-full flex items-center justify-center">
         <div className="max-w-md mt-14 w-full space-y-8 animate-fade-in">
           {/* Header */}
