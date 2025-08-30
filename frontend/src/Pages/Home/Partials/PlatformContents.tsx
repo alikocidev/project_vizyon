@@ -106,7 +106,7 @@ const PlatformContents = () => {
                     "relative",
                     "w-full",
                     "animate-fade-in",
-                    "bg-dbdbdb dark:bg-111216",
+                    "bg-light-surface dark:bg-dark-primary",
                     "bg-cover bg-no-repeat transition-[background] bg-[center_center]"
                 )}
                 style={{
@@ -114,7 +114,7 @@ const PlatformContents = () => {
                 }}
             >
                 <>
-                    <div className="absolute inset-0 bg-royal-950/70 dark:bg-black/50 z-10"></div>
+                    <div className="absolute inset-0 bg-primary/70 dark:bg-dark-secondary/80 z-10"></div>
                     <div className="absolute left-2 bottom-2">
                         <img
                             width={52}
@@ -130,7 +130,7 @@ const PlatformContents = () => {
                                 Son Zamanlarda {selectedPlatform.label}
                             </h1>
                         </div>
-                        <div className="w-min overflow-auto scrollbar-hide flex items-center border rounded-3xl border-royal-500 dark:border-white/30">
+                        <div className="w-min overflow-auto scrollbar-hide flex items-center border rounded-3xl border-primary dark:border-dark-surface">
                             {platforms.map((platformItem, index) => (
                                 <div
                                     key={index}
@@ -141,7 +141,7 @@ const PlatformContents = () => {
                                         "px-4 py-0.5 rounded-3xl cursor-pointer",
                                         "transition-colors relative",
                                         {
-                                            "bg-linear-3 dark:bg-linear-1":
+                                            "bg-primary-gradient dark:bg-secondary-gradient":
                                                 selectedPlatform.name === platformItem.name,
                                             "opacity-50 cursor-wait": isLoading && selectedPlatform.name === platformItem.name,
                                         }
@@ -160,7 +160,7 @@ const PlatformContents = () => {
                         </div>
                     </div>
                     {selectedPlatform.shows.length > 0 && !isLoading && (
-                        <div className="edge_fade_blur after:bg-fade-royal dark:after:bg-fade-dark mt-4">
+                        <div className="edge_fade_blur after:bg-fade-primary dark:after:bg-fade-dark mt-4">
                             <div className="w-full overflow-auto">
                                 <ScrollContainer className="flex gap-4 pt-2 pb-8">
                                     {selectedPlatform.shows.map((content, contentIndex) => {
@@ -192,11 +192,11 @@ const PlatformContents = () => {
                                                         isExist={!!image}
                                                     />
                                                 </div>
-                                                <div className="mt-2 text-white dark:text-current text-center">
+                                                <div className="mt-2 text-light-primary dark:text-dark-text text-center">
                                                     <h1 className="text-lg font-semibold text-ellipsis overflow-hidden">
                                                         {content.title}
                                                     </h1>
-                                                    <h1 className="font-medium text-xs text-opacity-50 text-white text-ellipsis overflow-hidden">
+                                                    <h1 className="font-medium text-xs text-light-text/50 dark:text-dark-text/50 text-ellipsis overflow-hidden">
                                                         {content.originalTitle}
                                                     </h1>
                                                 </div>
@@ -208,7 +208,7 @@ const PlatformContents = () => {
                         </div>
                     )}
                     {isLoading && (
-                        <div className="edge_fade_blur after:bg-fade-royal dark:after:bg-fade-dark mt-4">
+                        <div className="edge_fade_blur after:bg-fade-primary dark:after:bg-fade-dark mt-4">
                             <div className="w-full overflow-auto">
                                 <ScrollContainer className="flex gap-4 pt-2 pb-8">
                                     {Array.from({ length: 6 }).map((_, skeletonIndex) => (
@@ -216,12 +216,12 @@ const PlatformContents = () => {
                                             key={skeletonIndex}
                                             className="flex flex-col items-center"
                                         >
-                                            <div className="w-72 h-40 rounded-lg overflow-hidden shadow bg-gray-300 dark:bg-gray-700 animate-pulse">
+                                            <div className="w-72 h-40 rounded-lg overflow-hidden shadow bg-light-surface dark:bg-dark-surface animate-pulse">
                                                 {/* Skeleton image */}
                                             </div>
                                             <div className="mt-2 text-center w-full">
-                                                <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded animate-pulse mb-1 w-3/4 mx-auto"></div>
-                                                <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded animate-pulse w-1/2 mx-auto"></div>
+                                                <div className="h-5 bg-light-surface dark:bg-dark-surface rounded animate-pulse mb-1 w-3/4 mx-auto"></div>
+                                                <div className="h-3 bg-light-surface dark:bg-dark-surface rounded animate-pulse w-1/2 mx-auto"></div>
                                             </div>
                                         </div>
                                     ))}
@@ -231,7 +231,7 @@ const PlatformContents = () => {
                     )}
                     {!isLoading && selectedPlatform.shows.length === 0 && selectedPlatform.isLoad && (
                         <div className="mt-4 text-center">
-                            <p className="text-white/70 dark:text-white/50">
+                            <p className="text-light-text/70 dark:text-dark-text/70">
                                 Bu platform için henüz içerik bulunamadı.
                             </p>
                         </div>

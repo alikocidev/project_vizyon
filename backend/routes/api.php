@@ -31,9 +31,6 @@ Route::prefix('movie')->group(function () {
     Route::get('/{movie}/videos', [MovieController::class, 'getVideosByMovieId']);
 });
 
-// Home Page Data
-Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index']);
-
 Route::prefix('trending')->group(function () {
     Route::get('/{type}/{window}', [TrendingController::class, 'getTrending']);
 });

@@ -17,8 +17,6 @@ const MovieUpComing = () => {
   const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(undefined);
   const [fetchVideos, setFetchVideos] = useState<number | null>(null);
 
-  console.log(fetchVideos);
-
   useEffect(() => {
     const fetchUpComings = async () => {
       try {

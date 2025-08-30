@@ -2,11 +2,12 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Providers/Auth";
 import TemporaryPage from "./Components/TemporaryPage";
+import { ThemeProvider } from "./Providers/Theme";
 
 // Pages
-import Home from "./Pages/Home";
-import { ThemeProvider } from "./Providers/Theme";
 import "./styles/app.css";
+import Home from "./Pages/Home";
+import Login from "./Pages/Auth/Login";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
               <Route path="/movies/upcoming" element={<TemporaryPage pageName="Movie Upcoming" />} />
               <Route path="/movies/goat" element={<TemporaryPage pageName="Movie GOAT" />} />
               <Route path="/profile" element={<TemporaryPage pageName="Profile" />} />
-              <Route path="/login" element={<TemporaryPage pageName="Login" />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/register" element={<TemporaryPage pageName="Register" />} />
               <Route path="/forgot-password" element={<TemporaryPage pageName="Forgot Password" />} />
               <Route path="/reset-password" element={<TemporaryPage pageName="Reset Password" />} />

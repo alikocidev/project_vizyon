@@ -124,7 +124,7 @@ export default function SimpleHeader({ user, title }: { user?: User; title: stri
                   </Link>
                   <Link
                     to="/register"
-                    className="inline-flex items-center px-4 py-2 bg-primary dark:bg-secondary border border-transparent rounded-md font-medium text-xs text-white dark:text-white uppercase tracking-widest hover:bg-primary/90 dark:hover:bg-secondary/90 focus:bg-primary/90 dark:focus:bg-secondary/90 active:bg-primary/80 dark:active:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:ring-offset-2 dark:focus:ring-offset-dark-primary transition ease-in-out duration-150"
+                    className="inline-flex items-center px-4 py-2 bg-primary dark:bg-dark-surface border border-transparent rounded-md font-medium text-xs text-white dark:text-white uppercase tracking-widest hover:bg-primary/90 dark:hover:bg-secondary/90 focus:bg-primary/90 dark:focus:bg-secondary/90 active:bg-primary/80 dark:active:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:ring-offset-2 dark:focus:ring-offset-dark-primary transition ease-in-out duration-150"
                   >
                     Kayıt
                   </Link>

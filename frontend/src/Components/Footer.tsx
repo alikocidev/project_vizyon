@@ -5,11 +5,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 export default function Footer() {
   return (
     <footer
-      className={classNames(
-        "w-full mt-auto p-6 md:p-10",
-        "bg-primary dark:bg-dark-primary border-t border-light-surface dark:border-dark-surface",
-        "h-40"
-      )}
+      className={classNames("w-full mt-auto p-6 md:p-10", "bg-primary dark:bg-dark-primary border-t border-light-surface dark:border-dark-surface")}
     >
       <div className="w-full flex items-center">
         <Link
