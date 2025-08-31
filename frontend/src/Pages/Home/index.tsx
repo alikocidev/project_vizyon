@@ -1,9 +1,9 @@
-import CoreLayout from "@/layouts/core";
-import Theaters from "@/pages/home/partials/theaters";
-import SearchDiv from "@/pages/home/partials/searchDiv";
-import PlatformContents from "@/pages/home/partials/platformContents";
-import MovieUpComing from "./partials/movieUpComing";
-import { useAuth } from "@/providers/auth";
+import CoreLayout from "@/layouts/Core";
+import Theaters from "@/pages/home/partials/Theaters";
+import SearchDiv from "@/pages/home/partials/SearchDiv";
+import PlatformContents from "@/pages/home/partials/PlatformContents";
+import MovieUpComing from "./partials/MovieUpComing";
+import { useAuth } from "@/hooks/useAuth";
 
 const Home = () => {
   const { user, loading } = useAuth();

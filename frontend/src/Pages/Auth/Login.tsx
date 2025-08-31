@@ -1,8 +1,8 @@
 import { useState, FormEventHandler, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import CoreLayout from "@/layouts/core";
-import { useAuth } from "@/providers/auth";
-import Alert from "@/components/alert";
+import CoreLayout from "@/layouts/Core";
+import { useAuth } from "@/hooks/useAuth";
+import Alert from "@/components/Alert";
 
 interface LoginFormData {
   email: string;

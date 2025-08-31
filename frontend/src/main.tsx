@@ -1,13 +1,14 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./providers/auth";
-import TemporaryPage from "./components/temporaryPage";
-import { ThemeProvider } from "./providers/theme";
+import { AuthProvider } from "./providers/Auth";
+import TemporaryPage from "./components/TemporaryPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { ThemeProvider } from "./providers/Theme";
 
 // Pages
 import "./styles/app.css";
 import Home from "./pages/home";
-import Login from "./pages/auth/login";
+import Login from "./pages/auth/Login";
 import Profile from "./pages/profile";
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
               {/* Temporary routes - will be migrated later */}
               <Route path="/discover" element={<TemporaryPage pageName="Discover" />} />
               <Route path="/movies/theaters" element={<TemporaryPage pageName="Movie Theaters" />} />

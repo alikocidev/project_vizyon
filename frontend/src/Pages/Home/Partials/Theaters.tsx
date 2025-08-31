@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
 import classNames from "classnames";
-import { iMovie } from "@/types/movie.type";
+import { Movie } from "@/types/movie.type";
 import { MdArrowForwardIos } from "react-icons/md";
 import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
-import LazyLoadedImage from "@/components/lazyLoadedImage";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+"react-loading-skeleton/dist/skeleton.css";
 import React from "react";
-import apiClient from "@/services";
+import apiClient from "@/services/api";
 import useTheme from "@/hooks/useTheme";
 
 interface MovieButtonProps {
-  movie: iMovie;
+  movie: Movie;
   isLoading?: boolean;
 }
 interface MovieGridProps {
-  movies: iMovie[];
+  movies: Movie[];
   isLoading?: boolean;
 }
 
 const Theaters = () => {
   const moviesPerPage = 4;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [theaters, setTheaters] = useState<iMovie[]>([]);
+  const [theaters, setTheaters] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { theme } = useTheme();
 
@@ -164,7 +164,7 @@ const Theaters = () => {
         >
           <div className="h-full grid grid-cols-2 md:grid-cols-4 overflow-hidden">
             {Array.from({ length: moviesPerPage }).map((_, skeletonIndex) => (
-              <MovieButton key={skeletonIndex} movie={{} as iMovie} isLoading={true} />
+              <MovieButton key={skeletonIndex} movie={{} as Movie} isLoading={true} />
             ))}
           </div>
         </motion.div>

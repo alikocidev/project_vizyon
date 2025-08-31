@@ -25,3 +25,11 @@ export interface PageProps {
   title: string;
   loading?: boolean;
 }
+
+export interface AuthContextType extends AuthState {
+  login: (email: string, password: string) => Promise<boolean>;
+  logout: () => void;
+  register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<boolean>;
+  loading: boolean;
+  updateUser: (user: AuthState["user"]) => void;
+}

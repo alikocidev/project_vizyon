@@ -12,8 +12,8 @@ import { RiCompassDiscoverLine } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
 import useTheme from "@/hooks/useTheme";
-import { ApplicationLogo } from "@/components/applicationLogo";
-import { useAuth } from "@/providers/auth";
+import { ApplicationLogo } from "@/components/ApplicationLogo";
+import { useAuth } from "@/hooks/useAuth";
 
 type ItemType = {
   href: string;

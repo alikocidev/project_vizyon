@@ -1,19 +1,20 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { AuthState } from "@/types";
-import apiClient from "@/services";
+import apiClient from "@/services/api";
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<boolean>;
   loading: boolean;
+  updateUser: (user: AuthState["user"]) => void;
 }
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
 }
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -76,7 +77,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       console.error("Login error:", error);
 
-      // Clear any invalid token
       localStorage.removeItem("auth_token");
       delete apiClient.defaults.headers.common["Authorization"];
 
@@ -114,15 +114,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       await apiClient.post("/auth/logout");
     } catch (error) {
-      // Even if the API call fails, we should log out locally
+      console.error("Logout error:", error);
     } finally {
       localStorage.removeItem("auth_token");
       delete apiClient.defaults.headers.common["Authorization"];
+
       setAuthState({
         user: null,
         token: null,
         isAuthenticated: false,
       });
+
+      setLoading(false);
+    }
+  };
+
+  const updateUser = async (user: AuthState["user"]) => {
+    try {
+      setLoading(true);
+      const response = await apiClient.put("/profile", user);
+      setAuthState((prev) => ({ ...prev, user: response.data.user }));
+    } catch (error) {
+      console.error("Error updating user:", error);
+    } finally {
+      setAuthState((prev) => ({ ...prev, user }));
       setLoading(false);
     }
   };
@@ -135,17 +150,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logout,
         register,
         loading,
+        updateUser,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };

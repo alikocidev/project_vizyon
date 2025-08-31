@@ -1,9 +1,9 @@
-import CoreLayout from "@/layouts/core";
-import { useAuth } from "@/providers/auth";
+import { useAuth } from "@/hooks/useAuth";
+import CoreLayout from "@/layouts/Core";
 import { useState } from "react";
 
 const Profile = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, updateUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ name: user?.name || "" });
 
@@ -16,8 +16,8 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    // TODO: Implement profile update logic
-    console.log("Profile update:", formData);
+    if (!user) return;
+    updateUser({ ...user, ...formData });
     setIsEditing(false);
   };
 

@@ -22,17 +22,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/Components/*": ["src/components/*"],
-      "@/Pages/*": ["src/Pages/*"],
-      "@/Layouts/*": ["src/layouts/*"],
-      "@/providers/*": ["src/providers/*"],
-      "@/types/*": ["src/types/*"],
-      "@/components/*": ["src/components/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/services/*": ["src/services/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/hooks/*": ["src/hooks/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"],

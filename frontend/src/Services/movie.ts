@@ -1,19 +1,19 @@
 import {
-    iGetMovieVideosResponse,
-    iGetMovieTheatersResponse,
-    iGetMovieUpComingsResponse,
-    iGetMoviePopularResponse,
+    GetMovieVideosResponse,
+    GetMovieTheatersResponse,
+    GetMovieUpComingsResponse,
+    GetMoviePopularResponse,
 } from "@/types/movie.type";
-import apiClient from "@/services";
+import apiClient from "./api";
 
-export const GetMovieTheaters = async (
+export const getMovieTheaters = async (
     page: number
-): Promise<iGetMovieTheatersResponse> => {
+): Promise<GetMovieTheatersResponse> => {
     try {
         const response = await apiClient.get(`movie/theaters`, {
             params: { page },
         });
-        const result: iGetMovieTheatersResponse = response.data;
+        const result: GetMovieTheatersResponse = response.data;
         return result;
     } catch (error) {
         console.error("Fetch error:", error);
@@ -21,14 +21,14 @@ export const GetMovieTheaters = async (
     }
 };
 
-export const GetMovieUpComings = async (
+export const getMovieUpComings = async (
     page: number
-): Promise<iGetMovieUpComingsResponse> => {
+): Promise<GetMovieUpComingsResponse> => {
     try {
         const response = await apiClient.get(`movie/upcomings`, {
             params: { page },
         });
-        const result: iGetMovieUpComingsResponse = response.data;
+        const result: GetMovieUpComingsResponse = response.data;
         return result;
     } catch (error) {
         console.error("Fetch error:", error);
@@ -36,12 +36,12 @@ export const GetMovieUpComings = async (
     }
 };
 
-export const GetMovieVideos = async (
+export const getMovieVideos = async (
     movieId: number
-): Promise<iGetMovieVideosResponse> => {
+): Promise<GetMovieVideosResponse> => {
     try {
         const response = await apiClient.get(`movie/${movieId}/videos`);
-        const result: iGetMovieVideosResponse = response.data;
+        const result: GetMovieVideosResponse = response.data;
         return result;
     } catch (error) {
         console.error("Fetch error:", error);
@@ -49,14 +49,14 @@ export const GetMovieVideos = async (
     }
 };
 
-export const GetMoviePopular = async (
+export const getMoviePopular = async (
     page: number
-): Promise<iGetMoviePopularResponse> => {
+): Promise<GetMoviePopularResponse> => {
     try {
         const response = await apiClient.get("movie/popular", {
             params: { page },
         });
-        const result: iGetMoviePopularResponse = response.data;
+        const result: GetMoviePopularResponse = response.data;
         return result;
     } catch (error) {
         console.error("Fetch error:", error);
@@ -64,14 +64,14 @@ export const GetMoviePopular = async (
     }
 };
 
-export const GetMovieGoat = async (
+export const getMovieGoat = async (
     page: number
-): Promise<iGetMoviePopularResponse> => {
+): Promise<GetMoviePopularResponse> => {
     try {
         const response = await apiClient.get("movie/goat", {
             params: { page },
         });
-        const result: iGetMoviePopularResponse = response.data;
+        const result: GetMoviePopularResponse = response.data;
         return result;
     } catch (error) {
         console.error("Fetch error:", error);

@@ -1,4 +1,4 @@
-import Loading from "@/components/loading";
+import Loading from "@/components/Loading";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";

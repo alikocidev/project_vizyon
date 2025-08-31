@@ -1,20 +1,20 @@
-import LazyLoadedImage from "@/components/lazyLoadedImage";
-import Modal from "@/components/modal";
-import ScrollContainer from "@/components/scrollContainer";
-import { GetMovieVideos } from "@/services/movie";
-import { iMovie } from "@/types/movie.type";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import Modal from "@/components/Modal";
+import ScrollContainer from "@/components/ScrollContainer";
+import { getMovieVideos } from "@/services/movie";
+import { Movie } from "@/types/movie.type";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
-import apiClient from "@/services";
+import apiClient from "@/services/api";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+"react-loading-skeleton/dist/skeleton.css";
 import useTheme from "@/hooks/useTheme";
 
 const MovieUpComing = () => {
   const { theme } = useTheme();
-  const [upComings, setUpComings] = useState<iMovie[]>([]);
+  const [upComings, setUpComings] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(undefined);
   const [fetchVideos, setFetchVideos] = useState<number | null>(null);
@@ -38,9 +38,9 @@ const MovieUpComing = () => {
 
   const handleOpenTrailerFrame = (id: number) => {
     setFetchVideos(id);
-    GetMovieVideos(id).then((videos) => {
+    getMovieVideos(id).then((videos) => {
       if (videos.length > 0) {
-        const filteredData = videos.filter((item) => item.type === "Trailer" && item.site === "YouTube");
+        const filteredData = videos.filter((item: any) => item.type === "Trailer" && item.site === "YouTube");
         if (filteredData.length > 0) {
           setSelectedTrailer(filteredData[0].key);
         }
@@ -49,7 +49,7 @@ const MovieUpComing = () => {
     });
   };
 
-  const GridMember: React.FC<{ movie: iMovie }> = ({ movie }) => {
+  const GridMember: React.FC<{ movie: Movie }> = ({ movie }) => {
     const image = movie.backdrop_path ?? movie.poster_path;
 
     const handleTrailerClick = (e: React.MouseEvent) => {

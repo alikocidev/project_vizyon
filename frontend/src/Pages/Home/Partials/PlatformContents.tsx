@@ -1,19 +1,19 @@
-import LazyLoadedImage from "@/components/lazyLoadedImage";
-import ScrollContainer from "@/components/scrollContainer";
-import { GetPlatformContent } from "@/services/platforms";
-import { iPlatform } from "@/types/platform.type";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import ScrollContainer from "@/components/ScrollContainer";
+import { getPlatformContent } from "@/services/platforms";
+import { Platform } from "@/types/platform.type";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import apiClient from "@/services";
+import apiClient from "@/services/api";
 
 const PlatformContents = () => {
-    const [platforms, setPlatforms] = useState<iPlatform[]>([
+    const [platforms, setPlatforms] = useState<Platform[]>([
         { name: "prime", label: "Amazon", shows: [], isLoad: false },
         { name: "netflix", label: "Netflix", shows: [], isLoad: false },
         { name: "disney", label: "Disney+", shows: [], isLoad: false },
         { name: "hbo", label: "HBO", shows: [], isLoad: false },
     ]);
-    const [selectedPlatform, setSelectedPlatform] = useState<iPlatform>(platforms[1]); // Netflix default
+    const [selectedPlatform, setSelectedPlatform] = useState<Platform>(platforms[1]); // Netflix default
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const PlatformContents = () => {
             try {
                 setIsLoading(true);
                 const response = await apiClient.get("/platform/netflix/popular");
-                const netflixPlatform: iPlatform = {
+                const netflixPlatform: Platform = {
                     name: "netflix",
                     label: "Netflix", 
                     shows: response.data?.shows || [],
@@ -36,7 +36,7 @@ const PlatformContents = () => {
             } catch (error) {
                 console.error("Error fetching Netflix platform:", error);
                 // Set empty Netflix platform on error
-                const emptyNetflix: iPlatform = {
+                const emptyNetflix: Platform = {
                     name: "netflix",
                     label: "Netflix",
                     shows: [],
@@ -66,8 +66,8 @@ const PlatformContents = () => {
             if (!targetPlatform.isLoad) {
                 setIsLoading(true);
                 try {
-                    const response = await GetPlatformContent(targetPlatform.name);
-                    const updatedPlatform: iPlatform = {
+                    const response = await getPlatformContent(targetPlatform.name);
+                    const updatedPlatform: Platform = {
                         ...targetPlatform,
                         shows: response.shows,
                         isLoad: true,
@@ -81,7 +81,7 @@ const PlatformContents = () => {
                 } catch (error) {
                     console.error('Platform content loading error:', error);
                     // Hata durumunda boş shows array ile platform'u güncelle
-                    const errorPlatform: iPlatform = {
+                    const errorPlatform: Platform = {
                         ...targetPlatform,
                         shows: [],
                         isLoad: true,
