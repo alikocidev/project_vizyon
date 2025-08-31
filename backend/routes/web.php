@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // API Backend Info Page
 Route::get('/', function () {
@@ -16,6 +18,25 @@ Route::get('/login', function () {
         'register_endpoint' => url('/api/auth/register')
     ], 401);
 })->name('login');
+
+// Email Verification Routes
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return response()->json([
+        'message' => 'Email verified successfully!',
+        'verified' => true,
+        'redirect_to_frontend' => true
+    ]);
+})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->json([
+        'message' => 'Verification link sent!'
+    ]);
+})->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
 
 // API Health Check
 Route::get('/health', function () {

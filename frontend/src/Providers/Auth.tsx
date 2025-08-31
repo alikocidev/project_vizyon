@@ -8,6 +8,7 @@ interface AuthContextType extends AuthState {
   register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<boolean>;
   loading: boolean;
   updateUser: (user: AuthState["user"]) => void;
+  sendVerificationEmail: () => Promise<{ success: boolean; message: string }>;
 }
 
 interface AuthProviderProps {
@@ -75,7 +76,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return true;
     } catch (error) {
-
       localStorage.removeItem("auth_token");
       delete apiClient.defaults.headers.common["Authorization"];
 
@@ -105,8 +105,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return true;
     } catch (error) {
-      console.error("Registration error:", error);
-      // Re-throw the error so components can handle it properly
       throw error;
     }
   };
@@ -144,6 +142,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const sendVerificationEmail = async () => {
+    try {
+      const response = await apiClient.post("/profile/send-verification-email");
+      return response.data;
+    } catch (error: any) {
+      console.error("Error sending verification email:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "E-posta gönderilirken hata oluştu",
+      };
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -153,6 +164,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         register,
         loading,
         updateUser,
+        sendVerificationEmail,
       }}
     >
       {children}

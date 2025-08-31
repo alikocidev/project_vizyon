@@ -49,7 +49,7 @@ class MovieController extends Controller
     public function getVideosByMovieId(int $movieId)
     {
         if (!is_numeric($movieId) || intval($movieId) != $movieId) {
-            return response()->json(['error' => 'Invalid movie ID. It must be an integer.'], 400);
+            return response()->json(['error' => __('movie.invalid_movie_id')], 400);
         }
         $result = $this->tmdbService->getMovieVideosById($movieId);
         if ($result->isSuccess) {

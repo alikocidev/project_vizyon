@@ -63,6 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [\App\Http\Controllers\ProfileController::class, 'show']);
         Route::put('/', [\App\Http\Controllers\ProfileController::class, 'update']);
         Route::delete('/', [\App\Http\Controllers\ProfileController::class, 'destroy']);
+        Route::post('/send-verification-email', [\App\Http\Controllers\ProfileController::class, 'sendVerificationEmail']);
+        Route::post('/verify-email', [\App\Http\Controllers\ProfileController::class, 'verifyEmail']);
     });
 
     // Add other protected routes here

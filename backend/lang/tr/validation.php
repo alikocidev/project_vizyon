@@ -153,8 +153,11 @@ return [
         ],
     ],
     'attributes' => [
+        'name' => 'İsim',
         'password' => 'Şifre',
         'current_password' => 'Mevcut şifre',
-        'email' => 'Email',
+        'email' => 'E-posta',
+        'password_confirmation' => 'Şifre tekrarı',
+        'page' => 'Sayfa',
     ],
 ];

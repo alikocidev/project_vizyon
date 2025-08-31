@@ -1,11 +1,13 @@
 import { useAuth } from "@/hooks/useAuth";
 import CoreLayout from "@/layouts/Core";
 import { useState } from "react";
+import { TiTick } from "react-icons/ti";
 
 const Profile = () => {
-  const { user, loading, updateUser } = useAuth();
+  const { user, loading, updateUser, sendVerificationEmail } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ name: user?.name || "" });
+  const [verificationSent, setVerificationSent] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,6 +26,15 @@ const Profile = () => {
   const handleCancel = () => {
     setFormData({ name: user?.name || "" });
     setIsEditing(false);
+  };
+
+  const handleSendVerificationEmail = async () => {
+    if (!user) return;
+    if (verificationSent) return;
+    const result = await sendVerificationEmail();
+    if (result.status === "success") {
+      setVerificationSent(true);
+    }
   };
 
   return (
@@ -87,7 +98,30 @@ const Profile = () => {
                       </div>
                     </div>
                   ) : (
-                    <p className="text-light-text dark:text-dark-text px-2">{user?.email}</p>
+                    <div className="relative flex items-center justify-between">
+                      <p className="text-light-text dark:text-dark-text px-2">{user?.email}</p>
+                      {user?.email_verified_at ? (
+                        <span className="text-xs text-green-600 dark:text-green-400 font-medium flex items-center">
+                          <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          Doğrulandı
+                        </span>
+                      ) : (
+                        <button
+                          className="flex items-center justify-center py-1 px-2 gap-1"
+                          onClick={handleSendVerificationEmail}
+                          disabled={verificationSent}
+                        >
+                          {verificationSent && <TiTick className="text-green-500" />}
+                          {verificationSent ? (
+                            <h1 className="text-xs text-green-700 dark:text-green-500 underline">Doğrulama E-postası Gönderildi</h1>
+                          ) : (
+                            <h1 className="text-xs text-primary dark:text-secondary underline">Doğrulama E-postası Gönder</h1>
+                          )}
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
 

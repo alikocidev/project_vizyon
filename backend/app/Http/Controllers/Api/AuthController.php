@@ -21,18 +21,18 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ], [
-            'name.required' => 'İsim alanı gereklidir.',
-            'email.required' => 'E-posta alanı gereklidir.',
-            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
-            'email.unique' => 'Bu e-posta adresi zaten kayıtlı.',
-            'password.required' => 'Şifre alanı gereklidir.',
-            'password.min' => 'Şifre en az 6 karakter olmalıdır .',
-            'password.confirmed' => 'Şifre onayı eşleşmiyor.',
+            'name.required' => __('auth_messages.name_required'),
+            'email.required' => __('auth_messages.email_required'),
+            'email.email' => __('auth_messages.email_valid'),
+            'email.unique' => __('auth_messages.email_unique'),
+            'password.required' => __('auth_messages.password_required'),
+            'password.min' => __('auth_messages.password_min'),
+            'password.confirmed' => __('auth_messages.password_confirmed'),
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Doğrulama hatası',
+                'message' => __('auth_messages.validation_failed'),
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -46,7 +46,7 @@ class AuthController extends Controller
         $token = $user->createToken('register-token-' . now()->timestamp)->plainTextToken;
 
         return response()->json([
-            'message' => 'Kayıt başarılı',
+            'message' => __('auth_messages.register_success'),
             'user' => $user,
             'token' => $token,
         ], 201);
@@ -64,21 +64,21 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ], [
-            'email.required' => 'E-posta alanı gereklidir.',
-            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
-            'password.required' => 'Şifre alanı gereklidir.',
+            'email.required' => __('auth_messages.email_required'),
+            'email.email' => __('auth_messages.email_valid'),
+            'password.required' => __('auth_messages.password_required'),
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Doğrulama hatası',
+                'message' => __('auth_messages.validation_failed'),
                 'errors' => $validator->errors()
             ], 422);
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'E-posta adresi veya şifre hatalı.',
+                'message' => __('auth_messages.invalid_credentials'),
             ], 422);
         }
 
@@ -88,14 +88,14 @@ class AuthController extends Controller
         // Ensure we have a User instance with HasApiTokens trait
         if (!$user instanceof User) {
             return response()->json([
-                'message' => 'Authentication failed.',
+                'message' => __('auth_messages.authentication_failed'),
             ], 500);
         }
 
         $token = $user->createToken('login-token-' . now()->timestamp)->plainTextToken;
 
         return response()->json([
-            'message' => 'Giriş başarılı',
+            'message' => __('auth_messages.login_success'),
             'user' => $user,
             'token' => $token,
         ], 200);
@@ -109,7 +109,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Çıkış başarılı'
+            'message' => __('auth_messages.logout_success')
         ]);
     }
 
