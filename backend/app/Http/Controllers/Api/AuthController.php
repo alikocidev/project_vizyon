@@ -26,13 +26,13 @@ class AuthController extends Controller
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
             'email.unique' => 'Bu e-posta adresi zaten kayıtlı.',
             'password.required' => 'Şifre alanı gereklidir.',
-            'password.min' => 'Şifre en az 6 karakter olmalıdır.',
+            'password.min' => 'Şifre en az 6 karakter olmalıdır .',
             'password.confirmed' => 'Şifre onayı eşleşmiyor.',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation failed',
+                'message' => 'Doğrulama hatası',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -71,7 +71,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validation failed',
+                'message' => 'Doğrulama hatası',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -79,26 +79,26 @@ class AuthController extends Controller
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'E-posta adresi veya şifre hatalı.',
-            ], 401);
+            ], 422);
         }
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        
+
         // Ensure we have a User instance with HasApiTokens trait
         if (!$user instanceof User) {
             return response()->json([
                 'message' => 'Authentication failed.',
-            ], 401);
+            ], 500);
         }
-        
+
         $token = $user->createToken('login-token-' . now()->timestamp)->plainTextToken;
 
         return response()->json([
             'message' => 'Giriş başarılı',
             'user' => $user,
             'token' => $token,
-        ]);
+        ], 200);
     }
 
     /**

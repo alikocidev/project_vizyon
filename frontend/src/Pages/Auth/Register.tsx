@@ -5,24 +5,25 @@ import { useAuth } from "@/hooks/useAuth";
 import Alert from "@/components/Alert";
 import { handleApiError, FormErrors } from "@/utils/errorHandler";
 
-interface LoginFormData {
+interface RegisterFormData {
   email: string;
   password: string;
-  remember: boolean;
+  confirmPassword: string;
+  name: string;
 }
 
-export default function Login() {
-  const [formData, setFormData] = useState<LoginFormData>({
+export default function Register() {
+  const [formData, setFormData] = useState<RegisterFormData>({
     email: "",
     password: "",
-    remember: false,
+    confirmPassword: "",
+    name: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [canResetPassword, setCanResetPassword] = useState(false);
 
-  const { login, user } = useAuth();
+  const { register, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  const updateFormData = (field: keyof LoginFormData, value: string | boolean) => {
+  const updateFormData = (field: keyof RegisterFormData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
@@ -52,6 +53,12 @@ export default function Login() {
       newErrors.password = "Şifre gereklidir";
     }
 
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Şifre tekrarı gereklidir";
+    } else if (formData.confirmPassword !== formData.password) {
+      newErrors.confirmPassword = "Şifreler eşleşmiyor";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -65,25 +72,22 @@ export default function Login() {
     setErrors({});
 
     try {
-      const success = await login(formData.email, formData.password);
+      const success = await register(formData.name, formData.email, formData.password, formData.confirmPassword);
       if (success) {
         navigate("/", { replace: true });
       }
     } catch (error: any) {
       const apiErrors = handleApiError(error);
       setErrors(apiErrors);
-      if (error.response?.status === 422) {
-        setCanResetPassword(true);
-      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <CoreLayout user={user} title="Giriş Yap">
+    <CoreLayout user={user} title="Kayıt Ol">
       <div className="w-full h-full flex items-center justify-center">
-        <div className="max-w-md mt-14 w-full space-y-8 animate-fade-in">
+        <div className="max-w-md mt-8 w-full space-y-4 animate-fade-in">
           {/* Header */}
           <div className="text-center">
             <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary/10 dark:bg-secondary/10 mb-4">
@@ -96,8 +100,7 @@ export default function Login() {
                 />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-light-text dark:text-dark-text">Hoş Geldiniz</h2>
-            <p className="mt-2 text-neutral-600 dark:text-neutral-400">Hesabınıza giriş yapın</p>
+            <h2 className="text-3xl font-bold text-light-text dark:text-dark-text">Merhaba</h2>
           </div>
 
           {/* Form Card */}
@@ -156,6 +159,41 @@ export default function Login() {
                 )}
               </div>
 
+              {/* Name Field */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
+                  Adınız
+                </label>
+                <div className="relative">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    value={formData.name}
+                    onChange={(e) => updateFormData("name", e.target.value)}
+                    className={`
+                      w-full px-4 py-3 rounded-lg border transition
+                      bg-transparent
+                      text-light-text dark:text-dark-text
+                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
+                      focus:ring-0 focus:outline-none
+                      focus:border-primary dark:focus:border-secondary
+                      ${errors.name ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
+                    `}
+                    placeholder="Adınız"
+                  />
+                </div>
+                {errors.name && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                    <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
               {/* Password Field */}
               <div>
                 <label htmlFor="password" className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
@@ -177,6 +215,41 @@ export default function Login() {
                       focus:ring-0 focus:outline-none
                       focus:border-primary dark:focus:border-secondary
                       ${errors.password ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
+                    `}
+                    placeholder="••••••••"
+                  />
+                </div>
+                {errors.password && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                    <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {errors.password}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password Field */}
+              <div>
+                <label htmlFor="confirm-password" className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
+                  Şifre Tekrarı
+                </label>
+                <div className="relative">
+                  <input
+                    id="confirm-password"
+                    name="confirm-password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    value={formData.confirmPassword}
+                    onChange={(e) => updateFormData("confirmPassword", e.target.value)}
+                    className={`
+                      w-full px-4 py-3 rounded-lg border transition
+                      bg-transparent
+                      text-light-text dark:text-dark-text
+                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
+                      focus:ring-0 focus:outline-none
+                      focus:border-primary dark:focus:border-secondary
+                      ${errors.confirmPassword ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
                     `}
                     placeholder="••••••••"
                   />
@@ -207,37 +280,13 @@ export default function Login() {
                     )}
                   </button>
                 </div>
-                {errors.password && (
+                {errors.confirmPassword && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
                     <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    {errors.password}
+                    {errors.confirmPassword}
                   </p>
-                )}
-              </div>
-
-              {/* Remember me and Forgot Password */}
-              <div className="flex items-center justify-between">
-                <label className="flex items-center group cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.remember}
-                    onChange={(e) => updateFormData("remember", e.target.checked)}
-                    className="h-4 w-4 text-primary dark:text-secondary focus:ring-primary/20 border-neutral-300 dark:border-secondary rounded bg-transparent"
-                  />
-                  <span className="ml-2 text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-light-text dark:group-hover:text-dark-text transition-colors">
-                    Beni hatırla
-                  </span>
-                </label>
-
-                {canResetPassword && (
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm text-primary/80 hover:text-primary dark:text-secondary/80 dark:hover:text-secondary transition-colors"
-                  >
-                    Şifremi unuttum
-                  </Link>
                 )}
               </div>
 
@@ -261,7 +310,7 @@ export default function Login() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Giriş yapılıyor...
+                    Kayıt olunuyor...
                   </>
                 ) : (
                   <>
@@ -273,7 +322,7 @@ export default function Login() {
                         d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                       />
                     </svg>
-                    Giriş Yap
+                    Kayıt Ol
                   </>
                 )}
               </button>
@@ -291,12 +340,12 @@ export default function Login() {
               </div>
               <div className="mt-4">
                 <span className="text-neutral-600 dark:text-neutral-400 text-sm">
-                  Hesabınız yok mu?{" "}
+                  Hesabın var mı?{" "}
                   <Link
-                    to="/register"
+                    to="/login"
                     className="text-primary hover:text-primary/80 dark:text-secondary/80 dark:hover:text-secondary font-semibold transition-colors"
                   >
-                    Kayıt olun
+                    Giriş yap
                   </Link>
                 </span>
               </div>

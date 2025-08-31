@@ -3,13 +3,13 @@ import Modal from "@/components/Modal";
 import ScrollContainer from "@/components/ScrollContainer";
 import { getMovieVideos } from "@/services/movie";
 import { Movie } from "@/types/movie.type";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import apiClient from "@/services/api";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-"react-loading-skeleton/dist/skeleton.css";
+("react-loading-skeleton/dist/skeleton.css");
 import useTheme from "@/hooks/useTheme";
 
 const MovieUpComing = () => {
@@ -18,6 +18,7 @@ const MovieUpComing = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(undefined);
   const [fetchVideos, setFetchVideos] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUpComings = async () => {
@@ -53,13 +54,19 @@ const MovieUpComing = () => {
     const image = movie.backdrop_path ?? movie.poster_path;
 
     const handleTrailerClick = (e: React.MouseEvent) => {
-      // Event bubbling'i durdur
       e.stopPropagation();
       handleOpenTrailerFrame(movie.id);
     };
 
+    const handleRedirectDetail = (id: number) => {
+      navigate(`/movie/${id}`);
+    };
+
     return (
-      <div className={classNames("flex", "relative min-w-48 max-w-48 group hover:-translate-y-2 transition duration-500", "cursor-pointer")}>
+      <div
+        onClick={() => handleRedirectDetail(movie.id)}
+        className={classNames("flex", "relative min-w-48 max-w-48 group hover:-translate-y-2 transition duration-500", "cursor-pointer")}
+      >
         <LazyLoadedImage
           className="w-full h-full rounded-2xl overflow-hidden"
           src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}

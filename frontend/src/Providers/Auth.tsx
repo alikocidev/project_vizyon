@@ -75,12 +75,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return true;
     } catch (error) {
-      console.error("Login error:", error);
 
       localStorage.removeItem("auth_token");
       delete apiClient.defaults.headers.common["Authorization"];
 
-      return false;
+      // Re-throw the error so components can handle it properly
+      throw error;
     }
   };
 
@@ -105,7 +105,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return true;
     } catch (error) {
-      return false;
+      console.error("Registration error:", error);
+      // Re-throw the error so components can handle it properly
+      throw error;
     }
   };
 

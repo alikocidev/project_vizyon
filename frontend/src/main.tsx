@@ -10,6 +10,7 @@ import "./styles/app.css";
 import Home from "./pages/home";
 import Login from "./pages/auth/Login";
 import Profile from "./pages/profile";
+import Register from "./pages/auth/Register";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
