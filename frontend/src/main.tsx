@@ -12,6 +12,7 @@ import Login from "./pages/auth/Login";
 import Profile from "./pages/profile";
 import Register from "./pages/auth/Register";
 import EmailVerify from "./pages/email/verify";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
               <Route path="/register" element={<TemporaryPage pageName="Register" />} />
               <Route path="/forgot-password" element={<TemporaryPage pageName="Forgot Password" />} />
               <Route path="/reset-password" element={<TemporaryPage pageName="Reset Password" />} />
+              {/* 404 - Catch all unmatched routes */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
         </main>

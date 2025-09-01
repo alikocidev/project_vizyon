@@ -166,11 +166,17 @@ const Profile = () => {
             <div className="bg-light-primary dark:bg-dark-primary shadow-xl rounded-2xl p-6 border border-light-surface dark:border-dark-surface">
               <h2 className="text-xl font-semibold text-light-text dark:text-dark-text mb-4">Hesap Ayarları</h2>
               <div className="flex gap-3">
-                <button className="w-full text-left px-4 py-3 bg-light-primary dark:bg-dark-secondary hover:bg-light-surface dark:hover:bg-dark-surface rounded-lg transition-all transform hover:scale-[1.01] border border-light-surface dark:border-dark-surface">
+                <button
+                  disabled
+                  className="disabled:opacity-50 w-full text-left px-4 py-3 bg-light-primary dark:bg-dark-secondary rounded-lg border border-light-surface dark:border-dark-surface"
+                >
                   <div className="font-medium text-light-text dark:text-dark-text">Şifre Değiştir</div>
                   <div className="text-sm text-neutral-600 dark:text-neutral-400">Hesap şifrenizi güncelleyin</div>
                 </button>
-                <button className="w-full text-left px-4 py-3 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-all transform hover:scale-[1.01] border border-red-200 dark:border-red-800/50">
+                <button
+                  disabled
+                  className="disabled:opacity-50 w-full text-left px-4 py-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50"
+                >
                   <div className="font-medium text-red-600 dark:text-red-400">Hesabı Sil</div>
                   <div className="text-sm text-red-500 dark:text-red-400">Hesabınızı kalıcı olarak silin</div>
                 </button>
