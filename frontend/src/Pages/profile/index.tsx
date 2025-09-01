@@ -43,8 +43,8 @@ const Profile = () => {
 
   return (
     <>
-      <CoreLayout user={user || null} title="Profil" loading={loading}>
-        <div className="w-full lg:w-4/5 lg:mx-auto mt-4 sm:mt-8 px-4 sm:px-8 z-10 relative">
+      <CoreLayout user={user} title="Profil" loading={loading}>
+        <div className="xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto mt-4 sm:mt-8 px-4 sm:px-8 z-10 relative">
           <div className="space-y-6">
             {/* Profile Header */}
             <div className="bg-light-primary dark:bg-dark-primary shadow-xl rounded-2xl p-6 border border-light-surface dark:border-dark-surface">

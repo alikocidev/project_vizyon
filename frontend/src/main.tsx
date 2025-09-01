@@ -1,17 +1,18 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./providers/Auth";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { ThemeProvider } from "./providers/Theme";
+import { AuthProvider } from "@/providers/Auth";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { ThemeProvider } from "@/providers/Theme";
 
 // Pages
-import "./styles/app.css";
-import Home from "./pages/home";
-import Login from "./pages/auth/Login";
-import Profile from "./pages/profile";
-import Register from "./pages/auth/Register";
-import EmailVerify from "./pages/email/verify";
-import NotFound from "./pages/NotFound";
+import "@/styles/app.css";
+import Home from "@/pages/home";
+import Login from "@/pages/auth/Login";
+import Profile from "@/pages/profile";
+import Register from "@/pages/auth/Register";
+import EmailVerify from "@/pages/email/verify";
+import NotFound from "@/pages/NotFound";
+import Movie from "@/pages/movie";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
+              <Route path="/movie" element={<Movie />} />
               {/* 404 - Catch all unmatched routes */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -9,14 +9,14 @@ const Home = () => {
   const { user, loading } = useAuth();
 
   return (
-    <CoreLayout user={user || null} title="Anasayfa" loading={loading}>
-      <section id="search-article">
+    <CoreLayout user={user} title="Anasayfa" loading={loading}>
+      <section id="search-article" className="xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
         <SearchDiv />
       </section>
-      <section id="theaters">
+      <section id="theaters" className="xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
         <Theaters />
       </section>
-      <section id="up-coming">
+      <section id="up-coming" className="xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
         <MovieUpComing />
       </section>
       <section id="platform-contents">
