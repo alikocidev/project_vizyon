@@ -11,6 +11,7 @@ import Home from "./pages/home";
 import Login from "./pages/auth/Login";
 import Profile from "./pages/profile";
 import Register from "./pages/auth/Register";
+import EmailVerify from "./pages/email/verify";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/email/verify" element={<EmailVerify />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>

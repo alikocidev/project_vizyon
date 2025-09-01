@@ -55,6 +55,11 @@ Route::prefix('search')->group(function () {
     Route::get('/{type}', [SearchController::class, 'getShows']);
 });
 
+// Email verification route (public - no auth required)
+Route::get('/email/verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])
+    ->name('verification.verify')
+    ->middleware(['signed']);
+
 // Protected Routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
@@ -68,8 +73,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('email')->group(function () {
         Route::post('/verification-notification', [EmailController::class, 'sendVerificationEmail']);
-        Route::get('/verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])
-            ->name('verification.verify')
-            ->middleware(['signed']);
     });
 });

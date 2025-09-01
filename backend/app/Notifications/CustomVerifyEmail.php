@@ -48,7 +48,18 @@ class CustomVerifyEmail extends VerifyEmail
             ]
         );
 
-        // Frontend'e yönlendirme yapan URL
-        return $frontendUrl . '/email/verify?verification_url=' . urlencode($apiVerificationUrl);
+        // URL'dan signature, expires ve diğer parametreleri çıkar
+        $parsedUrl = parse_url($apiVerificationUrl);
+        parse_str($parsedUrl['query'], $queryParams);
+        
+        // Frontend'e sadece gerekli parametreleri gönder
+        $verificationParams = http_build_query([
+            'id' => $notifiable->getKey(),
+            'hash' => sha1($notifiable->getEmailForVerification()),
+            'expires' => $queryParams['expires'],
+            'signature' => $queryParams['signature']
+        ]);
+
+        return $frontendUrl . '/email/verify?' . $verificationParams;
     }
 }
