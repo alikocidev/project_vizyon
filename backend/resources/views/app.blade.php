@@ -28,8 +28,8 @@
         </div>
         
         <h3>📋 API Endpoints:</h3>
-        <div class="endpoint">GET /api/movies - Film listesi</div>
-        <div class="endpoint">GET /api/movies/{id} - Film detayı</div>
+        <div class="endpoint">GET /api/movie - Film listesi</div>
+        <div class="endpoint">GET /api/movie/{id} - Film detayı</div>
         <div class="endpoint">POST /api/auth/login - Giriş</div>
         <div class="endpoint">POST /api/auth/register - Kayıt</div>
         

@@ -48,11 +48,9 @@ class CustomVerifyEmail extends VerifyEmail
             ]
         );
 
-        // URL'dan signature, expires ve diğer parametreleri çıkar
         $parsedUrl = parse_url($apiVerificationUrl);
         parse_str($parsedUrl['query'], $queryParams);
         
-        // Frontend'e sadece gerekli parametreleri gönder
         $verificationParams = http_build_query([
             'id' => $notifiable->getKey(),
             'hash' => sha1($notifiable->getEmailForVerification()),

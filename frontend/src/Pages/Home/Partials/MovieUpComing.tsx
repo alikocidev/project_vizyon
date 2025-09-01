@@ -3,7 +3,6 @@ import Modal from "@/components/Modal";
 import ScrollContainer, { useScrollContext } from "@/components/ScrollContainer";
 import { getMovieVideos } from "@/services/movie";
 import { Movie } from "@/types/movie.type";
-import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
@@ -11,6 +10,7 @@ import apiClient from "@/services/api";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 ("react-loading-skeleton/dist/skeleton.css");
 import useTheme from "@/hooks/useTheme";
+import { useNavigate } from "react-router-dom";
 
 const MovieUpComing = () => {
   const { theme } = useTheme();
@@ -56,13 +56,13 @@ const MovieUpComing = () => {
 
     const handleTrailerClick = (e: React.MouseEvent) => {
       e.stopPropagation();
-      
+
       // Scroll yapılıyorsa trailer click'ini engelle
       if (hasMoved) {
         e.preventDefault();
         return;
       }
-      
+
       handleOpenTrailerFrame(movie.id);
     };
 
@@ -71,7 +71,7 @@ const MovieUpComing = () => {
       if (hasMoved) {
         return;
       }
-      
+
       navigate(`/movie/${id}`);
     };
 
@@ -82,7 +82,7 @@ const MovieUpComing = () => {
         e.stopPropagation();
         return;
       }
-      
+
       handleRedirectDetail(movie.id);
     };
 
@@ -127,9 +127,7 @@ const MovieUpComing = () => {
     <>
       <div className="w-full relative max-sm:px-2 sm:my-10">
         <div className="px-2 sm:px-0 mt-4 sm:mt-6 mb-2 sm:mb-4">
-          <Link to="/movies/upcoming" className="flex items-center gap-2 w-min whitespace-nowrap">
-            <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">Yakın Zamandakiler</h1>
-          </Link>
+          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">Yakın Zamandakiler</h1>
         </div>
         <div className="edge_fade_blur dark:after:bg-fade-dark">
           <ScrollContainer className="flex gap-4 pt-2 pb-14">

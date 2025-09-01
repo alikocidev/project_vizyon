@@ -39,15 +39,6 @@ The API will be available at `http://localhost:8000`
 
 ## API Endpoints
 
-- `GET /api/movie/theaters` - Get movies in theaters
-- `GET /api/movie/upcomings` - Get upcoming movies
-- `GET /api/movie/popular` - Get popular movies
-- `GET /api/movie/goat` - Get greatest movies
-- `GET /api/trending/{type}/{window}` - Get trending content
-- `GET /api/discover/{type}` - Discover movies/series
-- `GET /api/search/{type}` - Search content
-- `GET /api/platform/{platform}/popular` - Get popular content by platform
-
 ## Environment Variables
 
 Make sure to set the following in your `.env` file:

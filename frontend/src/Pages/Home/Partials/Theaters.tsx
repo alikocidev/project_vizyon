@@ -7,7 +7,7 @@ import LazyLoadedImage from "@/components/LazyLoadedImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-"react-loading-skeleton/dist/skeleton.css";
+("react-loading-skeleton/dist/skeleton.css");
 import React from "react";
 import apiClient from "@/services/api";
 import useTheme from "@/hooks/useTheme";
@@ -224,9 +224,7 @@ const Theaters = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="flex items-center justify-between">
-          <Link to="/movies/theaters">
-            <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-2xl">Vizyondakiler</h1>
-          </Link>
+          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-2xl">Vizyondakiler</h1>
         </div>
       </motion.div>
       {(theaters && theaters.length > 0) || isLoading ? (

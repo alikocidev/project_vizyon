@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { IoCloseOutline } from "react-icons/io5";
-import { FaArrowTrendUp, FaUserGear } from "react-icons/fa6";
+import { FaUserGear } from "react-icons/fa6";
 import { IoMdHome, IoIosLogOut } from "react-icons/io";
 import { MdMessage } from "react-icons/md";
 import { RiCompassDiscoverLine } from "react-icons/ri";
@@ -30,20 +30,14 @@ const HeaderItems: ItemType[] = [
     isMobile: true,
   },
   {
-    href: "/movies/theaters",
+    href: "/movie",
     icon: RiCompassDiscoverLine,
-    label: "Vizyondakiler",
+    label: "Filmler",
   },
   {
     href: "/discover",
     icon: RiCompassDiscoverLine,
     label: "Keşfet",
-  },
-  {
-    href: "/trends",
-    icon: FaArrowTrendUp,
-    label: "Trendler",
-    isMobile: true,
   },
   {
     href: "/discussions",
@@ -127,12 +121,8 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                 </div>
               ) : user ? (
                 <div className="ml-3 relative flex items-center gap-2">
-                  <span className="text-sm text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
-                  <Link
-                    to="/profile"
-                    className="flex items-center justify-center text-sm text-light-text dark:text-dark-text group border rounded border-primary/50 dark:border-secondary/50 p-1 hover:border-primary dark:hover:border-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition"
-                  >
-                    <FaUserGear className="h-4 w-4 text-primary dark:text-secondary" />
+                  <Link to="/profile" className="text-light-text dark:text-dark-text hover:text-primary dark:hover:text-secondary">
+                    <span className="text-sm underline">Hoş geldin' {user.name}!</span>
                   </Link>
                   <button
                     onClick={handleLogout}

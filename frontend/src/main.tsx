@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./providers/Auth";
-import TemporaryPage from "./components/TemporaryPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./providers/Theme";
 
@@ -28,16 +27,6 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
-              {/* Temporary routes - will be migrated later */}
-              <Route path="/discover" element={<TemporaryPage pageName="Discover" />} />
-              <Route path="/movies/theaters" element={<TemporaryPage pageName="Movie Theaters" />} />
-              <Route path="/movies/trending" element={<TemporaryPage pageName="Movie Trending" />} />
-              <Route path="/movies/popular" element={<TemporaryPage pageName="Movie Popular" />} />
-              <Route path="/movies/upcoming" element={<TemporaryPage pageName="Movie Upcoming" />} />
-              <Route path="/movies/goat" element={<TemporaryPage pageName="Movie GOAT" />} />
-              <Route path="/register" element={<TemporaryPage pageName="Register" />} />
-              <Route path="/forgot-password" element={<TemporaryPage pageName="Forgot Password" />} />
-              <Route path="/reset-password" element={<TemporaryPage pageName="Reset Password" />} />
               {/* 404 - Catch all unmatched routes */}
               <Route path="*" element={<NotFound />} />
             </Routes>
