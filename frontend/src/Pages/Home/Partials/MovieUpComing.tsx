@@ -1,6 +1,6 @@
 import LazyLoadedImage from "@/components/LazyLoadedImage";
 import Modal from "@/components/Modal";
-import ScrollContainer from "@/components/ScrollContainer";
+import ScrollContainer, { useScrollContext } from "@/components/ScrollContainer";
 import { getMovieVideos } from "@/services/movie";
 import { Movie } from "@/types/movie.type";
 import { Link, useNavigate } from "react-router-dom";
@@ -52,19 +52,43 @@ const MovieUpComing = () => {
 
   const GridMember: React.FC<{ movie: Movie }> = ({ movie }) => {
     const image = movie.backdrop_path ?? movie.poster_path;
+    const { hasMoved } = useScrollContext();
 
     const handleTrailerClick = (e: React.MouseEvent) => {
       e.stopPropagation();
+      
+      // Scroll yapılıyorsa trailer click'ini engelle
+      if (hasMoved) {
+        e.preventDefault();
+        return;
+      }
+      
       handleOpenTrailerFrame(movie.id);
     };
 
     const handleRedirectDetail = (id: number) => {
+      // Scroll yapılıyorsa redirect'i engelle
+      if (hasMoved) {
+        return;
+      }
+      
       navigate(`/movie/${id}`);
+    };
+
+    const handleMainClick = (e: React.MouseEvent) => {
+      // Scroll yapılıyorsa ana click'i engelle
+      if (hasMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      
+      handleRedirectDetail(movie.id);
     };
 
     return (
       <div
-        onClick={() => handleRedirectDetail(movie.id)}
+        onClick={handleMainClick}
         className={classNames("flex", "relative min-w-48 max-w-48 group hover:-translate-y-2 transition duration-500", "cursor-pointer")}
       >
         <LazyLoadedImage

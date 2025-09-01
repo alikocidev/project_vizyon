@@ -1,5 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, createContext, useContext } from "react";
 import classNames from "classnames";
+
+// Context oluştur
+const ScrollContext = createContext<{
+  hasMoved: boolean;
+}>({ hasMoved: false });
+
+// Custom hook
+export const useScrollContext = () => useContext(ScrollContext);
 
 const ScrollContainer: React.FC<{
   className?: string;
@@ -10,6 +18,7 @@ const ScrollContainer: React.FC<{
   const [hasMoved, setHasMoved] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     const container = containerRef.current;
@@ -42,7 +51,19 @@ const ScrollContainer: React.FC<{
 
   const stopDragging = () => {
     setIsDragging(false);
-    setHasMoved(false);
+    
+    // Eğer hareket edilmişse, click'i engellemek için biraz bekle
+    if (hasMoved) {
+      // Önceki timeout'u temizle
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+      
+      // 100ms sonra hasMoved'i sıfırla
+      resetTimeoutRef.current = setTimeout(() => {
+        setHasMoved(false);
+      }, 100);
+    }
   };
 
   useEffect(() => {
@@ -60,37 +81,44 @@ const ScrollContainer: React.FC<{
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", stopDragging);
       document.removeEventListener("mouseleave", stopDragging);
+      
+      // Cleanup timeout
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
     };
   }, [isDragging]);
 
   return (
-    <div
-      ref={containerRef}
-      className={classNames(
-        "relative overflow-auto",
-        "cursor-grab",
-        "select-none pr-10",
-        "scrollbar-hide",
-        { "cursor-grabbing": isDragging },
-        className
-      )}
-      onMouseDown={handleMouseDown}
-    >
-      {React.Children.map(children, (child) => (
-        <div
-          className="scroll-container-parent cursor-default flex"
-          onClick={(e) => {
-            // Eğer drag işlemi yapıldıysa click'i engelle
-            if (hasMoved) {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-          }}
-        >
-          {child}
-        </div>
-      ))}
-    </div>
+    <ScrollContext.Provider value={{ hasMoved }}>
+      <div
+        ref={containerRef}
+        className={classNames(
+          "relative overflow-auto",
+          "cursor-grab",
+          "select-none pr-10",
+          "scrollbar-hide",
+          { "cursor-grabbing": isDragging },
+          className
+        )}
+        onMouseDown={handleMouseDown}
+      >
+        {React.Children.map(children, (child) => (
+          <div
+            className="scroll-container-parent cursor-default flex"
+            onClick={(e) => {
+              // Eğer drag işlemi yapıldıysa click'i engelle
+              if (hasMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            }}
+          >
+            {child}
+          </div>
+        ))}
+      </div>
+    </ScrollContext.Provider>
   );
 };
 
