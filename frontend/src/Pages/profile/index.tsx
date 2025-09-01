@@ -2,12 +2,15 @@ import { useAuth } from "@/hooks/useAuth";
 import CoreLayout from "@/layouts/Core";
 import { useState } from "react";
 import { TiTick } from "react-icons/ti";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Profile = () => {
   const { user, loading, updateUser, sendVerificationEmail } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ name: user?.name || "" });
   const [verificationSent, setVerificationSent] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,10 +34,11 @@ const Profile = () => {
   const handleSendVerificationEmail = async () => {
     if (!user) return;
     if (verificationSent) return;
-    const result = await sendVerificationEmail();
-    if (result.status === "success") {
-      setVerificationSent(true);
-    }
+    setIsWaiting(true);
+    const response = await sendVerificationEmail();
+    setVerificationSent(true);
+    setMessage(response.message || "");
+    setIsWaiting(false);
   };
 
   return (
@@ -114,10 +118,11 @@ const Profile = () => {
                           disabled={verificationSent}
                         >
                           {verificationSent && <TiTick className="text-green-500" />}
-                          {verificationSent ? (
-                            <h1 className="text-xs text-green-700 dark:text-green-500 underline">Doğrulama E-postası Gönderildi</h1>
-                          ) : (
+                          {isWaiting && <AiOutlineLoading3Quarters className="animate-spin text-primary dark:text-secondary mx-1" />}
+                          {!verificationSent ? (
                             <h1 className="text-xs text-primary dark:text-secondary underline">Doğrulama E-postası Gönder</h1>
+                          ) : (
+                            <h1 className="text-xs text-green-700 dark:text-green-500 underline">{message}</h1>
                           )}
                         </button>
                       )}

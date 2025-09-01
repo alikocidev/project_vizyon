@@ -19,25 +19,6 @@ Route::get('/login', function () {
     ], 401);
 })->name('login');
 
-// Email Verification Routes
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return response()->json([
-        'message' => 'Email verified successfully!',
-        'verified' => true,
-        'redirect_to_frontend' => true
-    ]);
-})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return response()->json([
-        'message' => 'Verification link sent!'
-    ]);
-})->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
-
 // API Health Check
 Route::get('/health', function () {
     return response()->json([
@@ -52,7 +33,7 @@ Route::get('/health', function () {
 Route::fallback(function () {
     return response()->json([
         'message' => 'Route not found. This is an API backend.',
-        'frontend_url' => 'http://localhost:3000',
+        'frontend_url' => config('app.frontend_url', 'http://localhost:3000'),
         'api_docs' => url('/api/documentation')
     ], 404);
 });

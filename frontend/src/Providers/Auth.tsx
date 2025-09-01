@@ -144,7 +144,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const sendVerificationEmail = async () => {
     try {
-      const response = await apiClient.post("/profile/send-verification-email");
+      const response = await apiClient.post("/email/verification-notification");
       return response.data;
     } catch (error: any) {
       console.error("Error sending verification email:", error);

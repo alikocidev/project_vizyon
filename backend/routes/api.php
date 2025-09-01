@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DiscoverController;
+use App\Http\Controllers\Api\EmailController;
 use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\PlatformController;
 use App\Http\Controllers\Api\SearchController;
@@ -63,9 +64,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [\App\Http\Controllers\ProfileController::class, 'show']);
         Route::put('/', [\App\Http\Controllers\ProfileController::class, 'update']);
         Route::delete('/', [\App\Http\Controllers\ProfileController::class, 'destroy']);
-        Route::post('/send-verification-email', [\App\Http\Controllers\ProfileController::class, 'sendVerificationEmail']);
-        Route::post('/verify-email', [\App\Http\Controllers\ProfileController::class, 'verifyEmail']);
     });
 
-    // Add other protected routes here
+    Route::prefix('email')->group(function () {
+        Route::post('/verification-notification', [EmailController::class, 'sendVerificationEmail']);
+        Route::get('/verify/{id}/{hash}', [EmailController::class, 'verifyEmail'])
+            ->name('verification.verify')
+            ->middleware(['signed']);
+    });
 });

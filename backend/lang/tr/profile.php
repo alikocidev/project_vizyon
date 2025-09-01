@@ -8,4 +8,5 @@ return [
     'email_already_verified' => 'E-posta adresi zaten doğrulanmış',
     'email_verified_successfully' => 'E-posta başarıyla doğrulandı',
     'email_verification_failed' => 'E-posta doğrulaması başarısız',
+    'email_send_failed' => 'E-posta gönderimi başarısız',
 ];

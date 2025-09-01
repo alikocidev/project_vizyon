@@ -12,7 +12,6 @@ const ProtectedRoute = () => {
     }
   }, [isAuthenticated, loading, navigate]);
 
-  // Loading durumunda spinner göster
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-light-primary dark:bg-dark-secondary">

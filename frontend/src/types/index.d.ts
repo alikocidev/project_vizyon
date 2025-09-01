@@ -32,5 +32,5 @@ export interface AuthContextType extends AuthState {
   register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<boolean>;
   loading: boolean;
   updateUser: (user: AuthState["user"]) => void;
-  sendVerificationEmail: () => Promise<{ status: "success" | "error"; message: string }>;
+  sendVerificationEmail: () => Promise<{ success: boolean; message: string }>;
 }
