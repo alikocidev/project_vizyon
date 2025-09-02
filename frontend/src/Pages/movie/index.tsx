@@ -7,7 +7,7 @@ import classNames from "classnames";
 import LazyLoadedImage from "@/components/LazyLoadedImage";
 import CircularProgressBar from "@/components/CircularProgressBar";
 import { getMovieGoat, getMoviePopular, getMovieTheaters, getMovieTrending, getMovieUpComings } from "@/services/movie";
-import { formatDateToTurkishMonthDay } from "@/utils/misc";
+import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
 import Loading from "@/components/Loading";
 
 const keyToName: Record<TabListProps, string> = {
@@ -120,9 +120,12 @@ const Movie = () => {
                   )}
                 >
                   <div className="w-full flex items-center justify-between">
-                    <div className="relative top-4 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
-                      <h1 className="whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75 rounded-r">
+                    <div className="relative flex flex-col gap-1 top-4 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
+                      <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75">
                         {formatDateToTurkishMonthDay(movie.release_date, true)}
+                      </h1>
+                      <h1 className="whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75">
+                        {genreIdsToNamesForMovies(movie.genre_ids)}
                       </h1>
                     </div>
                     <div className="relative top-1 right-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">

@@ -175,7 +175,7 @@ const Profile = () => {
                 </button>
                 <button
                   disabled
-                  className="disabled:opacity-50 w-full text-left px-4 py-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50"
+                  className="disabled:opacity-50 w-full text-left px-4 py-3 bg-red-200 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50"
                 >
                   <div className="font-medium text-red-600 dark:text-red-400">Hesabı Sil</div>
                   <div className="text-sm text-red-500 dark:text-red-400">Hesabınızı kalıcı olarak silin</div>
