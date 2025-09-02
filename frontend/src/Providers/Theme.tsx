@@ -10,7 +10,7 @@ interface ThemeProviderProps {
 }
 
 const defaultContextValue: ThemeContextType = {
-  theme: "light",
+  theme: "dark",
   toggleTheme: () => {},
 };
 
