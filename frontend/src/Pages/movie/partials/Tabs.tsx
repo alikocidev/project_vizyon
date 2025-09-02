@@ -24,7 +24,7 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
   return (
     <div className="relative flex items-center">
       <ul
-        className="relative max-sm:w-full flex max-sm:flex-col flex-wrap items-center p-2 list-none sm:rounded bg-primary dark:bg-dark-surface shadow"
+        className="relative max-sm:w-full flex max-sm:flex-col flex-wrap items-center p-2 list-none sm:rounded-full bg-light-surface sm:bg-primary dark:bg-dark-primary dark:sm:bg-dark-surface shadow"
         data-tabs="tabs"
         role="list"
       >
@@ -38,12 +38,12 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
                 "flex items-center sm:justify-center",
                 "px-2 py-1",
                 "transition-all ease-in-out",
-                "border-0 rounded",
+                "border-0 rounded-full",
                 "cursor-pointer",
                 "whitespace-nowrap",
                 {
-                  "bg-light-primary dark:bg-dark-secondary text-light-text dark:text-dark-text": activeTab == item.key,
-                  "text-white dark:text-white/80": activeTab != item.key,
+                  "bg-light-primary sm:bg-light-primary dark:bg-dark-surface dark:sm:bg-dark-secondary text-light-text dark:text-dark-text": activeTab == item.key,
+                  "text-light-text sm:text-white dark:text-dark-text dark:sm:text-white/80": activeTab != item.key,
                 }
               )}
               data-tab-target=""

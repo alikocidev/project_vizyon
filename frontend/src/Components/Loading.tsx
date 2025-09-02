@@ -4,7 +4,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function Loading({
     className = "",
-    w = 24,
+    w = 32,
     h = undefined,
 }: {
     className?: string;
@@ -12,7 +12,7 @@ export default function Loading({
     h?: number;
 }) {
     return (
-        <div role="status" className="flex items-center justify-center">
+        <div role="status" className="flex items-center justify-center mx-auto">
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
@@ -21,7 +21,7 @@ export default function Loading({
                     ease: "linear"
                 }}
                 className={classNames(
-                    "text-royal-950 dark:text-FF3D00",
+                    "text-light-text dark:text-dark-text",
                     className
                 )}
                 style={{ width: w, height: h || w }}

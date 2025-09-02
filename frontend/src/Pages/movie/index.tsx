@@ -8,7 +8,7 @@ import LazyLoadedImage from "@/components/LazyLoadedImage";
 import CircularProgressBar from "@/components/CircularProgressBar";
 import { getMovieGoat, getMoviePopular, getMovieTheaters, getMovieTrending, getMovieUpComings } from "@/services/movie";
 import { formatDateToTurkishMonthDay } from "@/utils/misc";
-import LoadingDot from "@/components/LoadingDot";
+import Loading from "@/components/Loading";
 
 const keyToName: Record<TabListProps, string> = {
   theaters: "Vizyondakiler",
@@ -43,6 +43,8 @@ const Movie = () => {
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [page, setPage] = useState<number>(1);
 
+  const [noLimit, setNoLimit] = useState<boolean>(false);
+
   const fetchMovies = async () => {
     setIsLoading(true);
     setMovies([]);
@@ -54,6 +56,7 @@ const Movie = () => {
         setTimeout(() => {
           setPage(1);
           setIsLoading(false);
+          setNoLimit(false);
         }, 250);
       });
   };
@@ -65,6 +68,9 @@ const Movie = () => {
       .then((newMovies) => {
         setMovies((prevMovies) => [...prevMovies, ...newMovies]);
         setPage(newPage);
+        if (newMovies.length === 0) {
+          setNoLimit(true);
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -78,41 +84,42 @@ const Movie = () => {
   return (
     <CoreLayout user={user} title="Movie">
       <div className="flex flex-col gap-4 xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
-        <div className="mt-4 sm:mt-10 mb-2 max-sm:ml-2">
+        <div className="mt-4 sm:mt-10 mb-4 max-sm:ml-2">
           <h1 className="text-5xl font-extrabold tracking-wide select-none text-light-text dark:text-dark-text">{keyToName[activeTab]}</h1>
         </div>
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {movies &&
             movies.length > 0 &&
             movies.map((movie, i) => (
               <div
                 key={i}
                 className={classNames(
-                  "w-full relative",
+                  "group",
+                  "relative w-full",
                   "cursor-pointer",
-                  "flex items-center justify-center",
                   "rounded-3xl overflow-hidden",
-                  "group shadow-2xl"
+                  "shadow-2xl",
+                  "h-[320px] sm:h-[340px] md:h-[360px] lg:h-[380px] xl:h-[400px] 2xl:h-[420px]"
                 )}
               >
                 <LazyLoadedImage
-                  skeletonClassName={"h-[300px] sm:h-[320px] md:h-[340px] lg:h-[360px]"}
-                  className="w-full h-full"
+                  skeletonClassName="w-full h-full"
+                  className="absolute inset-0 z-0"
                   src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}
-                  alt="movie-poster"
                   isExist={!!movie.poster_path}
+                  alt={movie.title}
                 />
                 <div
                   className={classNames(
-                    "absolute w-full h-full inset-0",
+                    "relative w-full h-full z-50",
                     "flex flex-col justify-between",
                     "bg-gradient-to-t from-black/90 via-black/50 to-transparent",
                     "opacity-0 group-hover:opacity-100",
                     "transition-opacity duration-300 ease-in-out"
                   )}
                 >
-                  <div className="w-full flex items-center justify-between p-">
+                  <div className="w-full flex items-center justify-between">
                     <div className="relative top-4 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                       <h1 className="whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75 rounded-r">
                         {formatDateToTurkishMonthDay(movie.release_date, true)}
@@ -132,24 +139,25 @@ const Movie = () => {
             ))}
         </div>
         <div className="w-full flex items-center mt-16">
-          {!isLoading ? (
-            <button
-              onClick={handlePageChange}
-              className={classNames(
-                "mx-auto p-2 px-8 rounded-3xl h-12",
-                "transition",
-                "border-2 border-primary dark:border-secondary",
-                "bg-transparent hover:bg-primary dark:hover:bg-secondary",
-                "text-primary dark:text-secondary hover:text-light-primary dark:hover:text-dark-text"
-              )}
-            >
-              <h1 className="font-medium">Daha fazla yükle...</h1>
-            </button>
-          ) : (
-            <div className="h-12 flex w-full items-center">
-              <LoadingDot />
-            </div>
-          )}
+          {!noLimit &&
+            (!isLoading ? (
+              <button
+                onClick={handlePageChange}
+                className={classNames(
+                  "mx-auto p-2 px-8 rounded-3xl h-12",
+                  "transition",
+                  "border-2 border-primary dark:border-secondary",
+                  "bg-transparent hover:bg-primary dark:hover:bg-secondary",
+                  "text-primary dark:text-secondary hover:text-light-primary dark:hover:text-dark-text"
+                )}
+              >
+                <h1 className="font-medium">Daha fazla yükle...</h1>
+              </button>
+            ) : (
+              <div className="h-12 flex w-full items-center">
+                <Loading />
+              </div>
+            ))}
         </div>
       </div>
     </CoreLayout>

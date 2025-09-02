@@ -49,7 +49,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ value }) => {
     const bgColor = percentage > 0 ? getBackgroundColor(percentage) : "#18181b";
 
     return (
-        <div className="relative flex items-center justify-center w-10 h-10">
+        <div className="relative flex items-center justify-center w-9 h-9">
             <svg
                 className="w-full h-full transform -rotate-90 rounded-full p-0.5"
                 style={{ backgroundColor: bgColor }}
