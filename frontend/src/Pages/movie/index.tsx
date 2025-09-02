@@ -9,6 +9,7 @@ import CircularProgressBar from "@/components/CircularProgressBar";
 import { getMovieGoat, getMoviePopular, getMovieTheaters, getMovieTrending, getMovieUpComings } from "@/services/movie";
 import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
 import Loading from "@/components/Loading";
+import { RiHeartsFill } from "react-icons/ri";
 
 const keyToName: Record<TabListProps, string> = {
   theaters: "Vizyondakiler",
@@ -121,15 +122,27 @@ const Movie = () => {
                 >
                   <div className="w-full flex items-center justify-between">
                     <div className="relative flex flex-col gap-1 top-4 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
-                      <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75">
+                      <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
                         {formatDateToTurkishMonthDay(movie.release_date, true)}
                       </h1>
-                      <h1 className="whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75">
+                      <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
                         {genreIdsToNamesForMovies(movie.genre_ids)}
                       </h1>
                     </div>
-                    <div className="relative top-1 right-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
+                    <div className="relative top-1 right-1 z-10 flex flex-col items-center gap-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                       <CircularProgressBar value={movie.vote_average} />
+                      <button
+                        className={classNames(
+                          "flex items-center justify-center",
+                          "rounded-full border-2 border-transparent dark:border-transparent",
+                          "p-1 w-8 h-8 transition duration-150",
+                          "bg-primary/50 text-white/80 dark:bg-dark-secondary/80 dark:text-dark-text/80",
+                          "hover:bg-white hover:text-primary",
+                          "dark:hover:text-secondary dark:hover:bg-white"
+                        )}
+                      >
+                        <RiHeartsFill className="w-full h-full" />
+                      </button>
                     </div>
                   </div>
 
