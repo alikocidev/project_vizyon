@@ -113,7 +113,7 @@ const Movie = () => {
                 />
                 <div
                   className={classNames(
-                    "relative w-full h-full z-50",
+                    "relative w-full h-full z-50 mt-1",
                     "flex flex-col justify-between",
                     "bg-gradient-to-t from-black/90 via-black/50 to-transparent",
                     "opacity-0 group-hover:opacity-100",
@@ -121,7 +121,7 @@ const Movie = () => {
                   )}
                 >
                   <div className="w-full flex items-center justify-between">
-                    <div className="relative flex flex-col gap-1 top-4 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
+                    <div className="relative flex flex-col gap-1 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                       <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
                         {formatDateToTurkishMonthDay(movie.release_date, true)}
                       </h1>
@@ -129,7 +129,7 @@ const Movie = () => {
                         {genreIdsToNamesForMovies(movie.genre_ids)}
                       </h1>
                     </div>
-                    <div className="relative top-1 right-1 z-10 flex flex-col items-center gap-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
+                    <div className="relative right-1 z-10 flex flex-col items-center gap-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                       <CircularProgressBar value={movie.vote_average} />
                       <button
                         className={classNames(
