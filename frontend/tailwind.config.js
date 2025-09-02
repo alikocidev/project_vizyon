@@ -24,11 +24,8 @@ export default {
           text: "#F7F2EB", // Light text on dark background
         },
 
-        // Primary brand colors (blue theme)
         primary: "#1e284d",
-
-        // Secondary accent colors (rose/red theme)
-        secondary: "#c76f6c",
+        secondary: "#f43f5e",
 
         // Neutral colors (gray theme)
         neutral: {
@@ -44,19 +41,15 @@ export default {
           900: "#343846",
           950: "#1e2029",
         },
-
-        // Accent color for highlights
-        accent: "#FF3D00",
       },
       backgroundImage: {
         "linear-light": "linear-gradient(to right, #12c2e9, #c471ed, #f64f59);",
         "linear-dark": "linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);",
-        "fade-light": "linear-gradient(to right, rgba(255, 255, 255, 0) 0, #F7F2EB 100%)",
         "fade-dark": "linear-gradient(to right, rgba(0, 0, 0, 0) 0, #0F0E0E 100%)",
         "fade-primary": "linear-gradient(to right, rgba(0, 0, 0, 0) 0, #1e284d 100%)",
+        "fade-secondary": "linear-gradient(to right, rgba(0, 0, 0, 0) 0, #f43f5e 100%)",
         "primary-gradient": "linear-gradient(to right, #5185e0, #3356c2)",
-        "secondary-gradient": "linear-gradient(to right, #c76f6c, #944341)",
-        "accent-gradient": "linear-gradient(to right, #5185e0, #c76f6c)",
+        "secondary-gradient": "linear-gradient(to right, #f43f5e, #944341)",
       },
       animation: {
         "fade-in": "fadeIn .5s ease-in-out",
