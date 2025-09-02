@@ -1,10 +1,13 @@
+import { TabListProps } from "@/types/movie.type";
 import classNames from "classnames";
+import { Dispatch } from "react";
 
 interface Props {
-  currentTab: string;
+  activeTab: TabListProps;
+  setActiveTab: Dispatch<React.SetStateAction<TabListProps>>;
 }
 
-export default function Tabs({ currentTab }: Props) {
+export default function Tabs({ activeTab, setActiveTab }: Props) {
   interface iItem {
     label: string;
     key: string;
@@ -21,32 +24,33 @@ export default function Tabs({ currentTab }: Props) {
   return (
     <div className="relative flex items-center">
       <ul
-        className="relative max-sm:w-full flex max-sm:flex-col flex-wrap items-center p-1 max-sm:py-3 list-none rounded bg-shark-200 dark:bg-0F0E0E"
+        className="relative max-sm:w-full flex max-sm:flex-col flex-wrap items-center p-2 list-none sm:rounded bg-primary dark:bg-dark-surface shadow"
         data-tabs="tabs"
         role="list"
       >
         {Items.map((item, i) => (
-          <li key={i} className="z-30 flex-auto text-center max-sm:w-full">
+          <li key={i} className="flex-auto text-center max-sm:w-full">
             <button
+              onClick={() => setActiveTab(item.key as TabListProps)}
               className={classNames(
                 "max-sm:w-full sm:w-min",
                 "z-30",
-                "flex items-center justify-center",
-                "px-2 py-1.5",
+                "flex items-center sm:justify-center",
+                "px-2 py-1",
                 "transition-all ease-in-out",
-                "border-0 rounded-lg",
+                "border-0 rounded",
                 "cursor-pointer",
                 "whitespace-nowrap",
                 {
-                  "bg-royal-950 dark:bg-white text-white dark:text-black": currentTab == item.key,
-                  "text-gray-600 dark:text-white/80": currentTab != item.key,
+                  "bg-light-primary dark:bg-dark-secondary text-light-text dark:text-dark-text": activeTab == item.key,
+                  "text-white dark:text-white/80": activeTab != item.key,
                 }
               )}
               data-tab-target=""
               role="tab"
               aria-selected="true"
             >
-              <span className="ml-1 font-medium text-sm">{item.label}</span>
+              <span className="font-medium text-sm">{item.label}</span>
             </button>
           </li>
         ))}

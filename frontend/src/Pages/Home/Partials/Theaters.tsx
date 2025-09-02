@@ -126,12 +126,12 @@ const Theaters = () => {
               {/* Top Info */}
               <div className="mt-1 flex-col gap-2 w-full flex px-1">
                 <div className="transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
-                  <h1 className="w-min whitespace-nowrap py-1 px-2 text-sm border-l-2 border-primary bg-primary/80 dark:border-secondary dark:bg-secondary/80 text-white font-bold rounded-r">
+                  <h1 className="w-min whitespace-nowrap py-1 px-2 text-sm border-l-2 border-primary bg-primary/80 dark:border-dark-surface dark:bg-dark-surface/75 text-white font-bold rounded-r">
                     {formatDateToTurkishMonthDay(movie.release_date)}
                   </h1>
                 </div>
                 <div className="transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-200">
-                  <h1 className="w-min whitespace-nowrap py-1 px-2 text-xs border-l-2 border-white/60 bg-white/20 backdrop-blur-sm text-white overflow-hidden max-w-[85%] text-ellipsis rounded-r">
+                  <h1 className="w-min whitespace-nowrap py-1 px-2 text-xs border-l-2 border-white/60 bg-white/20 dark:border-dark-surface dark:bg-dark-surface/75 backdrop-blur-sm text-white overflow-hidden max-w-[85%] text-ellipsis rounded-r">
                     {genreIdsToNamesForMovies(movie.genre_ids)}
                   </h1>
                 </div>

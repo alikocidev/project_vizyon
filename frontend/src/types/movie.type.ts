@@ -5,6 +5,8 @@ export interface Genre {
   name: string;
 }
 
+export type TabListProps = "theaters" | "upcomings" | "popular" | "trending" | "goat";
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -32,13 +34,7 @@ export interface ServiceMovieDiscoverResponse {
 export type GetMovieTheatersResponse = Movie[];
 export type GetMovieUpComingsResponse = Movie[];
 export type GetMoviePopularResponse = Movie[];
-
-export interface GetTrendingMovieResponse {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
-}
+export type GetTrendingMovieResponse = Movie[];
 
 export type GetMovieVideosResponse = {
   iso_639_1: string;

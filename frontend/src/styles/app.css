@@ -48,10 +48,9 @@ div#root > main {
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-  background: #f7f2eb;
+  background: #111216;
 }
 *::-webkit-scrollbar-thumb {
-  border-radius: 4px;
   background-color: white;
 }
 

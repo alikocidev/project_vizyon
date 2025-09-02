@@ -1,8 +1,14 @@
 import { useAuth } from "@/hooks/useAuth";
 import CoreLayout from "@/layouts/Core";
-import { useState } from "react";
-
-type TabListProps = "theaters" | "upcomings" | "popular" | "trending" | "goat";
+import { useEffect, useState } from "react";
+import Tabs from "./partials/Tabs";
+import { Movie as MovieProps, TabListProps } from "@/types/movie.type";
+import classNames from "classnames";
+import LazyLoadedImage from "@/components/LazyLoadedImage";
+import CircularProgressBar from "@/components/CircularProgressBar";
+import { getMovieGoat, getMoviePopular, getMovieTheaters, getMovieTrending, getMovieUpComings } from "@/services/movie";
+import { formatDateToTurkishMonthDay } from "@/utils/misc";
+import LoadingDot from "@/components/LoadingDot";
 
 const keyToName: Record<TabListProps, string> = {
   theaters: "Vizyondakiler",
@@ -12,18 +18,139 @@ const keyToName: Record<TabListProps, string> = {
   goat: "En İyiler",
 };
 
+const fetchFunc = (activeTab: TabListProps, page: number) => {
+  switch (activeTab) {
+    case "theaters":
+      return getMovieTheaters(page);
+    case "upcomings":
+      return getMovieUpComings(page);
+    case "popular":
+      return getMoviePopular(page);
+    case "trending":
+      return getMovieTrending(page, "week");
+    case "goat":
+      return getMovieGoat(page);
+    default:
+      return Promise.resolve([]);
+  }
+};
+
 const Movie = () => {
   const { user } = useAuth();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabListProps>("theaters");
+  const [movies, setMovies] = useState<MovieProps[]>([]);
+  const [page, setPage] = useState<number>(1);
+
+  const fetchMovies = async () => {
+    setIsLoading(true);
+    setMovies([]);
+    fetchFunc(activeTab, 1)
+      .then((newMovies) => {
+        setMovies(newMovies);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setPage(1);
+          setIsLoading(false);
+        }, 250);
+      });
+  };
+
+  const handlePageChange = () => {
+    const newPage = page + 1;
+    setIsLoading(true);
+    fetchFunc(activeTab, newPage)
+      .then((newMovies) => {
+        setMovies((prevMovies) => [...prevMovies, ...newMovies]);
+        setPage(newPage);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, [activeTab]);
 
   return (
     <CoreLayout user={user} title="Movie">
       <div className="flex flex-col gap-4 xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
-        <div className="my-4 sm:my-10">
+        <div className="mt-4 sm:mt-10 mb-2 max-sm:ml-2">
           <h1 className="text-5xl font-extrabold tracking-wide select-none text-light-text dark:text-dark-text">{keyToName[activeTab]}</h1>
         </div>
-        <></>
+        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4">
+          {movies &&
+            movies.length > 0 &&
+            movies.map((movie, i) => (
+              <div
+                key={i}
+                className={classNames(
+                  "w-full relative",
+                  "cursor-pointer",
+                  "flex items-center justify-center",
+                  "rounded-3xl overflow-hidden",
+                  "group shadow-2xl"
+                )}
+              >
+                <LazyLoadedImage
+                  skeletonClassName={"h-[300px] sm:h-[320px] md:h-[340px] lg:h-[360px]"}
+                  className="w-full h-full"
+                  src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}
+                  alt="movie-poster"
+                  isExist={!!movie.poster_path}
+                />
+                <div
+                  className={classNames(
+                    "absolute w-full h-full inset-0",
+                    "flex flex-col justify-between",
+                    "bg-gradient-to-t from-black/90 via-black/50 to-transparent",
+                    "opacity-0 group-hover:opacity-100",
+                    "transition-opacity duration-300 ease-in-out"
+                  )}
+                >
+                  <div className="w-full flex items-center justify-between p-">
+                    <div className="relative top-4 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
+                      <h1 className="whitespace-nowrap py-1 font-medium px-2 text-xs text-white border-l-2 border-primary bg-primary/50 dark:border-dark-surface dark:bg-dark-surface/75 rounded-r">
+                        {formatDateToTurkishMonthDay(movie.release_date, true)}
+                      </h1>
+                    </div>
+                    <div className="relative top-1 right-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
+                      <CircularProgressBar value={movie.vote_average} />
+                    </div>
+                  </div>
+
+                  <div className="mb-2 mx-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 delay-300">
+                    <h2 className="text-light-primary font-bold text-lg drop-shadow-lg line-clamp-2 mb-">{movie.title}</h2>
+                    <p className="text-light-surface text-xs line-clamp-3 leading-relaxed">{movie.overview}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+        <div className="w-full flex items-center mt-16">
+          {!isLoading ? (
+            <button
+              onClick={handlePageChange}
+              className={classNames(
+                "mx-auto p-2 px-8 rounded-3xl h-12",
+                "transition",
+                "border-2 border-primary dark:border-secondary",
+                "bg-transparent hover:bg-primary dark:hover:bg-secondary",
+                "text-primary dark:text-secondary hover:text-light-primary dark:hover:text-dark-text"
+              )}
+            >
+              <h1 className="font-medium">Daha fazla yükle...</h1>
+            </button>
+          ) : (
+            <div className="h-12 flex w-full items-center">
+              <LoadingDot />
+            </div>
+          )}
+        </div>
       </div>
     </CoreLayout>
   );
