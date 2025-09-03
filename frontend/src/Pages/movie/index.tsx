@@ -10,6 +10,7 @@ import { getMovieGoat, getMoviePopular, getMovieTheaters, getMovieTrending, getM
 import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
 import Loading from "@/components/Loading";
 import { RiHeartsFill } from "react-icons/ri";
+import { useDevice } from "@/hooks/useDevice";
 
 const keyToName: Record<TabListProps, string> = {
   theaters: "Vizyondakiler",
@@ -38,6 +39,7 @@ const fetchFunc = (activeTab: TabListProps, page: number) => {
 
 const Movie = () => {
   const { user } = useAuth();
+  const isMobile = useDevice();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabListProps>("popular");
@@ -54,11 +56,9 @@ const Movie = () => {
         setMovies(newMovies);
       })
       .finally(() => {
-        setTimeout(() => {
-          setPage(1);
-          setIsLoading(false);
-          setNoLimit(false);
-        }, 250);
+        setPage(1);
+        setIsLoading(false);
+        setNoLimit(false);
       });
   };
 
@@ -88,21 +88,22 @@ const Movie = () => {
         <div className="mt-4 sm:mt-10 mb-4 max-sm:ml-2">
           <h1 className="text-5xl font-extrabold tracking-wide select-none text-light-text dark:text-dark-text">{keyToName[activeTab]}</h1>
         </div>
-        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} isLoading={isLoading} />
+        <div
+          className={classNames({
+            "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2": !isMobile,
+            "flex flex-col gap-2 px-2": isMobile,
+          })}
+        >
           {movies &&
             movies.length > 0 &&
             movies.map((movie, i) => (
               <div
                 key={i}
-                className={classNames(
-                  "group",
-                  "relative w-full",
-                  "cursor-pointer",
-                  "rounded-3xl overflow-hidden",
-                  "shadow-2xl",
-                  "h-[320px] sm:h-[340px] md:h-[360px] lg:h-[380px] xl:h-[400px] 2xl:h-[420px]"
-                )}
+                className={classNames("group", "relative w-full", "cursor-pointer", "rounded-3xl overflow-hidden", "shadow-2xl", {
+                  "h-[320px] sm:h-[340px] md:h-[360px] lg:h-[380px] xl:h-[400px] 2xl:h-[420px]": !isMobile,
+                  "h-[640px]": isMobile,
+                })}
               >
                 <LazyLoadedImage
                   skeletonClassName="w-full h-full"

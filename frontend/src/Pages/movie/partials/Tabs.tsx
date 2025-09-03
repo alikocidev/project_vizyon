@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import { TabListProps } from "@/types/movie.type";
 import classNames from "classnames";
 import { Dispatch } from "react";
@@ -5,9 +6,10 @@ import { Dispatch } from "react";
 interface Props {
   activeTab: TabListProps;
   setActiveTab: Dispatch<React.SetStateAction<TabListProps>>;
+  isLoading: boolean;
 }
 
-export default function Tabs({ activeTab, setActiveTab }: Props) {
+export default function Tabs({ activeTab, setActiveTab, isLoading }: Props) {
   interface iItem {
     label: string;
     key: string;
@@ -22,7 +24,7 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
   ];
 
   return (
-    <div className="relative flex items-center overflow-auto scrollbar-hide">
+    <div className="relative flex items-center overflow-auto w-full scrollbar-hide">
       <ul
         className="relative flex items-center p-2 list-none bg-light-surface sm:bg-primary dark:bg-dark-primary dark:sm:bg-dark-surface shadow sm:rounded-full"
         data-tabs="tabs"
@@ -33,6 +35,7 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
             <button
               onClick={() => setActiveTab(item.key as TabListProps)}
               className={classNames(
+                "relative",
                 "max-sm:w-full sm:w-min",
                 "z-30",
                 "flex items-center sm:justify-center",
@@ -52,6 +55,11 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
               aria-selected="true"
             >
               <span className="font-medium text-sm">{item.label}</span>
+              {isLoading && activeTab == item.key && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Loading w={20} />
+                </div>
+              )}
             </button>
           </li>
         ))}
