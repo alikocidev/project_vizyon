@@ -54,7 +54,7 @@ export default function Header({ user, title, loading }: { user: User | null; ti
   const MobileMenuButton = () => (
     <button
       onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
-      className="inline-flex items-center justify-center rounded text-light-text dark:text-dark-text focus:outline-none hover:bg-neutral-200 dark:hover:bg-neutral-800 focus:text-light-text dark:focus:text-dark-text sm:transition"
+      className="inline-flex items-center justify-center rounded text-light-text dark:text-dark-text focus:outline-none hover:bg-neutral-200 dark:hover:bg-neutral-800 focus:text-light-text dark:focus:text-dark-text md:transition"
     >
       <HiMiniBars3BottomRight
         className={classNames("w-6 h-6", {
@@ -107,7 +107,7 @@ export default function Header({ user, title, loading }: { user: User | null; ti
               </div>
             </div>
 
-            <div className="hidden sm:flex sm:items-center sm:ml-6">
+            <div className="hidden md:flex md:items-center md:ml-6">
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-md text-neutral-500 hover:text-primary dark:hover:text-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition duration-150 ease-in-out"
@@ -146,7 +146,7 @@ export default function Header({ user, title, loading }: { user: User | null; ti
               )}
             </div>
 
-            <div className="-mr-2 flex items-center sm:hidden">
+            <div className="-mr-2 flex items-center md:hidden">
               <MobileMenuButton />
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function Header({ user, title, loading }: { user: User | null; ti
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="sm:hidden overflow-hidden"
+              className="md:hidden overflow-hidden"
             >
               <motion.div
                 initial={{ y: -20 }}

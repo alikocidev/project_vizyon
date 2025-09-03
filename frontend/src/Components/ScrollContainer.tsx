@@ -51,14 +51,14 @@ const ScrollContainer: React.FC<{
 
   const stopDragging = () => {
     setIsDragging(false);
-    
+
     // Eğer hareket edilmişse, click'i engellemek için biraz bekle
     if (hasMoved) {
       // Önceki timeout'u temizle
       if (resetTimeoutRef.current) {
         clearTimeout(resetTimeoutRef.current);
       }
-      
+
       // 100ms sonra hasMoved'i sıfırla
       resetTimeoutRef.current = setTimeout(() => {
         setHasMoved(false);
@@ -81,7 +81,7 @@ const ScrollContainer: React.FC<{
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", stopDragging);
       document.removeEventListener("mouseleave", stopDragging);
-      
+
       // Cleanup timeout
       if (resetTimeoutRef.current) {
         clearTimeout(resetTimeoutRef.current);

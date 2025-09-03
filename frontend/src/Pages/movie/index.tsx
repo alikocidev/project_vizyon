@@ -40,7 +40,7 @@ const Movie = () => {
   const { user } = useAuth();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<TabListProps>("theaters");
+  const [activeTab, setActiveTab] = useState<TabListProps>("popular");
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [page, setPage] = useState<number>(1);
 

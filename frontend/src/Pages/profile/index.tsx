@@ -156,8 +156,8 @@ const Profile = () => {
                   <div className="text-sm text-neutral-600 dark:text-neutral-400">Favoriler</div>
                 </div>
                 <div className="text-center p-4 bg-light-primary dark:bg-dark-secondary rounded-lg border border-light-surface dark:border-dark-surface">
-                  <div className="text-2xl font-bold text-accent dark:text-accent">0</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">İzleme Listesi</div>
+                  <div className="text-2xl font-bold text-light-text dark:text-dark-text">0</div>
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">Seyir Listesi</div>
                 </div>
               </div>
             </div>

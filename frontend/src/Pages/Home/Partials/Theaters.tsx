@@ -86,7 +86,7 @@ const Theaters = () => {
     }
   };
 
-  const MovieButton: React.FC<MovieButtonProps> = ({ movie, isLoading = false }) => {
+  const Movie: React.FC<MovieButtonProps> = ({ movie, isLoading = false }) => {
     if (isLoading) {
       return (
         <SkeletonTheme baseColor={theme == "dark" ? "#111216" : "white"} highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}>
@@ -156,15 +156,10 @@ const Theaters = () => {
 
     if (isLoading) {
       return (
-        <motion.div
-          className="w-full relative max-sm:px-2 min-h-[620px] md:min-h-[420px]"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <motion.div className="w-full relative" variants={containerVariants} initial="hidden" animate="visible">
           <div className="h-full grid grid-cols-2 md:grid-cols-4 overflow-hidden">
             {Array.from({ length: moviesPerPage }).map((_, skeletonIndex) => (
-              <MovieButton key={skeletonIndex} movie={{} as Movie} isLoading={true} />
+              <Movie key={skeletonIndex} movie={{} as Movie} isLoading={true} />
             ))}
           </div>
         </motion.div>
@@ -172,14 +167,14 @@ const Theaters = () => {
     }
 
     return (
-      <div className="w-full relative max-sm:px-2 min-h-[620px] md:min-h-[420px]">
+      <div className="relative">
         <button
           onClick={(e) => handlePageChange(e, false)}
           disabled={isLoading}
           className={classNames(
             "absolute left-0 top-0 z-50 h-full",
             "p-1.5 rounded-r transition",
-            "bg-primary/25 dark:bg-secondary/25",
+            "bg-primary/25 dark:bg-secondary/10",
             "text-white dark:text-white",
             "opacity-50 hover:opacity-100 disabled:opacity-0 disabled:cursor-not-allowed"
           )}
@@ -195,7 +190,7 @@ const Theaters = () => {
           className="h-full grid grid-cols-2 md:grid-cols-4 overflow-hidden"
         >
           {moviesToDisplay.map((movie, movieIndex) => (
-            <MovieButton key={`${movie.id}-${movieIndex}`} movie={movie} />
+            <Movie key={`${movie.id}-${movieIndex}`} movie={movie} />
           ))}
         </motion.div>
         <button
@@ -224,14 +219,14 @@ const Theaters = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="flex items-center justify-between">
-          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-2xl">Vizyondakiler</h1>
+          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">Vizyondakiler</h1>
         </div>
       </motion.div>
       {(theaters && theaters.length > 0) || isLoading ? (
         <MovieGrid movies={theaters} isLoading={isLoading} />
       ) : (
         <motion.div
-          className="w-full relative max-sm:px-2 min-h-[420px] flex items-center justify-center"
+          className="w-full relative min-h-[420px] flex items-center justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}

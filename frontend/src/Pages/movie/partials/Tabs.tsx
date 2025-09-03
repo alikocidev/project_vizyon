@@ -14,17 +14,17 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
   }
 
   const Items: iItem[] = [
-    { label: "Vizyondakiler", key: "theaters" },
-    { label: "Çok Yakında", key: "upcomings" },
     { label: "Popüler", key: "popular" },
     { label: "Son Trendler", key: "trending" },
+    { label: "Vizyondakiler", key: "theaters" },
+    { label: "Çok Yakında", key: "upcomings" },
     { label: "En İyiler", key: "goat" },
   ];
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center overflow-auto scrollbar-hide">
       <ul
-        className="relative max-sm:w-full flex max-sm:flex-col flex-wrap items-center p-2 list-none sm:rounded-full bg-light-surface sm:bg-primary dark:bg-dark-primary dark:sm:bg-dark-surface shadow"
+        className="relative flex items-center p-2 list-none bg-light-surface sm:bg-primary dark:bg-dark-primary dark:sm:bg-dark-surface shadow sm:rounded-full"
         data-tabs="tabs"
         role="list"
       >
@@ -42,7 +42,8 @@ export default function Tabs({ activeTab, setActiveTab }: Props) {
                 "cursor-pointer",
                 "whitespace-nowrap",
                 {
-                  "bg-light-primary sm:bg-light-primary dark:bg-dark-surface dark:sm:bg-dark-secondary text-light-text dark:text-dark-text": activeTab == item.key,
+                  "bg-light-primary sm:bg-light-primary dark:bg-dark-surface dark:sm:bg-dark-secondary text-light-text dark:text-dark-text":
+                    activeTab == item.key,
                   "text-light-text sm:text-white dark:text-dark-text dark:sm:text-white/80": activeTab != item.key,
                 }
               )}

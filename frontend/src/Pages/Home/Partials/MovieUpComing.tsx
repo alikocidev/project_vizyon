@@ -89,13 +89,13 @@ const MovieUpComing = () => {
     return (
       <div
         onClick={handleMainClick}
-        className={classNames("flex", "relative min-w-48 max-w-48 group hover:-translate-y-2 transition duration-500", "cursor-pointer")}
+        className={classNames("flex", "w-full", "relative group hover:-translate-y-2 transition duration-500", "min-w-52", "cursor-pointer")}
       >
         <LazyLoadedImage
           className="w-full h-full rounded-2xl overflow-hidden"
           src={`https://image.tmdb.org/t/p/w780/${movie.poster_path}`}
           alt={movie.title}
-          skeletonClassName="h-[264px]"
+          skeletonClassName="min-h-[264px]"
           isExist={!!movie.poster_path}
         />
         <div
@@ -130,12 +130,12 @@ const MovieUpComing = () => {
           <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">Yakın Zamandakiler</h1>
         </div>
         <div className="edge_fade_blur dark:after:bg-fade-dark">
-          <ScrollContainer className="flex gap-4 pt-2 pb-14">
+          <ScrollContainer className="flex gap-4 pt-2 pb-10">
             {isLoading ? (
               <SkeletonTheme baseColor={theme == "dark" ? "#111216" : "white"} highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}>
                 {Array.from({ length: 6 }).map((_, index) => (
                   <div key={index} className="flex-shrink-0">
-                    <Skeleton height={300} width={200} className="rounded-lg" />
+                    <Skeleton height={300} width={200} className="rounded-lg mr-4" />
                     <Skeleton height={20} width={180} className="mt-2" />
                     <Skeleton height={16} width={150} className="mt-1" />
                   </div>

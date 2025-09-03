@@ -5,7 +5,7 @@ export default function NotFound() {
     <div className="min-h-screen bg-light-primary dark:bg-dark-secondary flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
         <div className="mb-8">
-          <h1 className="text-9xl font-bold text-accent">404</h1>
+          <h1 className="text-9xl font-bold text-primary dark:text-secondary">404</h1>
           <h2 className="text-2xl font-semibold text-light-text dark:text-dark-text mt-4">Sayfa Bulunamadı</h2>
           <p className="text-neutral-500 dark:text-neutral-400 mt-2">Aradığınız sayfa mevcut değil veya taşınmış olabilir.</p>
         </div>
