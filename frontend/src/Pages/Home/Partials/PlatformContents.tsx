@@ -1,85 +1,60 @@
 import LazyLoadedImage from "@/components/LazyLoadedImage";
 import ScrollContainer from "@/components/ScrollContainer";
 import { getPlatformContent } from "@/services/platforms";
-import { Platform } from "@/types/platform.type";
+import { Platform, PlatformTypes } from "@/types/platform.type";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import apiClient from "@/services/api";
 
 const PlatformContents = () => {
-  const [platforms, setPlatforms] = useState<Platform[]>([
+  const initialPlatforms: Platform[] = [
     { name: "prime", label: "Amazon", shows: [], isLoad: false },
     { name: "netflix", label: "Netflix", shows: [], isLoad: false },
     { name: "disney", label: "Disney+", shows: [], isLoad: false },
     { name: "hbo", label: "HBO", shows: [], isLoad: false },
-  ]);
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform>(platforms[1]); // Netflix default
+  ];
+  const [platforms, setPlatforms] = useState<Platform[]>(initialPlatforms);
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform>(initialPlatforms[0]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchInitialPlatform = async () => {
-      try {
-        setIsLoading(true);
-        const response = await apiClient.get("/platform/netflix/popular");
-        const netflixPlatform: Platform = {
-          name: "netflix",
-          label: "Netflix",
-          shows: response.data?.shows || [],
-          isLoad: true,
-        };
-        setSelectedPlatform(netflixPlatform);
-        setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === "netflix" ? netflixPlatform : p)));
-      } catch (error) {
-        console.error("Error fetching Netflix platform:", error);
-        // Set empty Netflix platform on error
-        const emptyNetflix: Platform = {
-          name: "netflix",
-          label: "Netflix",
-          shows: [],
-          isLoad: true,
-        };
-        setSelectedPlatform(emptyNetflix);
-        setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === "netflix" ? emptyNetflix : p)));
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // Platform içeriğini fetch eden yardımcı fonksiyon
+  const fetchPlatformContent = async (platformName: PlatformTypes, label: string) => {
+    setIsLoading(true);
+    try {
+      const response = await getPlatformContent(platformName);
+      const updatedPlatform: Platform = {
+        name: platformName,
+        label,
+        shows: response.shows,
+        isLoad: true,
+      };
+      setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === platformName ? updatedPlatform : p)));
+      setSelectedPlatform(updatedPlatform);
+    } catch (error) {
+      console.error(`Error fetching ${label} platform:`, error);
+      const errorPlatform: Platform = {
+        name: platformName,
+        label,
+        shows: [],
+        isLoad: true,
+      };
+      setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === platformName ? errorPlatform : p)));
+      setSelectedPlatform(errorPlatform);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    fetchInitialPlatform();
+  useEffect(() => {
+    fetchPlatformContent(initialPlatforms[0].name, initialPlatforms[0].label);
   }, []);
 
-  const handleChangePlatform = async (platformName: string) => {
+  const handleChangePlatform = async (platformName: PlatformTypes) => {
     if (isLoading) return;
     const targetPlatform = platforms.find((p) => p.name === platformName);
-    if (targetPlatform) {
-      // Hemen platform değiştir (UI responsiveness için)
-      setSelectedPlatform(targetPlatform);
-
-      if (!targetPlatform.isLoad) {
-        setIsLoading(true);
-        try {
-          const response = await getPlatformContent(targetPlatform.name);
-          const updatedPlatform: Platform = {
-            ...targetPlatform,
-            shows: response.shows,
-            isLoad: true,
-          };
-          setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === platformName ? updatedPlatform : p)));
-          setSelectedPlatform(updatedPlatform);
-        } catch (error) {
-          console.error("Platform content loading error:", error);
-          // Hata durumunda boş shows array ile platform'u güncelle
-          const errorPlatform: Platform = {
-            ...targetPlatform,
-            shows: [],
-            isLoad: true,
-          };
-          setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === platformName ? errorPlatform : p)));
-          setSelectedPlatform(errorPlatform);
-        } finally {
-          setIsLoading(false);
-        }
-      }
+    if (!targetPlatform) return;
+    setSelectedPlatform(targetPlatform); // UI hızlı tepki versin
+    if (!targetPlatform.isLoad) {
+      await fetchPlatformContent(targetPlatform.name, targetPlatform.label);
     }
   };
 
@@ -115,7 +90,7 @@ const PlatformContents = () => {
             <div className="lg:mr-14">
               <h1 className="text-xl font-semibold tracking-wide text-white">Son Zamanlarda {selectedPlatform.label}</h1>
             </div>
-            <div className="w-min overflow-auto scrollbar-hide flex items-center border rounded-3xl border-primary dark:border-dark-surface">
+            <div className="w-min overflow-auto scrollbar-hide flex items-center border rounded-3xl border-primary/50 dark:border-secondary/50">
               {platforms.map((platformItem, index) => (
                 <div
                   key={index}
@@ -153,7 +128,7 @@ const PlatformContents = () => {
                       </div>
                       <div className="mt-2 text-light-primary dark:text-dark-text text-center">
                         <h1 className="text-lg font-semibold text-ellipsis overflow-hidden">{content.title}</h1>
-                        <h1 className="font-medium text-xs text-light-text/50 dark:text-dark-text/50 text-ellipsis overflow-hidden">
+                        <h1 className="font-medium text-xs text-white/50 dark:text-dark-text/50 text-ellipsis overflow-hidden">
                           {content.originalTitle}
                         </h1>
                       </div>
