@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import classNames from "classnames";
 import { Movie } from "@/types/movie.type";
-import { formatDateToTurkishMonthDay, genreIdsToNamesForMovies } from "@/utils/misc";
+import {
+  formatDateToTurkishMonthDay,
+  genreIdsToNamesForMovies,
+} from "@/utils/misc";
 import LazyLoadedImage from "@/components/LazyLoadedImage";
 import { useNavigate } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -9,7 +12,9 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import React from "react";
 import apiClient from "@/services/api";
 import useTheme from "@/hooks/useTheme";
-import ScrollContainer, { useScrollContext } from "@/components/ScrollContainer";
+import ScrollContainer, {
+  useScrollContext,
+} from "@/components/ScrollContainer";
 
 const Theaters = () => {
   const [theaters, setTheaters] = useState<Movie[]>([]);
@@ -23,11 +28,10 @@ const Theaters = () => {
         setIsLoading(true);
         const response = await apiClient.get("/movie/theaters");
         setTheaters(response.data || []);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching theaters:", error);
         setTheaters([]);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -53,7 +57,10 @@ const Theaters = () => {
     };
 
     return (
-      <div onClick={handleMainClick} className={classNames("relative group w-full min-w-72 cursor-pointer")}>
+      <div
+        onClick={handleMainClick}
+        className={classNames("relative group w-full min-w-72 cursor-pointer")}
+      >
         <div className="flex w-full h-full relative rounded-3xl overflow-hidden">
           <LazyLoadedImage
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
@@ -89,8 +96,12 @@ const Theaters = () => {
 
             {/* Bottom Info */}
             <div className="mb-1 mx-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 delay-300">
-              <h2 className="text-light-primary font-bold text-lg drop-shadow-lg line-clamp-2 mb-">{movie.title}</h2>
-              <p className="text-light-surface text-xs line-clamp-3 leading-relaxed">{movie.overview}</p>
+              <h2 className="text-light-primary font-bold text-lg drop-shadow-lg line-clamp-2 mb-">
+                {movie.title}
+              </h2>
+              <p className="text-light-surface text-xs line-clamp-3 leading-relaxed">
+                {movie.overview}
+              </p>
             </div>
           </div>
         </div>
@@ -102,15 +113,24 @@ const Theaters = () => {
     <>
       <div className="w-full relative max-sm:px-2 sm:my-10">
         <div className="px-2 sm:px-0 mt-4 sm:mt-6 mb-2 sm:mb-4">
-          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">Vizyondakiler</h1>
+          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">
+            Vizyondakiler
+          </h1>
         </div>
         <div className="edge_fade_blur dark:after:bg-fade-dark">
           <ScrollContainer className="flex gap-4 pt-2 pb-10">
             {isLoading ? (
-              <SkeletonTheme baseColor={theme == "dark" ? "#111216" : "white"} highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}>
+              <SkeletonTheme
+                baseColor={theme == "dark" ? "#111216" : "white"}
+                highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}
+              >
                 {Array.from({ length: 6 }).map((_, index) => (
                   <div key={index} className="flex-shrink-0">
-                    <Skeleton height={300} width={200} className="rounded-lg mr-4" />
+                    <Skeleton
+                      height={300}
+                      width={200}
+                      className="rounded-lg mr-4"
+                    />
                     <Skeleton height={20} width={180} className="mt-2" />
                     <Skeleton height={16} width={150} className="mt-1" />
                   </div>
@@ -119,7 +139,9 @@ const Theaters = () => {
             ) : (
               theaters &&
               theaters.length > 0 &&
-              theaters.filter((movie) => movie.poster_path).map((movie, index) => <GridMember key={index} movie={movie} />)
+              theaters
+                .filter((movie) => movie.poster_path)
+                .map((movie, index) => <GridMember key={index} movie={movie} />)
             )}
           </ScrollContainer>
         </div>

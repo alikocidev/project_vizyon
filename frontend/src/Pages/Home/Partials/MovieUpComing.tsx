@@ -1,6 +1,8 @@
 import LazyLoadedImage from "@/components/LazyLoadedImage";
 import Modal from "@/components/Modal";
-import ScrollContainer, { useScrollContext } from "@/components/ScrollContainer";
+import ScrollContainer, {
+  useScrollContext,
+} from "@/components/ScrollContainer";
 import { getMovieVideos } from "@/services/movie";
 import { Movie } from "@/types/movie.type";
 import classNames from "classnames";
@@ -16,7 +18,9 @@ const MovieUpComing = () => {
   const { theme } = useTheme();
   const [upComings, setUpComings] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(undefined);
+  const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(
+    undefined
+  );
   const [fetchVideos, setFetchVideos] = useState<number | null>(null);
   const navigate = useNavigate();
 
@@ -26,11 +30,9 @@ const MovieUpComing = () => {
         setIsLoading(true);
         const response = await apiClient.get("/movie/upcomings");
         setUpComings(response.data || []);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching upcoming movies:", error);
-        setUpComings([]);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -41,7 +43,9 @@ const MovieUpComing = () => {
     setFetchVideos(id);
     getMovieVideos(id).then((videos) => {
       if (videos.length > 0) {
-        const filteredData = videos.filter((item: any) => item.type === "Trailer" && item.site === "YouTube");
+        const filteredData = videos.filter(
+          (item: any) => item.type === "Trailer" && item.site === "YouTube"
+        );
         if (filteredData.length > 0) {
           setSelectedTrailer(filteredData[0].key);
         }
@@ -89,7 +93,13 @@ const MovieUpComing = () => {
     return (
       <div
         onClick={handleMainClick}
-        className={classNames("flex", "w-full", "relative group hover:-translate-y-2 transition duration-500", "min-w-52", "cursor-pointer")}
+        className={classNames(
+          "flex",
+          "w-full",
+          "relative group hover:-translate-y-2 transition duration-500",
+          "min-w-52",
+          "cursor-pointer"
+        )}
       >
         <LazyLoadedImage
           className="w-full h-full rounded-2xl overflow-hidden"
@@ -110,13 +120,22 @@ const MovieUpComing = () => {
           )}
         >
           <div
-            className={classNames("w-[4.5rem] h-[4.5rem] sm:w-[5.5rem] sm:h-[5.5rem] absolute rounded-full", {
-              "border-4 border-primary dark:border-secondary border-dashed animate-[spin_10s_linear_infinite]": movie.id === fetchVideos,
-              "bg-linear-light dark:bg-linear-dark group-hover:animate-[spin_2s_linear_infinite]": movie.id !== fetchVideos,
-            })}
+            className={classNames(
+              "w-[4.5rem] h-[4.5rem] sm:w-[5.5rem] sm:h-[5.5rem] absolute rounded-full",
+              {
+                "border-4 border-primary dark:border-secondary border-dashed animate-[spin_10s_linear_infinite]":
+                  movie.id === fetchVideos,
+                "bg-linear-light dark:bg-linear-dark group-hover:animate-[spin_2s_linear_infinite]":
+                  movie.id !== fetchVideos,
+              }
+            )}
           ></div>
           <div className="rounded-full w-16 sm:w-20 h-16 sm:h-20 overflow-hidden border border-transparent z-10">
-            <img className="w-full h-full object-cover" src={`https://image.tmdb.org/t/p/w200/${image}`} alt="movie-poster" />
+            <img
+              className="w-full h-full object-cover"
+              src={`https://image.tmdb.org/t/p/w200/${image}`}
+              alt="movie-poster"
+            />
           </div>
         </div>
       </div>
@@ -127,15 +146,24 @@ const MovieUpComing = () => {
     <>
       <div className="w-full relative max-sm:px-2 sm:my-10">
         <div className="px-2 sm:px-0 mt-4 sm:mt-6 mb-2 sm:mb-4">
-          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">Yakın Zamandakiler</h1>
+          <h1 className="text-light-text dark:text-dark-text drop-shadow-sm font-extrabold text-2xl sm:text-3xl">
+            Yakın Zamandakiler
+          </h1>
         </div>
         <div className="edge_fade_blur dark:after:bg-fade-dark">
           <ScrollContainer className="flex gap-4 pt-2 pb-10">
             {isLoading ? (
-              <SkeletonTheme baseColor={theme == "dark" ? "#111216" : "white"} highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}>
+              <SkeletonTheme
+                baseColor={theme == "dark" ? "#111216" : "white"}
+                highlightColor={theme == "dark" ? "#27272a" : "#dbdbdb"}
+              >
                 {Array.from({ length: 6 }).map((_, index) => (
                   <div key={index} className="flex-shrink-0">
-                    <Skeleton height={300} width={200} className="rounded-lg mr-4" />
+                    <Skeleton
+                      height={300}
+                      width={200}
+                      className="rounded-lg mr-4"
+                    />
                     <Skeleton height={20} width={180} className="mt-2" />
                     <Skeleton height={16} width={150} className="mt-1" />
                   </div>
@@ -144,14 +172,26 @@ const MovieUpComing = () => {
             ) : (
               upComings &&
               upComings.length > 0 &&
-              upComings.filter((movie) => movie.poster_path).map((movie, index) => <GridMember key={index} movie={movie} />)
+              upComings
+                .filter((movie) => movie.poster_path)
+                .map((movie, index) => <GridMember key={index} movie={movie} />)
             )}
           </ScrollContainer>
         </div>
       </div>
       <>
-        <Modal show={!!selectedTrailer} onClose={() => setSelectedTrailer(undefined)} closeable className="max-w-4xl">
-          <ReactPlayer width="100%" height="480px" url={`https://www.youtube.com/watch?v=${selectedTrailer}`} controls />
+        <Modal
+          show={!!selectedTrailer}
+          onClose={() => setSelectedTrailer(undefined)}
+          closeable
+          className="max-w-4xl"
+        >
+          <ReactPlayer
+            width="100%"
+            height="480px"
+            url={`https://www.youtube.com/watch?v=${selectedTrailer}`}
+            controls
+          />
         </Modal>
       </>
     </>

@@ -29,6 +29,7 @@ const PlatformContents = () => {
       };
       setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === platformName ? updatedPlatform : p)));
       setSelectedPlatform(updatedPlatform);
+      setIsLoading(false);
     } catch (error) {
       console.error(`Error fetching ${label} platform:`, error);
       const errorPlatform: Platform = {
@@ -39,8 +40,6 @@ const PlatformContents = () => {
       };
       setPlatforms((prevPlatforms) => prevPlatforms.map((p) => (p.name === platformName ? errorPlatform : p)));
       setSelectedPlatform(errorPlatform);
-    } finally {
-      setIsLoading(false);
     }
   };
 
