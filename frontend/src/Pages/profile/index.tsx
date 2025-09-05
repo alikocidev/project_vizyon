@@ -1,16 +1,25 @@
 import { useAuth } from "@/hooks/useAuth";
 import CoreLayout from "@/layouts/Core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TiTick } from "react-icons/ti";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useFavoriteCounts } from "@/hooks/useFavorite";
 
 const Profile = () => {
   const { user, loading, updateUser, sendVerificationEmail } = useAuth();
+  const { counts, fetchCounts, isLoading } = useFavoriteCounts();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ name: user?.name || "" });
   const [verificationSent, setVerificationSent] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Fetch favorite counts when component mounts
+  useEffect(() => {
+    if (user) {
+      fetchCounts();
+    }
+  }, [user, fetchCounts]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,7 +58,9 @@ const Profile = () => {
             {/* Profile Header */}
             <div className="bg-light-primary dark:bg-dark-primary shadow-xl rounded-2xl p-6 border border-light-surface dark:border-dark-surface">
               <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-light-text dark:text-dark-text">Profil Bilgileri</h1>
+                <h1 className="text-2xl font-bold text-light-text dark:text-dark-text">
+                  Profil Bilgileri
+                </h1>
                 {!isEditing && (
                   <button
                     onClick={() => setIsEditing(true)}
@@ -62,7 +73,9 @@ const Profile = () => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">Ad Soyad</label>
+                  <label className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
+                    Ad Soyad
+                  </label>
                   {isEditing ? (
                     <input
                       type="text"
@@ -73,12 +86,16 @@ const Profile = () => {
                       placeholder="Ad ve soyadınızı giriniz"
                     />
                   ) : (
-                    <p className="text-light-text dark:text-dark-text px-2">{user?.name}</p>
+                    <p className="text-light-text dark:text-dark-text px-2">
+                      {user?.name}
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">E-posta</label>
+                  <label className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
+                    E-posta
+                  </label>
                   {isEditing ? (
                     <div className="relative">
                       <input
@@ -90,7 +107,12 @@ const Profile = () => {
                         disabled
                       />
                       <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 flex items-center">
-                        <svg className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg
+                          className="h-3 w-3 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -103,11 +125,23 @@ const Profile = () => {
                     </div>
                   ) : (
                     <div className="relative flex items-center justify-between">
-                      <p className="text-light-text dark:text-dark-text px-2">{user?.email}</p>
+                      <p className="text-light-text dark:text-dark-text px-2">
+                        {user?.email}
+                      </p>
                       {user?.email_verified_at ? (
                         <span className="text-xs text-green-600 dark:text-green-400 font-medium flex items-center">
-                          <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          <svg
+                            className="h-4 w-4 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
                           </svg>
                           Doğrulandı
                         </span>
@@ -117,12 +151,20 @@ const Profile = () => {
                           onClick={handleSendVerificationEmail}
                           disabled={verificationSent}
                         >
-                          {verificationSent && <TiTick className="text-green-500" />}
-                          {isWaiting && <AiOutlineLoading3Quarters className="animate-spin text-primary dark:text-secondary mx-1" />}
+                          {verificationSent && (
+                            <TiTick className="text-green-500" />
+                          )}
+                          {isWaiting && (
+                            <AiOutlineLoading3Quarters className="animate-spin text-primary dark:text-secondary mx-1" />
+                          )}
                           {!verificationSent ? (
-                            <h1 className="text-xs text-primary dark:text-secondary underline">Doğrulama E-postası Gönder</h1>
+                            <h1 className="text-xs text-primary dark:text-secondary underline">
+                              Doğrulama E-postası Gönder
+                            </h1>
                           ) : (
-                            <h1 className="text-xs text-green-700 dark:text-green-500 underline">{message}</h1>
+                            <h1 className="text-xs text-green-700 dark:text-green-500 underline">
+                              {message}
+                            </h1>
                           )}
                         </button>
                       )}
@@ -132,10 +174,16 @@ const Profile = () => {
 
                 {isEditing && (
                   <div className="flex gap-3 pt-4">
-                    <button onClick={handleSave} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <button
+                      onClick={handleSave}
+                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-lg"
+                    >
                       Kaydet
                     </button>
-                    <button onClick={handleCancel} className="bg-neutral-600 hover:bg-neutral-700 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <button
+                      onClick={handleCancel}
+                      className="bg-neutral-600 hover:bg-neutral-700 text-white px-4 py-2 rounded-lg shadow-lg"
+                    >
                       İptal
                     </button>
                   </div>
@@ -145,40 +193,68 @@ const Profile = () => {
 
             {/* User Statistics */}
             <div className="bg-light-primary dark:bg-dark-primary shadow-xl rounded-2xl p-6 border border-light-surface dark:border-dark-surface">
-              <h2 className="text-xl font-semibold text-light-text dark:text-dark-text mb-4">İstatistikler</h2>
+              <h2 className="text-xl font-semibold text-light-text dark:text-dark-text mb-4">
+                İstatistikler
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-light-primary dark:bg-dark-secondary rounded-lg border border-light-surface dark:border-dark-surface">
-                  <div className="text-2xl font-bold text-primary dark:text-secondary">0</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">İzlenen Filmler</div>
+                  <div className="text-2xl font-bold text-primary dark:text-secondary">
+                    0
+                  </div>
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                    İzlenen Filmler
+                  </div>
                 </div>
                 <div className="text-center p-4 bg-light-primary dark:bg-dark-secondary rounded-lg border border-light-surface dark:border-dark-surface">
-                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">0</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">Favoriler</div>
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                    {isLoading ? (
+                      <AiOutlineLoading3Quarters className="animate-spin inline-block" />
+                    ) : (
+                      counts.total
+                    )}
+                  </div>
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Favoriler
+                  </div>
                 </div>
                 <div className="text-center p-4 bg-light-primary dark:bg-dark-secondary rounded-lg border border-light-surface dark:border-dark-surface">
-                  <div className="text-2xl font-bold text-light-text dark:text-dark-text">0</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">Seyir Listesi</div>
+                  <div className="text-2xl font-bold text-light-text dark:text-dark-text">
+                    0
+                  </div>
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Seyir Listesi
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Account Settings */}
             <div className="bg-light-primary dark:bg-dark-primary shadow-xl rounded-2xl p-6 border border-light-surface dark:border-dark-surface">
-              <h2 className="text-xl font-semibold text-light-text dark:text-dark-text mb-4">Hesap Ayarları</h2>
+              <h2 className="text-xl font-semibold text-light-text dark:text-dark-text mb-4">
+                Hesap Ayarları
+              </h2>
               <div className="flex gap-3">
                 <button
                   disabled
                   className="disabled:opacity-50 w-full text-left px-4 py-3 bg-light-primary dark:bg-dark-secondary rounded-lg border border-light-surface dark:border-dark-surface"
                 >
-                  <div className="font-medium text-light-text dark:text-dark-text">Şifre Değiştir</div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">Hesap şifrenizi güncelleyin</div>
+                  <div className="font-medium text-light-text dark:text-dark-text">
+                    Şifre Değiştir
+                  </div>
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Hesap şifrenizi güncelleyin
+                  </div>
                 </button>
                 <button
                   disabled
                   className="disabled:opacity-50 w-full text-left px-4 py-3 bg-red-200 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800/50"
                 >
-                  <div className="font-medium text-red-600 dark:text-red-400">Hesabı Sil</div>
-                  <div className="text-sm text-red-500 dark:text-red-400">Hesabınızı kalıcı olarak silin</div>
+                  <div className="font-medium text-red-600 dark:text-red-400">
+                    Hesabı Sil
+                  </div>
+                  <div className="text-sm text-red-500 dark:text-red-400">
+                    Hesabınızı kalıcı olarak silin
+                  </div>
                 </button>
               </div>
             </div>

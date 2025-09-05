@@ -8,7 +8,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { FaUserGear } from "react-icons/fa6";
 import { IoMdHome, IoIosLogOut } from "react-icons/io";
 import { MdMessage } from "react-icons/md";
-import { RiCompassDiscoverLine } from "react-icons/ri";
+import { RiCompassDiscoverLine, RiHeartsFill } from "react-icons/ri";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { User } from "@/types";
 import useTheme from "@/hooks/useTheme";
@@ -20,6 +20,7 @@ type ItemType = {
   icon: React.ElementType;
   label: string;
   isMobile?: boolean;
+  requireAuth?: boolean;
 };
 
 const HeaderItems: ItemType[] = [
@@ -44,11 +45,26 @@ const HeaderItems: ItemType[] = [
     icon: MdMessage,
     label: "Tartışma",
   },
+  {
+    href: "/favorites",
+    icon: RiHeartsFill,
+    label: "Favoriler",
+    requireAuth: true,
+  },
 ];
 
-export default function Header({ user, title, loading }: { user: User | null; title: string; loading?: boolean }) {
+export default function Header({
+  user,
+  title,
+  loading,
+}: {
+  user: User | null;
+  title: string;
+  loading?: boolean;
+}) {
   const { theme, toggleTheme } = useTheme();
-  const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+  const [showingNavigationDropdown, setShowingNavigationDropdown] =
+    useState(false);
   const { logout } = useAuth();
 
   const MobileMenuButton = () => (
@@ -79,19 +95,27 @@ export default function Header({ user, title, loading }: { user: User | null; ti
   return (
     <header className="fixed top-0 w-full z-[999]">
       <title>{title}</title>
-      <nav className={classNames("bg-light-primary dark:bg-dark-primary shadow-2xl")}>
+      <nav
+        className={classNames(
+          "bg-light-primary dark:bg-dark-primary shadow-2xl"
+        )}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="shrink-0 flex items-center">
                 <Link to="/" className="flex items-center gap-2">
                   <ApplicationLogo className="block h-9 w-auto fill-current text-primary dark:text-secondary" />
-                  <span className="font-bold text-xl text-primary dark:text-dark-text">{import.meta.env.VITE_APP_NAME}</span>
+                  <span className="font-bold text-xl text-primary dark:text-dark-text">
+                    {import.meta.env.VITE_APP_NAME}
+                  </span>
                 </Link>
               </div>
 
               <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                {HeaderItems.filter((item) => !item.isMobile).map((item) => {
+                {HeaderItems.filter(
+                  (item) => !item.isMobile && (!item.requireAuth || user)
+                ).map((item) => {
                   const IconComponent = item.icon;
                   return (
                     <Link
@@ -112,7 +136,11 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                 onClick={toggleTheme}
                 className="p-2 rounded-md text-neutral-500 hover:text-primary dark:hover:text-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition duration-150 ease-in-out"
               >
-                {theme === "dark" ? <MdLightMode className="h-5 w-5" /> : <MdDarkMode className="h-5 w-5" />}
+                {theme === "dark" ? (
+                  <MdLightMode className="h-5 w-5" />
+                ) : (
+                  <MdDarkMode className="h-5 w-5" />
+                )}
               </button>
 
               {loading ? (
@@ -121,8 +149,13 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                 </div>
               ) : user ? (
                 <div className="ml-3 relative flex items-center gap-2">
-                  <Link to="/profile" className="text-light-text dark:text-dark-text hover:text-primary dark:hover:text-secondary">
-                    <span className="text-sm underline">Hoş geldin' {user.name}!</span>
+                  <Link
+                    to="/profile"
+                    className="text-light-text dark:text-dark-text hover:text-primary dark:hover:text-secondary"
+                  >
+                    <span className="text-sm underline">
+                      Hoş geldin' {user.name}!
+                    </span>
                   </Link>
                   <button
                     onClick={handleLogout}
@@ -133,7 +166,10 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                 </div>
               ) : (
                 <div className="ml-3 flex items-center justify-center gap-4">
-                  <Link to="/login" className="text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-dark-text font-medium">
+                  <Link
+                    to="/login"
+                    className="text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-dark-text font-medium"
+                  >
                     Giriş
                   </Link>
                   <Link
@@ -168,31 +204,33 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="pt-2 pb-3 space-y-1"
               >
-                {HeaderItems.map((item, index) => {
-                  const IconComponent = item.icon;
-                  return (
-                    <motion.div
-                      key={item.href}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{
-                        duration: 0.3,
-                        delay: index * 0.1,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      <Link
-                        to={item.href}
-                        className="flex items-center gap-3 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface hover:border-primary dark:hover:border-secondary focus:outline-none focus:text-light-text dark:focus:text-dark-text focus:bg-light-surface dark:focus:bg-dark-surface focus:border-primary dark:focus:border-secondary transition duration-150 ease-in-out"
-                        onClick={() => setShowingNavigationDropdown(false)}
+                {HeaderItems.filter((item) => !item.requireAuth || user).map(
+                  (item, index) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <motion.div
+                        key={item.href}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.1,
+                          ease: "easeInOut",
+                        }}
                       >
-                        <IconComponent className="h-5 w-5" />
-                        {item.label}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+                        <Link
+                          to={item.href}
+                          className="flex items-center gap-3 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface hover:border-primary dark:hover:border-secondary focus:outline-none focus:text-light-text dark:focus:text-dark-text focus:bg-light-surface dark:focus:bg-dark-surface focus:border-primary dark:focus:border-secondary transition duration-150 ease-in-out"
+                          onClick={() => setShowingNavigationDropdown(false)}
+                        >
+                          <IconComponent className="h-5 w-5" />
+                          {item.label}
+                        </Link>
+                      </motion.div>
+                    );
+                  }
+                )}
 
                 {/* Mobil için tema toggle butonu */}
                 <motion.div
@@ -210,7 +248,11 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                     onClick={toggleTheme}
                     className="flex items-center gap-3 pl-3 pr-4 py-2 w-full text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface transition duration-150 ease-in-out"
                   >
-                    {theme === "dark" ? <MdLightMode className="h-5 w-5" /> : <MdDarkMode className="h-5 w-5" />}
+                    {theme === "dark" ? (
+                      <MdLightMode className="h-5 w-5" />
+                    ) : (
+                      <MdDarkMode className="h-5 w-5" />
+                    )}
                     {theme === "dark" ? "Açık Tema" : "Koyu Tema"}
                   </button>
                 </motion.div>
@@ -233,7 +275,9 @@ export default function Header({ user, title, loading }: { user: User | null; ti
                     </div>
                   ) : user ? (
                     <div className="pl-3 pr-2 flex items-center justify-between gap-2">
-                      <span className="text-sm font-medium text-light-text dark:text-dark-text">Hoş geldin, {user.name}!</span>
+                      <span className="text-sm font-medium text-light-text dark:text-dark-text">
+                        Hoş geldin, {user.name}!
+                      </span>
                       <div className="flex items-center gap-2">
                         <Link
                           to="/profile"

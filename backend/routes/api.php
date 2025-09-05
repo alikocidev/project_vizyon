@@ -71,6 +71,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/', [\App\Http\Controllers\ProfileController::class, 'destroy']);
     });
 
+    // Favorites Routes
+    Route::prefix('favorites')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Api\FavoriteController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\FavoriteController::class, 'store']);
+        Route::delete('/', [\App\Http\Controllers\Api\FavoriteController::class, 'destroy']);
+        Route::post('/check', [\App\Http\Controllers\Api\FavoriteController::class, 'check']);
+        Route::get('/count', [\App\Http\Controllers\Api\FavoriteController::class, 'count']);
+    });
+
     Route::prefix('email')->group(function () {
         Route::post('/verification-notification', [EmailController::class, 'sendVerificationEmail']);
     });

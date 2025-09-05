@@ -18,8 +18,10 @@ import {
   genreIdsToNamesForMovies,
 } from "@/utils/misc";
 import Loading from "@/components/Loading";
-import { RiHeartsFill } from "react-icons/ri";
+import { RiHeartsFill, RiHeart3Line } from "react-icons/ri";
 import { useDevice } from "@/hooks/useDevice";
+import { useFavorite } from "@/hooks/useFavorite";
+import toast from "react-hot-toast";
 
 const TABS: Record<TabListProps, string> = {
   popular: "Popüler",
@@ -49,20 +51,47 @@ const fetchFunc = (activeTab: TabListProps, page: number) => {
 const Movie = () => {
   const { user } = useAuth();
   const { isMobile } = useDevice();
+  const { toggleFavorite, checkFavorite } = useFavorite();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabListProps>("popular");
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
+    {}
+  );
 
   const [noLimit, setNoLimit] = useState<boolean>(false);
 
   const fetchMovies = async () => {
     setIsLoading(true);
     setMovies([]);
+    setFavoriteStates({});
     fetchFunc(activeTab, 1)
-      .then((newMovies) => {
+      .then(async (newMovies) => {
         setMovies(newMovies);
+
+        // Check favorite status for each movie if user is authenticated
+        if (user && newMovies.length > 0) {
+          const favoritePromises = newMovies.map(async (movie) => {
+            const isFavorite = await checkFavorite({
+              media_type: "movie",
+              media_id: movie.id,
+            });
+            return { id: movie.id, isFavorite };
+          });
+
+          const favoriteResults = await Promise.all(favoritePromises);
+          const newFavoriteStates = favoriteResults.reduce(
+            (acc, { id, isFavorite }) => {
+              acc[id] = isFavorite;
+              return acc;
+            },
+            {} as Record<number, boolean>
+          );
+
+          setFavoriteStates(newFavoriteStates);
+        }
       })
       .finally(() => {
         setPage(1);
@@ -75,11 +104,33 @@ const Movie = () => {
     const newPage = page + 1;
     setIsLoading(true);
     fetchFunc(activeTab, newPage)
-      .then((newMovies) => {
+      .then(async (newMovies) => {
         setMovies((prevMovies) => [...prevMovies, ...newMovies]);
         setPage(newPage);
         if (newMovies.length === 0) {
           setNoLimit(true);
+        } else {
+          // Check favorite status for new movies if user is authenticated
+          if (user && newMovies.length > 0) {
+            const favoritePromises = newMovies.map(async (movie) => {
+              const isFavorite = await checkFavorite({
+                media_type: "movie",
+                media_id: movie.id,
+              });
+              return { id: movie.id, isFavorite };
+            });
+
+            const favoriteResults = await Promise.all(favoritePromises);
+            const newFavoriteStates = favoriteResults.reduce(
+              (acc, { id, isFavorite }) => {
+                acc[id] = isFavorite;
+                return acc;
+              },
+              {} as Record<number, boolean>
+            );
+
+            setFavoriteStates((prev) => ({ ...prev, ...newFavoriteStates }));
+          }
         }
       })
       .finally(() => {
@@ -91,10 +142,46 @@ const Movie = () => {
     fetchMovies();
   }, [activeTab]);
 
-  const handleFavoriteClick = () => {
-    // Favorilere ekleme işlemi burada yapılacak
-    console.log("Favorilere eklendi!");
-  }
+  const handleFavoriteClick = async (
+    movie: MovieProps,
+    event: React.MouseEvent
+  ) => {
+    event.stopPropagation(); // Prevent triggering parent click events
+
+    if (!user) {
+      toast.error("Favorilere eklemek için giriş yapmanız gerekiyor");
+      return;
+    }
+
+    const movieId = movie.id;
+    const currentIsFavorite = favoriteStates[movieId] || false;
+
+    try {
+      const favoriteData = {
+        media_type: "movie" as const,
+        media_id: movieId,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date,
+        vote_average: movie.vote_average,
+        genre_ids: movie.genre_ids,
+        overview: movie.overview,
+      };
+
+      // Update local state
+      setFavoriteStates((prev) => ({ ...prev, [movieId]: !currentIsFavorite }));
+
+      await toggleFavorite(favoriteData, currentIsFavorite);
+
+      if (currentIsFavorite) {
+        toast.success("Favorilerden kaldırıldı");
+      } else {
+        toast.success("Favorilere eklendi");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Bir hata oluştu");
+    }
+  };
 
   return (
     <CoreLayout user={user} title="Movie">
@@ -122,7 +209,7 @@ const Movie = () => {
               <div
                 key={i}
                 className={classNames(
-                  "relative group",
+                  "relative group border border-light-text/5 dark:border-dark-text/5",
                   "w-full",
                   "cursor-pointer",
                   "rounded-3xl overflow-hidden",
@@ -166,17 +253,26 @@ const Movie = () => {
                       <div className="relative right-1 z-10 flex flex-col items-center gap-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                         <CircularProgressBar value={movie.vote_average} />
                         <button
-                        onClick={handleFavoriteClick}
+                          onClick={(e) => handleFavoriteClick(movie, e)}
                           className={classNames(
                             "flex items-center justify-center",
                             "rounded-full border-2 border-transparent dark:border-transparent",
                             "p-1 w-8 h-8 transition duration-150",
-                            "bg-primary/50 text-white/80 dark:bg-dark-secondary/80 dark:text-dark-text/80",
+                            {
+                              "bg-red-500/90 text-white":
+                                favoriteStates[movie.id],
+                              "bg-primary/50 text-white/80 dark:bg-dark-secondary/80 dark:text-dark-text/80":
+                                !favoriteStates[movie.id],
+                            },
                             "hover:bg-white hover:text-primary",
                             "dark:hover:text-secondary dark:hover:bg-white"
                           )}
                         >
-                          <RiHeartsFill className="w-full h-full" />
+                          {favoriteStates[movie.id] ? (
+                            <RiHeartsFill className="w-full h-full" />
+                          ) : (
+                            <RiHeart3Line className="w-full h-full" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -192,20 +288,44 @@ const Movie = () => {
                   </div>
                 )}
                 {isMobile && (
-                  <div className="flex flex-col gap-1 col-span-2 overflow-auto scrollbar-hide">
-                    <h1 className="text-light-text dark:text-dark-text font-bold text-xl">
-                      {movie.title}
-                    </h1>
-                    <h1 className="text-light-text dark:text-dark-text text-xs font-medium">
-                      {formatDateToTurkishMonthDay(movie.release_date, true)}
-                    </h1>
-                    <h1 className="text-primary/80 dark:text-secondary/80 text-xs font-medium">
-                      {genreIdsToNamesForMovies(movie.genre_ids)}
-                    </h1>
-                    <h1 className="text-light-text/70 dark:text-dark-text/70 text-xs">
-                      {movie.overview}
-                    </h1>
-                  </div>
+                  <>
+                    <div className="flex flex-col gap-1 col-span-2 overflow-auto scrollbar-hide">
+                      <h1 className="text-light-text dark:text-dark-text font-bold text-xl">
+                        {movie.title}
+                      </h1>
+                      <h1 className="text-light-text dark:text-dark-text text-xs font-medium">
+                        {formatDateToTurkishMonthDay(movie.release_date, true)}
+                      </h1>
+                      <h1 className="text-primary/80 dark:text-secondary/80 text-xs font-medium">
+                        {genreIdsToNamesForMovies(movie.genre_ids)}
+                      </h1>
+                      <h1 className="text-light-text/70 dark:text-dark-text/70 text-xs">
+                        {movie.overview}
+                      </h1>
+                    </div>
+                    <button
+                      onClick={(e) => handleFavoriteClick(movie, e)}
+                      className={classNames(
+                        "absolute top-2 right-2",
+                        "flex items-center justify-center",
+                        "rounded-full border-2 border-transparent dark:border-transparent",
+                        "p-1 w-6 h-6 transition duration-150",
+                        {
+                          "bg-red-500/90 text-white": favoriteStates[movie.id],
+                          "bg-primary/50 text-white/80 dark:bg-dark-primary/80 dark:text-dark-text/80":
+                            !favoriteStates[movie.id],
+                        },
+                        "hover:bg-white hover:text-primary",
+                        "dark:hover:text-secondary dark:hover:bg-white"
+                      )}
+                    >
+                      {favoriteStates[movie.id] ? (
+                        <RiHeartsFill className="w-full h-full" />
+                      ) : (
+                        <RiHeart3Line className="w-full h-full" />
+                      )}
+                    </button>
+                  </>
                 )}
               </div>
             ))}

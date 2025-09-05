@@ -118,7 +118,7 @@ const Theaters = () => {
           </h1>
         </div>
         <div className="edge_fade_blur dark:after:bg-fade-dark">
-          <ScrollContainer className="flex gap-4 pt-2 pb-10">
+          <ScrollContainer className="flex gap-4 pt-2">
             {isLoading ? (
               <SkeletonTheme
                 baseColor={theme == "dark" ? "#111216" : "white"}
