@@ -93,7 +93,7 @@ const MovieUpComing = () => {
           "flex",
           "w-full",
           "relative group hover:-translate-y-2 transition duration-500",
-          "min-w-52",
+          "min-w-52 w-52",
           "cursor-pointer"
         )}
       >
