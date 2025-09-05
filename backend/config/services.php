@@ -43,6 +43,7 @@ return [
         'api_key' => env('TMDB_API_KEY'),
         'access_key' => env('TMDB_ACCESS_KEY'),
         'base_uri' => env('TMDB_BASE_URI', 'https://api.themoviedb.org/3/'),
+        'fake_mode' => env('TMDB_FAKE_MODE', false),
     ],
 
     'streamingAvailability' => [

@@ -14,7 +14,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // TMDB Repository binding
+        $this->app->bind(
+            \App\Contracts\TmdbRepositoryInterface::class,
+            function ($app) {
+                if (config('services.tmdb.fake_mode', false)) {
+                    return new \App\Repositories\TmdbFakeRepository();
+                }
+                return new \App\Repositories\TmdbApiRepository();
+            }
+        );
     }
 
     /**

@@ -27,18 +27,14 @@ class StreamingAvailabilityService
      */
     public function getPlatformPopularShows(string $platformName, ?string $cursor = null): Result
     {
-        // Cursor'un hash'ini alarak cache key'i daha stabil hale getiriyoruz
         $cursorHash = $cursor ? md5($cursor) : 'default';
         $cacheKey = "platform_popular_{$platformName}_{$cursorHash}";
 
-        // TTL'yi sabit olarak tanımlayarak performansı artırıyoruz (6 saat)
         $ttlMinutes = 360;
 
-         // Cache'den veriyi almaya çalışıyoruz
         $cachedData = Cache::remember($cacheKey, $ttlMinutes, function () use ($platformName, $cursor) {
             Log::channel("rapidapi")->info("Cache miss for key: {$platformName} with cursor: " . ($cursor ?? 'null'));
 
-             // API çağrısını try-catch bloğuna alarak hataları yakalıyoruz
             try {
                 $queryParams = [
                     'country' => 'tr',
@@ -49,14 +45,13 @@ class StreamingAvailabilityService
                     'catalogs' => $platformName
                 ];
 
-                // Cursor varsa ekle
                 if ($cursor) {
                     $queryParams['cursor'] = $cursor;
                 }
 
                 $response = $this->client->get("shows/search/filters", [
                     'query' => $queryParams,
-                    'timeout' => 10, // Timeout ekleyerek yavaş API çağrılarını önlüyoruz
+                    'timeout' => 10,
                 ]);
 
                 if ($response->getStatusCode() !== 200) {
@@ -74,7 +69,6 @@ class StreamingAvailabilityService
 
                 $data = json_decode($response->getBody()->getContents(), true);
 
-                // JSON decode hatası kontrolü
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     Log::channel("rapidapi")->error("JSON decode error: " . json_last_error_msg());
                     return null;
@@ -96,7 +90,6 @@ class StreamingAvailabilityService
             return Result::failure('Error fetching data from RapidApi');
         }
 
-        // Data validation
         if (!isset($cachedData['shows']) || !is_array($cachedData['shows'])) {
             Log::channel("rapidapi")->warning("Invalid data structure received from API", [
                 'platform' => $platformName,
@@ -105,7 +98,6 @@ class StreamingAvailabilityService
             return Result::failure('Invalid data structure from API');
         }
 
-        // Veriyi filtreleyerek sadece gerekli alanları tut
         $filteredShows = $this->filterShowData($cachedData['shows']);
 
         $result = [
@@ -138,12 +130,12 @@ class StreamingAvailabilityService
     private function filterImageSet(array $imageSet): array
     {
         $filtered = [];
-        
+
         // Sadece horizontal poster - frontend'de kullanılan boyutlar
         if (isset($imageSet['horizontalPoster'])) {
             $horizontalPoster = $imageSet['horizontalPoster'];
             $filtered['horizontalPoster'] = [];
-            
+
             // Frontend'de kullanılan boyutları sıraya göre ekle
             $sizes = ['w720', 'w600', 'w480', 'w360', 'w240'];
             foreach ($sizes as $size) {
