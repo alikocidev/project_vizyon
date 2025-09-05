@@ -2,7 +2,10 @@ import { FilterKeys } from "@/types/discover.type";
 import { Show } from "@/types/discover.type";
 import apiClient from "./api";
 
-export const discoverNewThings = async (filters: FilterKeys, page: number = 1): Promise<Show[]> => {
+export const discoverNewThings = async (
+  filters: FilterKeys,
+  page: number = 1
+): Promise<Show[]> => {
   try {
     const response = await apiClient.get(`/discover/${filters.show_type}`, {
       params: {
@@ -20,12 +23,16 @@ export const discoverNewThings = async (filters: FilterKeys, page: number = 1): 
     const result: Show[] = response.data;
     return result;
   } catch (error) {
-    console.error("Fetch error:", error);
-    throw new Error("Services discover error.");
+    console.error("Fetch error:discover:newThings");
+    throw error;
   }
 };
 
-export const searchNewThings = async (type: "movie" | "tv", query: string, page: number = 1): Promise<Show[]> => {
+export const searchNewThings = async (
+  type: "movie" | "tv",
+  query: string,
+  page: number = 1
+): Promise<Show[]> => {
   try {
     const response = await apiClient.get(`/search/${type}`, {
       params: {
@@ -36,7 +43,7 @@ export const searchNewThings = async (type: "movie" | "tv", query: string, page:
     const result: Show[] = response.data;
     return result;
   } catch (error) {
-    console.error("Fetch error:", error);
-    throw new Error("Services search error.");
+    console.error("Fetch error:discover:searchNewThings");
+    throw error;
   }
 };

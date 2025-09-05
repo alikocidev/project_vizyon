@@ -4,6 +4,7 @@ import CoreLayout from "@/layouts/Core";
 import { useAuth } from "@/hooks/useAuth";
 import Alert from "@/components/Alert";
 import { handleApiError, FormErrors } from "@/utils/errorHandler";
+import classNames from "classnames";
 
 interface LoginFormData {
   email: string;
@@ -31,7 +32,10 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  const updateFormData = (field: keyof LoginFormData, value: string | boolean) => {
+  const updateFormData = (
+    field: keyof LoginFormData,
+    value: string | boolean
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
@@ -87,7 +91,12 @@ export default function Login() {
           {/* Header */}
           <div className="text-center">
             <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary/10 dark:bg-secondary/10 mb-4">
-              <svg className="h-6 w-6 text-primary dark:text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-6 w-6 text-primary dark:text-secondary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -96,8 +105,12 @@ export default function Login() {
                 />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-light-text dark:text-dark-text">Hoş Geldiniz</h2>
-            <p className="mt-2 text-neutral-600 dark:text-neutral-400">Hesabınıza giriş yapın</p>
+            <h2 className="text-3xl font-bold text-light-text dark:text-dark-text">
+              Hoş Geldiniz
+            </h2>
+            <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+              Hesabınıza giriş yapın
+            </p>
           </div>
 
           {/* Form Card */}
@@ -108,7 +121,10 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2"
+                >
                   E-posta Adresi
                 </label>
                 <div className="relative">
@@ -119,20 +135,27 @@ export default function Login() {
                     autoComplete="email"
                     value={formData.email}
                     onChange={(e) => updateFormData("email", e.target.value)}
-                    className={`
-                      w-full px-4 py-3 rounded-lg border transition
-                      bg-transparent
-                      text-light-text dark:text-dark-text
-                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
-                      focus:ring-0 focus:outline-none
-                      focus:border-primary dark:focus:border-secondary
-                      ${errors.email ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
-                    `}
+                    className={classNames(
+                      "w-full px-4 py-3 rounded-lg border transition",
+                      "bg-transparent",
+                      "text-light-text dark:text-dark-text",
+                      "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
+                      "focus:ring-0 focus:outline-none",
+                      "focus:border-primary dark:focus:border-secondary",
+                      {
+                        "border-red-300 dark:border-red-600": errors.email,
+                        "border-light-surface dark:border-dark-surface":
+                          !errors.email,
+                      }
+                    )}
                     placeholder="ornek@email.com"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <svg
-                      className={`h-5 w-5 ${errors.email ? "text-red-400" : "text-neutral-400"}`}
+                      className={classNames("h-5 min-h-5 w-5 min-w-5", {
+                        "text-red-400": errors.email,
+                        "text-neutral-400": !errors.email,
+                      })}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -148,8 +171,18 @@ export default function Login() {
                 </div>
                 {errors.email && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
-                    <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="h-4 w-4 mr-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     {errors.email}
                   </p>
@@ -158,7 +191,10 @@ export default function Login() {
 
               {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-semibold text-light-text dark:text-dark-text mb-2"
+                >
                   Şifre
                 </label>
                 <div className="relative">
@@ -169,15 +205,19 @@ export default function Login() {
                     autoComplete="current-password"
                     value={formData.password}
                     onChange={(e) => updateFormData("password", e.target.value)}
-                    className={`
-                      w-full px-4 py-3 rounded-lg border transition
-                      bg-transparent
-                      text-light-text dark:text-dark-text
-                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
-                      focus:ring-0 focus:outline-none
-                      focus:border-primary dark:focus:border-secondary
-                      ${errors.password ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
-                    `}
+                    className={classNames(
+                      "w-full px-4 py-3 rounded-lg border transition",
+                      "bg-transparent",
+                      "text-light-text dark:text-dark-text",
+                      "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
+                      "focus:ring-0 focus:outline-none",
+                      "focus:border-primary dark:focus:border-secondary",
+                      {
+                        "border-red-300 dark:border-red-600": errors.password,
+                        "border-light-surface dark:border-dark-surface":
+                          !errors.password,
+                      }
+                    )}
                     placeholder="••••••••"
                   />
                   <button
@@ -186,7 +226,12 @@ export default function Login() {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
                   >
                     {showPassword ? (
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -195,8 +240,18 @@ export default function Login() {
                         />
                       </svg>
                     ) : (
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -209,8 +264,18 @@ export default function Login() {
                 </div>
                 {errors.password && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
-                    <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="h-4 w-4 mr-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     {errors.password}
                   </p>
@@ -223,7 +288,9 @@ export default function Login() {
                   <input
                     type="checkbox"
                     checked={formData.remember}
-                    onChange={(e) => updateFormData("remember", e.target.checked)}
+                    onChange={(e) =>
+                      updateFormData("remember", e.target.checked)
+                    }
                     className="h-4 w-4 text-primary dark:text-secondary focus:ring-primary/20 border-neutral-300 dark:border-secondary rounded bg-transparent"
                   />
                   <span className="ml-2 text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-light-text dark:group-hover:text-dark-text transition-colors">
@@ -245,16 +312,31 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`
-                  w-full flex justify-center items-center py-3 px-4 rounded-lg text-white font-semib    old
-                  transition-all duration-200 transform
-                bg-primary hover:bg-primary/90 dark:bg-secondary dark:hover:bg-secondary/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl              
-                `}
+                className={classNames(
+                  "w-full flex justify-center items-center py-3 px-4 rounded-lg text-white font-semibold",
+                  "transition-all duration-200 transform",
+                  "bg-primary hover:bg-primary/90 dark:bg-secondary dark:hover:bg-secondary/90",
+                  "hover:scale-[1.02] active:scale-[0.98]",
+                  "shadow-lg hover:shadow-xl",
+                  { "opacity-50 cursor-not-allowed": isLoading }
+                )}
               >
                 {isLoading ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
                       <path
                         className="opacity-75"
                         fill="currentColor"
@@ -265,7 +347,12 @@ export default function Login() {
                   </>
                 ) : (
                   <>
-                    <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -286,7 +373,9 @@ export default function Login() {
                   <div className="w-full border-t border-neutral-200 dark:border-neutral-700"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white dark:bg-neutral-900 text-neutral-500 dark:text-neutral-400">veya</span>
+                  <span className="px-4 bg-white dark:bg-neutral-900 text-neutral-500 dark:text-neutral-400">
+                    veya
+                  </span>
                 </div>
               </div>
               <div className="mt-4">

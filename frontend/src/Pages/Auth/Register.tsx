@@ -1,4 +1,5 @@
 import { useState, FormEventHandler, useEffect } from "react";
+import classNames from "classnames";
 import { Link, useNavigate } from "react-router-dom";
 import CoreLayout from "@/layouts/Core";
 import { useAuth } from "@/hooks/useAuth";
@@ -122,15 +123,15 @@ export default function Register() {
                     autoComplete="email"
                     value={formData.email}
                     onChange={(e) => updateFormData("email", e.target.value)}
-                    className={`
-                      w-full px-4 py-3 rounded-lg border transition
-                      bg-transparent
-                      text-light-text dark:text-dark-text
-                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
-                      focus:ring-0 focus:outline-none
-                      focus:border-primary dark:focus:border-secondary
-                      ${errors.email ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
-                    `}
+                    className={classNames(
+                      "w-full px-4 py-3 rounded-lg border transition",
+                      "bg-transparent",
+                      "text-light-text dark:text-dark-text",
+                      "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
+                      "focus:ring-0 focus:outline-none",
+                      "focus:border-primary dark:focus:border-secondary",
+                      errors.email ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"
+                    )}
                     placeholder="ornek@email.com"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -172,15 +173,15 @@ export default function Register() {
                     autoComplete="name"
                     value={formData.name}
                     onChange={(e) => updateFormData("name", e.target.value)}
-                    className={`
-                      w-full px-4 py-3 rounded-lg border transition
-                      bg-transparent
-                      text-light-text dark:text-dark-text
-                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
-                      focus:ring-0 focus:outline-none
-                      focus:border-primary dark:focus:border-secondary
-                      ${errors.name ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
-                    `}
+                    className={classNames(
+                      "w-full px-4 py-3 rounded-lg border transition",
+                      "bg-transparent",
+                      "text-light-text dark:text-dark-text",
+                      "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
+                      "focus:ring-0 focus:outline-none",
+                      "focus:border-primary dark:focus:border-secondary",
+                      errors.name ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"
+                    )}
                     placeholder="Adınız"
                   />
                 </div>
@@ -207,15 +208,15 @@ export default function Register() {
                     autoComplete="current-password"
                     value={formData.password}
                     onChange={(e) => updateFormData("password", e.target.value)}
-                    className={`
-                      w-full px-4 py-3 rounded-lg border transition
-                      bg-transparent
-                      text-light-text dark:text-dark-text
-                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
-                      focus:ring-0 focus:outline-none
-                      focus:border-primary dark:focus:border-secondary
-                      ${errors.password ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
-                    `}
+                    className={classNames(
+                      "w-full px-4 py-3 rounded-lg border transition",
+                      "bg-transparent",
+                      "text-light-text dark:text-dark-text",
+                      "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
+                      "focus:ring-0 focus:outline-none",
+                      "focus:border-primary dark:focus:border-secondary",
+                      errors.password ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"
+                    )}
                     placeholder="••••••••"
                   />
                 </div>
@@ -242,15 +243,15 @@ export default function Register() {
                     autoComplete="current-password"
                     value={formData.confirmPassword}
                     onChange={(e) => updateFormData("confirmPassword", e.target.value)}
-                    className={`
-                      w-full px-4 py-3 rounded-lg border transition
-                      bg-transparent
-                      text-light-text dark:text-dark-text
-                      placeholder:text-neutral-500 dark:placeholder:text-neutral-400
-                      focus:ring-0 focus:outline-none
-                      focus:border-primary dark:focus:border-secondary
-                      ${errors.confirmPassword ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"}
-                    `}
+                    className={classNames(
+                      "w-full px-4 py-3 rounded-lg border transition",
+                      "bg-transparent",
+                      "text-light-text dark:text-dark-text",
+                      "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
+                      "focus:ring-0 focus:outline-none",
+                      "focus:border-primary dark:focus:border-secondary",
+                      errors.confirmPassword ? "border-red-300 dark:border-red-600" : "border-light-surface dark:border-dark-surface"
+                    )}
                     placeholder="••••••••"
                   />
                   <button
@@ -294,11 +295,12 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`
-                  w-full flex justify-center items-center py-3 px-4 rounded-lg text-white font-semib    old
-                  transition-all duration-200 transform
-                bg-primary hover:bg-primary/90 dark:bg-secondary dark:hover:bg-secondary/90 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl              
-                `}
+                className={classNames(
+                  "w-full flex justify-center items-center py-3 px-4 rounded-lg text-white font-semibold",
+                  "transition-all duration-200 transform",
+                  "bg-primary hover:bg-primary/90 dark:bg-secondary dark:hover:bg-secondary/90",
+                  "hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                )}
               >
                 {isLoading ? (
                   <>

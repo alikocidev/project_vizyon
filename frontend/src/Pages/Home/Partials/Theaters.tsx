@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 ("react-loading-skeleton/dist/skeleton.css");
 import React from "react";
-import apiClient from "@/services/api";
 import useTheme from "@/hooks/useTheme";
 import ScrollContainer, {
   useScrollContext,
 } from "@/components/ScrollContainer";
+import { getMovieTheaters } from "@/services/movie";
 
 const Theaters = () => {
   const [theaters, setTheaters] = useState<Movie[]>([]);
@@ -25,10 +25,9 @@ const Theaters = () => {
   useEffect(() => {
     const fetchTheaters = () => {
       setIsLoading(true);
-      apiClient
-        .get("/movie/theaters")
-        .then((response) => {          
-          setTheaters(response.data || []);
+      getMovieTheaters(1)
+        .then((response) => {
+          setTheaters(response || []);
           setIsLoading(false);
         })
         .catch((error) => {

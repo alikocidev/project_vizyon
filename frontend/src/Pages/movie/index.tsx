@@ -91,6 +91,11 @@ const Movie = () => {
     fetchMovies();
   }, [activeTab]);
 
+  const handleFavoriteClick = () => {
+    // Favorilere ekleme işlemi burada yapılacak
+    console.log("Favorilere eklendi!");
+  }
+
   return (
     <CoreLayout user={user} title="Movie">
       <div className="flex flex-col gap-4 xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
@@ -161,6 +166,7 @@ const Movie = () => {
                       <div className="relative right-1 z-10 flex flex-col items-center gap-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                         <CircularProgressBar value={movie.vote_average} />
                         <button
+                        onClick={handleFavoriteClick}
                           className={classNames(
                             "flex items-center justify-center",
                             "rounded-full border-2 border-transparent dark:border-transparent",

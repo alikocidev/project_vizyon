@@ -3,12 +3,11 @@ import Modal from "@/components/Modal";
 import ScrollContainer, {
   useScrollContext,
 } from "@/components/ScrollContainer";
-import { getMovieVideos } from "@/services/movie";
+import { getMovieUpComings, getMovieVideos } from "@/services/movie";
 import { Movie } from "@/types/movie.type";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
-import apiClient from "@/services/api";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 ("react-loading-skeleton/dist/skeleton.css");
 import useTheme from "@/hooks/useTheme";
@@ -27,15 +26,10 @@ const MovieUpComing = () => {
   useEffect(() => {
     const fetchUpComings = () => {
       setIsLoading(true);
-      apiClient
-        .get("/movie/upcomings")
-        .then((response) => {
-          setUpComings(response.data || []);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching upcoming movies:", error);
-        });
+      getMovieUpComings(1).then((response) => {
+        setUpComings(response || []);
+        setIsLoading(false);
+      });
     };
 
     fetchUpComings();

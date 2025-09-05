@@ -1,11 +1,24 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { AuthState } from "@/types";
 import apiClient from "@/services/api";
+import {
+  getUser,
+  postLogin,
+  postLogout,
+  postRegister,
+  postVerificationEmail,
+  putProfile,
+} from "@/services/auth";
 
 interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
-  register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<boolean>;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string
+  ) => Promise<boolean>;
   loading: boolean;
   updateUser: (user: AuthState["user"]) => void;
   sendVerificationEmail: () => Promise<{ success: boolean; message: string }>;
@@ -15,7 +28,9 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -40,9 +55,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await apiClient.get("/user");
+      const response = await getUser();
       setAuthState({
-        user: response.data.user,
+        user: response.user,
         token: localStorage.getItem("auth_token"),
         isAuthenticated: true,
       });
@@ -62,8 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await apiClient.post("/auth/login", { email, password });
-      const { token, user } = response.data;
+      const { token, user } = await postLogin(email, password);
 
       localStorage.setItem("auth_token", token);
       apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -84,15 +98,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string, passwordConfirmation: string): Promise<boolean> => {
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string
+  ): Promise<boolean> => {
     try {
-      const response = await apiClient.post("/auth/register", {
+      const { token, user } = await postRegister(
         name,
         email,
         password,
-        password_confirmation: passwordConfirmation,
-      });
-      const { token, user } = response.data;
+        passwordConfirmation
+      );
 
       localStorage.setItem("auth_token", token);
       apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -112,9 +130,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = async () => {
     try {
       setLoading(true);
-      await apiClient.post("/auth/logout");
-    } catch (error) {
-      console.error("Logout error:", error);
+      await postLogout();
     } finally {
       localStorage.removeItem("auth_token");
       delete apiClient.defaults.headers.common["Authorization"];
@@ -132,10 +148,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const updateUser = async (user: AuthState["user"]) => {
     try {
       setLoading(true);
-      const response = await apiClient.put("/profile", user);
-      setAuthState((prev) => ({ ...prev, user: response.data.user }));
-    } catch (error) {
-      console.error("Error updating user:", error);
+      const response = await putProfile(user);
+      setAuthState((prev) => ({ ...prev, user: response.user }));
     } finally {
       setAuthState((prev) => ({ ...prev, user }));
       setLoading(false);
@@ -144,13 +158,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const sendVerificationEmail = async () => {
     try {
-      const response = await apiClient.post("/email/verification-notification");
-      return response.data;
+      const response = postVerificationEmail();
+      return response;
     } catch (error: any) {
-      console.error("Error sending verification email:", error);
       return {
         success: false,
-        message: error.response?.data?.message || "E-posta gönderilirken hata oluştu",
+        message:
+          error.response?.data?.message || "E-posta gönderilirken hata oluştu",
       };
     }
   };

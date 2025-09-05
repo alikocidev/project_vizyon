@@ -7,7 +7,9 @@ import {
 } from "@/types/movie.type";
 import apiClient from "./api";
 
-export const getMovieTheaters = async (page: number): Promise<GetMovieTheatersResponse> => {
+export const getMovieTheaters = async (
+  page: number
+): Promise<GetMovieTheatersResponse> => {
   try {
     const response = await apiClient.get(`movie/theaters`, {
       params: { page },
@@ -16,11 +18,13 @@ export const getMovieTheaters = async (page: number): Promise<GetMovieTheatersRe
     return result;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw new Error("Services movie error.");
+    throw error;
   }
 };
 
-export const getMovieUpComings = async (page: number): Promise<GetMovieUpComingsResponse> => {
+export const getMovieUpComings = async (
+  page: number
+): Promise<GetMovieUpComingsResponse> => {
   try {
     const response = await apiClient.get(`movie/upcomings`, {
       params: { page },
@@ -29,11 +33,13 @@ export const getMovieUpComings = async (page: number): Promise<GetMovieUpComings
     return result;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw new Error("Services movie error.");
+    throw error;
   }
 };
 
-export const getMoviePopular = async (page: number): Promise<GetMoviePopularResponse> => {
+export const getMoviePopular = async (
+  page: number
+): Promise<GetMoviePopularResponse> => {
   try {
     const response = await apiClient.get("movie/popular", {
       params: { page },
@@ -42,11 +48,13 @@ export const getMoviePopular = async (page: number): Promise<GetMoviePopularResp
     return result;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw new Error("Services movie error.");
+    throw error;
   }
 };
 
-export const getMovieGoat = async (page: number): Promise<GetMoviePopularResponse> => {
+export const getMovieGoat = async (
+  page: number
+): Promise<GetMoviePopularResponse> => {
   try {
     const response = await apiClient.get("movie/goat", {
       params: { page },
@@ -55,11 +63,14 @@ export const getMovieGoat = async (page: number): Promise<GetMoviePopularRespons
     return result;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw new Error("Services movie error.");
+    throw error;
   }
 };
 
-export const getMovieTrending = async (page: number, window: "week" | "day"): Promise<GetTrendingMovieResponse> => {
+export const getMovieTrending = async (
+  page: number,
+  window: "week" | "day"
+): Promise<GetTrendingMovieResponse> => {
   try {
     const response = await apiClient.get(`/trending/movie/${window}`, {
       params: { page },
@@ -68,17 +79,19 @@ export const getMovieTrending = async (page: number, window: "week" | "day"): Pr
     return result;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw new Error("Services trending error.");
+    throw error;
   }
 };
 
-export const getMovieVideos = async (movieId: number): Promise<GetMovieVideosResponse> => {
+export const getMovieVideos = async (
+  movieId: number
+): Promise<GetMovieVideosResponse> => {
   try {
     const response = await apiClient.get(`movie/${movieId}/videos`);
     const result: GetMovieVideosResponse = response.data;
     return result;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw new Error("Services movie error.");
+    throw error;
   }
 };
