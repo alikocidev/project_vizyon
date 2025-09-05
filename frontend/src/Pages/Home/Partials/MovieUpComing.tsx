@@ -25,15 +25,17 @@ const MovieUpComing = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUpComings = async () => {
-      try {
-        setIsLoading(true);
-        const response = await apiClient.get("/movie/upcomings");
-        setUpComings(response.data || []);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching upcoming movies:", error);
-      }
+    const fetchUpComings = () => {
+      setIsLoading(true);
+      apiClient
+        .get("/movie/upcomings")
+        .then((response) => {
+          setUpComings(response.data || []);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching upcoming movies:", error);
+        });
     };
 
     fetchUpComings();

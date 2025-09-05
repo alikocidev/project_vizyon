@@ -23,16 +23,17 @@ const Theaters = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTheaters = async () => {
-      try {
-        setIsLoading(true);
-        const response = await apiClient.get("/movie/theaters");
-        setTheaters(response.data || []);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching theaters:", error);
-        setTheaters([]);
-      }
+    const fetchTheaters = () => {
+      setIsLoading(true);
+      apiClient
+        .get("/movie/theaters")
+        .then((response) => {          
+          setTheaters(response.data || []);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching theaters movies:", error);
+        });
     };
 
     fetchTheaters();
