@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline, IoSearchSharp } from "react-icons/io5";
 import { FaUserGear } from "react-icons/fa6";
 import { IoMdHome, IoIosLogOut } from "react-icons/io";
 import { MdMessage } from "react-icons/md";
@@ -66,6 +66,16 @@ export default function Header({
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/discover?s=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
+  };
 
   const MobileMenuButton = () => (
     <button
@@ -131,7 +141,21 @@ export default function Header({
               </div>
             </div>
 
-            <div className="hidden md:flex md:items-center md:ml-6">
+            <div className="hidden md:flex md:items-center md:ml-6 md:space-x-4">
+              {/* Search Input */}
+              <form onSubmit={handleSearch} className="relative">
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Film ara..."
+                    className="w-64 pl-10 pr-4 py-2 text-sm bg-light-surface dark:bg-dark-surface border border-light-text/20 dark:border-dark-text/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:border-transparent text-light-text dark:text-dark-text placeholder-light-text/50 dark:placeholder-dark-text/50"
+                  />
+                  <IoSearchSharp className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-light-text/50 dark:text-dark-text/50" />
+                </div>
+              </form>
+
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-md text-neutral-500 hover:text-primary dark:hover:text-secondary hover:bg-primary/10 dark:hover:bg-secondary/10 focus:outline-none transition duration-150 ease-in-out"
@@ -204,6 +228,32 @@ export default function Header({
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="pt-2 pb-3 space-y-1"
               >
+                {/* Mobile Search */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: 0,
+                    ease: "easeInOut",
+                  }}
+                  className="px-3 pb-3"
+                >
+                  <form onSubmit={handleSearch}>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Film ara..."
+                        className="w-full pl-10 pr-4 py-2 text-sm bg-light-surface dark:bg-dark-surface border border-light-text/20 dark:border-dark-text/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:border-transparent text-light-text dark:text-dark-text placeholder-light-text/50 dark:placeholder-dark-text/50"
+                      />
+                      <IoSearchSharp className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-light-text/50 dark:text-dark-text/50" />
+                    </div>
+                  </form>
+                </motion.div>
+
                 {HeaderItems.filter((item) => !item.requireAuth || user).map(
                   (item, index) => {
                     const IconComponent = item.icon;
@@ -215,7 +265,7 @@ export default function Header({
                         exit={{ opacity: 0, x: -20 }}
                         transition={{
                           duration: 0.3,
-                          delay: index * 0.1,
+                          delay: (index + 1) * 0.1,
                           ease: "easeInOut",
                         }}
                       >

@@ -9,6 +9,7 @@ import Register from "@/pages/auth/Register";
 import EmailVerify from "@/pages/email/verify";
 import NotFound from "@/pages/NotFound";
 import Movie, { MovieDetails } from "@/pages/movie";
+import Discover from "@/pages/discover";
 import Favorites from "@/pages/favorites";
 
 const AppRoutes = () => {
@@ -25,6 +26,7 @@ const AppRoutes = () => {
         </Route>
         <Route path="/movie" element={<Movie />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
+        <Route path="/discover" element={<Discover />} />
         {/* 404 - Catch all unmatched routes */}
         <Route path="*" element={<NotFound />} />
       </Routes>

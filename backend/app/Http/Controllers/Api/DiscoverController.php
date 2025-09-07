@@ -46,10 +46,10 @@ class DiscoverController extends Controller
         $filters = array_merge([
             'show_type' => 'movie',
             'sort_by' => 'popularity.desc',
-            'primary_release_date_year_max' => 2024,
-            'primary_release_date_year_min' => 1900
+            'primary_release_date_year_max' => date('Y'),
+            'primary_release_date_year_min' => 1800
         ], array_filter($filters));
-        
+
         $filters['primary_release_date_year_min'] = "{$filters['primary_release_date_year_min']}-01-01";
         $filters['primary_release_date_year_max'] = "{$filters['primary_release_date_year_max']}-12-31";
 
