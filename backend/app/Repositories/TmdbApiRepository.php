@@ -26,7 +26,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     public function getMovieNowPlaying($page = 1): Result
     {
-        $cacheKey = "now_playing_movies_page_{$page}";
+        $cacheKey = "tmdb:movies:now_playing:page:{$page}";
         $ttl = Carbon::now()->diffInSeconds(Carbon::tomorrow());
         $cachedData = null;
 
@@ -68,7 +68,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     public function getMovieUpComing($page = 1): Result
     {
-        $cacheKey = "upcoming_movies_page_{$page}";
+        $cacheKey = "tmdb:movies:upcoming:page:{$page}";
         $ttl = Carbon::now()->diffInSeconds(Carbon::tomorrow());
 
         $cachedData = null;
@@ -110,7 +110,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     public function getMovieVideosById($movieId): Result
     {
-        $cacheKey = "movie_{$movieId}_videos";
+        $cacheKey = "tmdb:movies:{$movieId}:videos";
         $ttl = Carbon::now()->diffInSeconds(Carbon::tomorrow());
 
         $cachedData = Cache::remember($cacheKey, $ttl, function () use ($movieId) {
@@ -144,7 +144,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     public function getTrending($type, $page = 1, $window = 'week'): Result
     {
-        $cacheKey = "trending_{$type}_{$window}_{$page}";
+        $cacheKey = "tmdb:trending:{$type}:{$window}:page:{$page}";
         $ttl = Carbon::now()->diffInSeconds(Carbon::tomorrow());
         $cachedData = null;
 
@@ -180,7 +180,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     public function getMoviePopular($page = 1): Result
     {
-        $cacheKey = "popular_movies_{$page}";
+        $cacheKey = "tmdb:movies:popular:page:{$page}";
         $ttl = Carbon::now()->diffInSeconds(Carbon::tomorrow());
         $cachedData = null;
 
@@ -217,7 +217,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     public function getMovieGoat($page = 1): Result
     {
-        $cacheKey = "goat_movies_{$page}";
+        $cacheKey = "tmdb:movies:top_rated:page:{$page}";
         $cachedData = null;
         $ttl = Carbon::now()->addMonth();
 
@@ -268,7 +268,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
                 'vote_average.lte' => $filters['vote_average_max'] ?? null,
             ]);
             $serialize_query = md5(serialize($queryParams));
-            $cacheKey = "discover_{$type}_filter={$serialize_query}";
+            $cacheKey = "tmdb:discover:{$type}:filters:{$serialize_query}";
             $ttl = Carbon::now()->addDay();
 
             $cachedData = Cache::remember($cacheKey, $ttl, function () use ($type, $queryParams) {
@@ -312,7 +312,7 @@ class TmdbApiRepository implements TmdbRepositoryInterface
                 'first_air_date_year' => $filters['year'] ?? null,
             ]);
             $serialize_query = md5(serialize($queryParams));
-            $cacheKey = "search_{$type}_query={$serialize_query}";
+            $cacheKey = "tmdb:search:{$type}:query:{$serialize_query}";
             $ttl = Carbon::now()->addDay();
 
             $cachedData = Cache::remember($cacheKey, $ttl, function () use ($type, $queryParams) {
@@ -346,14 +346,14 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     protected function onBeforeMovieNowPlaying($page): bool
     {
-        $cacheKey = "now_playing_movies_detail";
+        $cacheKey = "tmdb:movies:now_playing:metadata";
         $value = Cache::get($cacheKey);
         return !$value || ($value['total_pages'] && intval($value['total_pages']) >= $page);
     }
 
     protected function onFetchingMovieNowPlaying($response): bool
     {
-        $cacheKey = "now_playing_movies_detail";
+        $cacheKey = "tmdb:movies:now_playing:metadata";
         if (Cache::has($cacheKey)) {
             return true;
         }
@@ -371,14 +371,14 @@ class TmdbApiRepository implements TmdbRepositoryInterface
 
     protected function onBeforeMovieUpComing($page): bool
     {
-        $cacheKey = "upcoming_movies_detail";
+        $cacheKey = "tmdb:movies:upcoming:metadata";
         $value = Cache::get($cacheKey);
         return !$value || ($value['total_pages'] && intval($value['total_pages']) >= $page);
     }
 
     protected function onFetchingMovieUpComing($response): bool
     {
-        $cacheKey = "upcoming_movies_detail";
+        $cacheKey = "tmdb:movies:upcoming:metadata";
         if (Cache::has($cacheKey)) {
             return true;
         }

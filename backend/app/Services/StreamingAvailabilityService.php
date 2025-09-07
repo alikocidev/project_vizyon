@@ -27,8 +27,8 @@ class StreamingAvailabilityService
      */
     public function getPlatformPopularShows(string $platformName, ?string $cursor = null): Result
     {
-        $cursorHash = $cursor ? md5($cursor) : 'default';
-        $cacheKey = "platform_popular_{$platformName}_{$cursorHash}";
+        $cursorHash = $cursor ? md5($cursor) : 'first_page';
+        $cacheKey = "streaming:platform:{$platformName}:popular:cursor:{$cursorHash}";
 
         $ttlMinutes = 360;
 

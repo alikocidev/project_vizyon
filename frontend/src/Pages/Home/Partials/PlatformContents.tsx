@@ -112,7 +112,7 @@ const PlatformContents = () => {
               return (
                 <div
                   key={contentIndex}
-                  className="flex flex-col items-center cursor-pointer"
+                  className="flex flex-col items-center"
                 >
                   <div className="w-72 rounded-lg overflow-hidden shadow">
                     <LazyLoadedImage

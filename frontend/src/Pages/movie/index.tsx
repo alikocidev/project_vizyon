@@ -22,6 +22,7 @@ import { RiHeartsFill, RiHeart3Line } from "react-icons/ri";
 import { useDevice } from "@/hooks/useDevice";
 import { useFavorite } from "@/hooks/useFavorite";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const TABS: Record<TabListProps, string> = {
   popular: "Popüler",
@@ -52,6 +53,7 @@ const Movie = () => {
   const { user } = useAuth();
   const { isMobile } = useDevice();
   const { toggleFavorite, checkFavorite } = useFavorite();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabListProps>("popular");
@@ -62,11 +64,13 @@ const Movie = () => {
   );
 
   const [noLimit, setNoLimit] = useState<boolean>(false);
+  const [showLoadMoreButton, setShowLoadMoreButton] = useState<boolean>(false);
 
   const fetchMovies = async () => {
     setIsLoading(true);
     setMovies([]);
     setFavoriteStates({});
+    setShowLoadMoreButton(false);
     fetchFunc(activeTab, 1)
       .then(async (newMovies) => {
         setMovies(newMovies);
@@ -97,12 +101,17 @@ const Movie = () => {
         setPage(1);
         setIsLoading(false);
         setNoLimit(false);
+        // Delay button visibility to allow content to render properly
+        setTimeout(() => {
+          setShowLoadMoreButton(true);
+        }, 500);
       });
   };
 
   const handlePageChange = () => {
     const newPage = page + 1;
     setIsLoading(true);
+    setShowLoadMoreButton(false);
     fetchFunc(activeTab, newPage)
       .then(async (newMovies) => {
         setMovies((prevMovies) => [...prevMovies, ...newMovies]);
@@ -135,12 +144,21 @@ const Movie = () => {
       })
       .finally(() => {
         setIsLoading(false);
+        // Delay button visibility to allow new content to render properly
+        setTimeout(() => {
+          setShowLoadMoreButton(true);
+        }, 300);
       });
   };
 
   useEffect(() => {
     fetchMovies();
   }, [activeTab]);
+
+  const handleNavigateDetail = (e: React.MouseEvent, movieId: number) => {
+    e.stopPropagation();
+    navigate(`/movie/${movieId}`);
+  };
 
   const handleFavoriteClick = async (
     movie: MovieProps,
@@ -208,6 +226,7 @@ const Movie = () => {
             movies.map((movie, i) => (
               <div
                 key={i}
+                onClick={(e) => handleNavigateDetail(e, movie.id)}
                 className={classNames(
                   "relative group border border-light-text/5 dark:border-dark-text/5",
                   "w-full",
@@ -331,25 +350,25 @@ const Movie = () => {
             ))}
         </div>
         <div className="w-full flex items-center mt-16">
-          {!noLimit &&
-            (!isLoading ? (
-              <button
-                onClick={handlePageChange}
-                className={classNames(
-                  "mx-auto p-2 px-8 rounded-3xl h-12",
-                  "transition",
-                  "border-2 border-primary dark:border-secondary",
-                  "bg-transparent hover:bg-primary dark:hover:bg-secondary",
-                  "text-primary dark:text-secondary hover:text-light-primary dark:hover:text-dark-text"
-                )}
-              >
-                <h1 className="font-medium">Daha fazla yükle...</h1>
-              </button>
-            ) : (
-              <div className="h-12 flex w-full items-center">
-                <Loading />
-              </div>
-            ))}
+          {!noLimit && !isLoading && showLoadMoreButton && (
+            <button
+              onClick={handlePageChange}
+              className={classNames(
+                "mx-auto p-2 px-8 rounded-3xl h-12",
+                "transition",
+                "border-2 border-primary dark:border-secondary",
+                "bg-transparent hover:bg-primary dark:hover:bg-secondary",
+                "text-primary dark:text-secondary hover:text-light-primary dark:hover:text-dark-text"
+              )}
+            >
+              <h1 className="font-medium">Daha fazla yükle...</h1>
+            </button>
+          )}
+          {isLoading && (
+            <div className="h-12 flex w-full items-center">
+              <Loading />
+            </div>
+          )}
         </div>
       </div>
     </CoreLayout>

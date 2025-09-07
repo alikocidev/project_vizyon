@@ -63,20 +63,7 @@ const Favorites = () => {
     loadMoreFavorites(mediaType);
   };
 
-  if (!user) {
-    return (
-      <CoreLayout user={user} title="Favoriler">
-        <div className="flex flex-col items-center justify-center h-64">
-          <h2 className="text-2xl font-bold text-light-text dark:text-dark-text mb-4">
-            Giriş Yapmanız Gerekiyor
-          </h2>
-          <p className="text-light-text/70 dark:text-dark-text/70">
-            Favorilerinizi görmek için giriş yapın.
-          </p>
-        </div>
-      </CoreLayout>
-    );
-  }
+  if (!user) return;
 
   return (
     <CoreLayout user={user} title="Favoriler">
@@ -220,8 +207,10 @@ const Favorites = () => {
                             "flex items-center justify-center",
                             "rounded-full border-2 border-transparent dark:border-transparent",
                             "p-1 w-8 h-8 transition duration-150",
-                            "bg-red-500/90 text-white",
-                            "hover:bg-red-600 hover:scale-110"
+                            "backdrop-blur-sm",
+                            "bg-white text-primary",
+                            "dark:bg-white dark:text-secondary",
+                            "hover:scale-105"
                           )}
                         >
                           <RiHeartsFill className="w-full h-full" />
