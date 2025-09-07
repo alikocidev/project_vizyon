@@ -37,7 +37,8 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
   onFiltersChange,
   isLoading,
 }) => {
-  const [localFilters, setLocalFilters] = useState<DiscoverFiltersType>(filters);
+  const [localFilters, setLocalFilters] =
+    useState<DiscoverFiltersType>(filters);
 
   const handleInputChange = (key: keyof DiscoverFiltersType, value: string) => {
     const newFilters = { ...localFilters, [key]: value };
@@ -65,7 +66,7 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="bg-light-surface dark:bg-dark-secondary rounded-lg p- space-y-6 sticky top-20">
+    <div className="space-y-6 sticky top-20">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold text-light-text dark:text-dark-text">
           Filtreler
@@ -130,7 +131,9 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             min="1900"
             max={currentYear}
             value={localFilters.primary_release_date_year_min}
-            onChange={(e) => handleInputChange("primary_release_date_year_min", e.target.value)}
+            onChange={(e) =>
+              handleInputChange("primary_release_date_year_min", e.target.value)
+            }
             disabled={isLoading}
             className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
           />
@@ -140,7 +143,9 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             min="1900"
             max={currentYear}
             value={localFilters.primary_release_date_year_max}
-            onChange={(e) => handleInputChange("primary_release_date_year_max", e.target.value)}
+            onChange={(e) =>
+              handleInputChange("primary_release_date_year_max", e.target.value)
+            }
             disabled={isLoading}
             className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
           />
@@ -160,7 +165,9 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             max="10"
             step="0.1"
             value={localFilters.vote_average_min}
-            onChange={(e) => handleInputChange("vote_average_min", e.target.value)}
+            onChange={(e) =>
+              handleInputChange("vote_average_min", e.target.value)
+            }
             disabled={isLoading}
             className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
           />
@@ -171,7 +178,9 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             max="10"
             step="0.1"
             value={localFilters.vote_average_max}
-            onChange={(e) => handleInputChange("vote_average_max", e.target.value)}
+            onChange={(e) =>
+              handleInputChange("vote_average_max", e.target.value)
+            }
             disabled={isLoading}
             className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
           />
@@ -185,7 +194,9 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
         </label>
         <select
           value={localFilters.with_original_language}
-          onChange={(e) => handleInputChange("with_original_language", e.target.value)}
+          onChange={(e) =>
+            handleInputChange("with_original_language", e.target.value)
+          }
           disabled={isLoading}
           className="w-full px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
         >
