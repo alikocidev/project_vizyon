@@ -59,6 +59,19 @@ class MovieController extends Controller
         }
     }
 
+    public function getMovieDetail(int $movieId): JsonResponse
+    {
+        if (!is_numeric($movieId) || intval($movieId) != $movieId) {
+            return response()->json(['error' => __('movie.invalid_movie_id')], 400);
+        }
+        $result = $this->tmdbService->getMovieDetail($movieId);
+        if ($result->isSuccess) {
+            return response()->json($result->data);
+        } else {
+            return response()->json(['error' => $result->error], 500);
+        }
+    }
+
     public function getPopular(Request $request): JsonResponse
     {
         $request->validate([

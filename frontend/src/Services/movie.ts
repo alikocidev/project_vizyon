@@ -95,3 +95,13 @@ export const getMovieVideos = async (
     throw error;
   }
 };
+
+export const getMovieDetail = async (movieId: number) => {
+  try {
+    const response = await apiClient.get(`movie/${movieId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
+};

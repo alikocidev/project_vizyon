@@ -39,6 +39,14 @@ class TmdbService
     }
 
     /**
+     * Get movie detail by movie id.
+     */
+    public function getMovieDetail(int $movieId): Result
+    {
+        return $this->repository->getMovieDetail($movieId);
+    }
+
+    /**
      * Get movie trending.
      * 
      * @param string $type "movie" or "tv".

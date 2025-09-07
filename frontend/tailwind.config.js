@@ -1,4 +1,5 @@
 import forms from "@tailwindcss/forms";
+import lineClamp from "@tailwindcss/line-clamp";
 import plugin from "tailwindcss/plugin";
 
 /** @type {import('tailwindcss').Config} */
@@ -65,6 +66,7 @@ export default {
 
   plugins: [
     forms,
+    lineClamp,
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         ".scrollbar-hide::-webkit-scrollbar": { display: "none" },

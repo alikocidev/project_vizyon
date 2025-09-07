@@ -142,6 +142,41 @@ class TmdbApiRepository implements TmdbRepositoryInterface
         return Result::success($cachedData);
     }
 
+    public function getMovieDetail($movieId): Result
+    {
+        $cacheKey = "tmdb:movies:{$movieId}:detail";
+        $ttl = Carbon::now()->addWeek();
+
+        $cachedData = Cache::remember($cacheKey, $ttl, function () use ($movieId) {
+            try {
+                $queryParams = [
+                    'language' => 'tr',
+                    'append_to_response' => 'credits,videos,images'
+                ];
+                $response = $this->client->get("movie/{$movieId}", [
+                    'query' => $queryParams,
+                ]);
+
+                if ($response->getStatusCode() !== 200) {
+                    Log::channel("tmdb")->error("Error fetching data from TMDB Service 'movie/{$movieId}'");
+                    return null;
+                }
+                Log::channel("tmdb")->info("Fetching data from TMDB Service 'movie/{$movieId}'", $queryParams);
+                $data = json_decode($response->getBody()->getContents(), true);
+                return $data;
+            } catch (\Exception $e) {
+                Log::channel("tmdb")->error("Exception occurred: {$e->getMessage()}");
+                return null;
+            }
+        });
+
+        if ($cachedData === null) {
+            return Result::failure('Error fetching data from TMDB');
+        }
+
+        return Result::success($cachedData);
+    }
+
     public function getTrending($type, $page = 1, $window = 'week'): Result
     {
         $cacheKey = "tmdb:trending:{$type}:{$window}:page:{$page}";

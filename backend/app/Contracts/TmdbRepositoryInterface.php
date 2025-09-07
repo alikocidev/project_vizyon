@@ -7,6 +7,7 @@ interface TmdbRepositoryInterface
     public function getMovieNowPlaying($page = 1);
     public function getMovieUpComing($page = 1);
     public function getMovieVideosById($movieId);
+    public function getMovieDetail($movieId);
     public function getTrending($type, $page = 1, $window);
     public function getMoviePopular($page = 1);
     public function getMovieGoat($page = 1);

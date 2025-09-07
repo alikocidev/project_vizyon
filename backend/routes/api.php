@@ -32,6 +32,7 @@ Route::prefix('movie')->group(function () {
     Route::get('/upcomings', [MovieController::class, 'getUpComings']);
     Route::get('/popular', [MovieController::class, 'getPopular']);
     Route::get('/goat', [MovieController::class, 'getGoat']);
+    Route::get('/{movie}', [MovieController::class, 'getMovieDetail']);
     Route::get('/{movie}/videos', [MovieController::class, 'getVideosByMovieId']);
 });
 

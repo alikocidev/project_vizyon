@@ -123,6 +123,92 @@ class TmdbFakeRepository implements TmdbRepositoryInterface
         return Result::success($fakeVideos);
     }
 
+    public function getMovieDetail($movieId): Result
+    {
+        $fakeMovieDetail = [
+            'id' => $movieId,
+            'title' => 'The Wild Robot',
+            'original_title' => 'The Wild Robot',
+            'overview' => 'Sahipsiz bir adada mahsur kalan robot Roz, zorlu çevre koşullarına uyum sağlamak zorundadır ve beklenmedik şekilde yetim bir kaz yavrusunun koruyucu annesi haline gelir.',
+            'poster_path' => '/wTnV3PCVW5O92JMrFvvrRcV39RU.jpg',
+            'backdrop_path' => '/4zlOPT9CrtIX05bBIkYxNZsm5zN.jpg',
+            'release_date' => '2024-09-12',
+            'vote_average' => 8.5,
+            'vote_count' => 2847,
+            'popularity' => 5820.364,
+            'runtime' => 102,
+            'budget' => 78000000,
+            'revenue' => 149200000,
+            'homepage' => 'https://www.thewildrobotmovie.com',
+            'imdb_id' => 'tt29623480',
+            'status' => 'Released',
+            'tagline' => 'Discover your true nature.',
+            'genres' => [
+                ['id' => 16, 'name' => 'Animasyon'],
+                ['id' => 878, 'name' => 'Bilim Kurgu'],
+                ['id' => 10751, 'name' => 'Aile']
+            ],
+            'production_companies' => [
+                [
+                    'id' => 33,
+                    'name' => 'Universal Pictures',
+                    'logo_path' => '/8lvHyhjr8oUKOOy2dKXoALWKdp0.png',
+                    'origin_country' => 'US'
+                ]
+            ],
+            'production_countries' => [
+                ['iso_3166_1' => 'US', 'name' => 'United States of America']
+            ],
+            'spoken_languages' => [
+                ['iso_639_1' => 'en', 'name' => 'English']
+            ],
+            'credits' => [
+                'cast' => [
+                    [
+                        'id' => 3223,
+                        'name' => 'Lupita Nyong\'o',
+                        'character' => 'Roz (voice)',
+                        'profile_path' => '/y40Wu1T742kynOqtwXASc5Qgm49.jpg',
+                        'order' => 0
+                    ],
+                    [
+                        'id' => 1231,
+                        'name' => 'Pedro Pascal',
+                        'character' => 'Fink (voice)',
+                        'profile_path' => '/9VYK7oxcqhjd5LAH6ZFJ3XzOhpx.jpg',
+                        'order' => 1
+                    ]
+                ],
+                'crew' => [
+                    [
+                        'id' => 1223,
+                        'name' => 'Chris Sanders',
+                        'job' => 'Director',
+                        'profile_path' => '/8Q7QFPrZJwU8rDX0BfmnJhY8X0b.jpg'
+                    ]
+                ]
+            ],
+            'videos' => [
+                'results' => [
+                    [
+                        'id' => '66e1234567890abcdef12345',
+                        'iso_639_1' => 'en',
+                        'iso_3166_1' => 'US',
+                        'key' => '67vbqzycKrg',
+                        'name' => 'The Wild Robot | Official Trailer',
+                        'site' => 'YouTube',
+                        'size' => 1080,
+                        'type' => 'Trailer',
+                        'official' => true,
+                        'published_at' => '2024-06-18T16:00:10.000Z'
+                    ]
+                ]
+            ],
+        ];
+
+        return Result::success($fakeMovieDetail);
+    }
+
     public function getTrending($type, $page = 1, $window = 'week'): Result
     {
         $fakeData = [

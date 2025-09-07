@@ -23,6 +23,7 @@ import { useDevice } from "@/hooks/useDevice";
 import { useFavorite } from "@/hooks/useFavorite";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { MovieDetails } from "./partials/MovieDetails";
 
 const TABS: Record<TabListProps, string> = {
   popular: "Popüler",
@@ -376,3 +377,4 @@ const Movie = () => {
 };
 
 export default Movie;
+export { MovieDetails };
