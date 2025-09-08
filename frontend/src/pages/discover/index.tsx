@@ -19,6 +19,7 @@ import {
   formatDateToTurkishMonthDay,
   genreIdsToNamesForMovies,
 } from "@/utils/misc";
+import { MetaHead, StructuredData } from "@/components/SEO";
 import { useFavorite } from "@/hooks/useFavorite";
 import DiscoverFilters from "./partials/DiscoverFilters";
 
@@ -193,19 +194,51 @@ const Discover = () => {
     fetchMovies(true);
   }, [filters, isSearchMode, searchQuery]);
 
+  const getPageTitle = () => {
+    if (isSearchMode) {
+      return `"${searchQuery}" için Arama Sonuçları`;
+    }
+    return "Film Keşfet";
+  };
+
+  const getPageDescription = () => {
+    if (isSearchMode) {
+      return `"${searchQuery}" araması için bulunan filmler. Project Vizyon'da geniş film arşivini keşfedin.`;
+    }
+    return "Gelişmiş filtrelerle istediğiniz filmleri keşfedin. Türe, yıla, puana göre filtreleyerek size uygun filmleri bulun.";
+  };
+
   return (
-    <CoreLayout user={user} title="Keşfet">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-wide text-light-text dark:text-dark-text mb-4">
-            {isSearchMode ? `"${searchQuery}" için Arama Sonuçları` : "Keşfet"}
-          </h1>
-          <p className="text-light-text/70 dark:text-dark-text/70 text-lg">
-            {isSearchMode
-              ? `"${searchQuery}" araması için bulunan filmler`
-              : "Filtrelerle istediğiniz filmleri keşfedin"}
-          </p>
-        </div>
+    <>
+      <MetaHead
+        title={getPageTitle()}
+        description={getPageDescription()}
+        url={isSearchMode ? `/discover?s=${encodeURIComponent(searchQuery)}` : "/discover"}
+        keywords={isSearchMode ? `${searchQuery}, film arama, arama sonuçları` : "film keşfet, film filtreleme, film önerileri, film arama"}
+        type="website"
+      />
+      
+      <StructuredData
+        type="WebPage"
+        data={{
+          title: getPageTitle(),
+          description: getPageDescription(),
+          url: isSearchMode ? `/discover?s=${encodeURIComponent(searchQuery)}` : "/discover"
+        }}
+      />
+
+      <CoreLayout user={user} title="Keşfet">
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
+            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-wide text-light-text dark:text-dark-text mb-4">
+              {isSearchMode ? `"${searchQuery}" için Arama Sonuçları` : "Keşfet"}
+            </h1>
+            <p className="text-light-text/70 dark:text-dark-text/70 text-lg">
+              {isSearchMode
+                ? `"${searchQuery}" araması için bulunan filmler`
+                : "Filtrelerle istediğiniz filmleri keşfedin"}
+            </p>
+          </div>
 
         <div
           className={classNames("grid gap-8", {
@@ -391,6 +424,7 @@ const Discover = () => {
         </div>
       </div>
     </CoreLayout>
+    </>
   );
 };
 

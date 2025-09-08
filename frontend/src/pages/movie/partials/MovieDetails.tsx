@@ -23,6 +23,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import LazyLoadedImage from "@/components/LazyLoadedImage";
 import CircularProgressBar from "@/components/CircularProgressBar";
 import Loading from "@/components/Loading";
+import { MetaHead, StructuredData } from "@/components/SEO";
 
 export const MovieDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -158,55 +159,75 @@ export const MovieDetails = () => {
   }
 
   return (
-    <CoreLayout user={user} title={movie.title}>
-      <div className="relative">
-        {/* Hero Section with Backdrop */}
-        <div className="relative h-screen max-h-[80vh] overflow-hidden">
-          {/* Backdrop Image */}
-          <div className="absolute inset-0">
-            <LazyLoadedImage
-              src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-              alt={movie.title}
-              isExist={!!movie.backdrop_path}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
-          </div>
+    <>
+      {movie && (
+        <>
+          <MetaHead
+            title={`${movie.title} (${new Date(movie.release_date).getFullYear()})`}
+            description={`${movie.overview || 'Film hakkında bilgi bulunmuyor.'} IMDb: ${movie.vote_average}/10 • ${movie.runtime ? `${Math.floor(movie.runtime / 60)}s ${movie.runtime % 60}dk` : ''} • ${formatDateToTurkishMonthDay(movie.release_date, true)}`}
+            image={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : undefined}
+            url={`/movie/${movie.id}`}
+            type="article"
+            keywords={`${movie.title}, ${movie.original_title}, film, sinema, ${movie.genres?.map(g => g.name).join(', ')}, ${new Date(movie.release_date).getFullYear()}`}
+            publishedTime={movie.release_date}
+          />
+          
+          <StructuredData
+            type="Movie"
+            data={movie}
+          />
+        </>
+      )}
+      
+      <CoreLayout user={user} title={movie.title}>
+        <div className="relative">
+          {/* Hero Section with Backdrop */}
+          <div className="relative h-screen max-h-[80vh] overflow-hidden">
+            {/* Backdrop Image */}
+            <div className="absolute inset-0">
+              <LazyLoadedImage
+                src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+                alt={movie.title}
+                isExist={!!movie.backdrop_path}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
+            </div>
 
-          {/* Content Overlay */}
-          <div className="absolute inset-0 flex items-center">
-            <div className="container mx-auto px-4">
-              <div
-                className={classNames("grid gap-8", {
-                  "grid-cols-1": isMobile,
-                  "grid-cols-12": !isMobile,
-                })}
-              >
-                {/* Poster */}
+            {/* Content Overlay */}
+            <div className="absolute inset-0 flex items-center">
+              <div className="container mx-auto px-4">
                 <div
-                  className={classNames("flex justify-center", {
-                    "order-1": isMobile,
-                    "col-span-4 lg:col-span-3": !isMobile,
+                  className={classNames("grid gap-8", {
+                    "grid-cols-1": isMobile,
+                    "grid-cols-12": !isMobile,
                   })}
                 >
-                  <div className="relative group">
-                    <div className="w-64 h-96 rounded-2xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-transform duration-300">
-                      <LazyLoadedImage
-                        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                        alt={movie.title}
-                        isExist={!!movie.poster_path}
-                        className="w-full h-full object-cover"
-                      />
+                  {/* Poster */}
+                  <div
+                    className={classNames("flex justify-center", {
+                      "order-1": isMobile,
+                      "col-span-4 lg:col-span-3": !isMobile,
+                    })}
+                  >
+                    <div className="relative group">
+                      <div className="w-64 h-96 rounded-2xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-transform duration-300">
+                        <LazyLoadedImage
+                          src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                          alt={movie.title}
+                          isExist={!!movie.poster_path}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Movie Info */}
-                <div
-                  className={classNames("text-white", {
-                    "order-2 text-center": isMobile,
-                    "col-span-8 lg:col-span-9 flex flex-col justify-center":
+                  {/* Movie Info */}
+                  <div
+                    className={classNames("text-white", {
+                      "order-2 text-center": isMobile,
+                      "col-span-8 lg:col-span-9 flex flex-col justify-center":
                       !isMobile,
                   })}
                 >
@@ -649,5 +670,6 @@ export const MovieDetails = () => {
         </div>
       </div>
     </CoreLayout>
+    </>
   );
 };

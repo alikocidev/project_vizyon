@@ -24,6 +24,7 @@ import { useFavorite } from "@/hooks/useFavorite";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { MovieDetails } from "./partials/MovieDetails";
+import { MetaHead, StructuredData } from "@/components/SEO";
 
 const TABS: Record<TabListProps, string> = {
   popular: "Popüler",
@@ -202,31 +203,66 @@ const Movie = () => {
     }
   };
 
+  const getPageDescription = (tab: TabListProps) => {
+    switch (tab) {
+      case "popular":
+        return "En popüler filmler listesi. IMDb ve TMDb puanlarına göre en çok beğenilen ve izlenen filmler.";
+      case "theaters":
+        return "Şu anda vizyonda olan filmler. Sinemaya gitmeden önce yeni çıkan filmleri keşfedin.";
+      case "upcomings":
+        return "Çok yakında vizyona girecek filmler. Gelecek filmleri takip edin ve beklentilerinizi oluşturun.";
+      case "trending":
+        return "Son trendler ve en çok konuşulan filmler. Bu hafta en popüler olan filmler.";
+      case "goat":
+        return "Tüm zamanların en iyi filmleri. Mutlaka izlenmesi gereken klasik ve modern şaheserler.";
+      default:
+        return "Film keşfet sayfası. Popüler, vizyondaki, yakında çıkacak ve en iyi filmler.";
+    }
+  };
+
   return (
-    <CoreLayout user={user} title="Movie">
-      <div className="flex flex-col gap-4 xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
-        <div className="mt-4 sm:mt-10 mb-4 max-sm:ml-2">
-          <h1 className="text-5xl font-extrabold tracking-wide select-none text-light-text dark:text-dark-text">
-            {TABS[activeTab]}
-          </h1>
-        </div>
-        <Tabs
-          tabs={TABS}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          isLoading={isLoading}
-        />
-        <div
-          className={classNames({
-            "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2": !isMobile,
-            "flex flex-col gap-2 px-2": isMobile,
-          })}
-        >
-          {movies &&
-            movies.length > 0 &&
-            movies.map((movie, i) => (
-              <div
-                key={i}
+    <>
+      <MetaHead
+        title={`${TABS[activeTab]} - Filmler`}
+        description={getPageDescription(activeTab)}
+        url="/movie"
+        keywords={`${TABS[activeTab].toLowerCase()}, filmler, sinema, ${activeTab}, film önerileri, movie`}
+        type="website"
+      />
+      
+      <StructuredData
+        type="WebPage"
+        data={{
+          title: `${TABS[activeTab]} - Filmler`,
+          description: getPageDescription(activeTab),
+          url: "/movie"
+        }}
+      />
+
+      <CoreLayout user={user} title="Movie">
+        <div className="flex flex-col gap-4 xl:w-3/5 lg:w-3/4 sm:w-11/12 mx-auto">
+          <div className="mt-4 sm:mt-10 mb-4 max-sm:ml-2">
+            <h1 className="text-5xl font-extrabold tracking-wide select-none text-light-text dark:text-dark-text">
+              {TABS[activeTab]}
+            </h1>
+          </div>
+          <Tabs
+            tabs={TABS}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            isLoading={isLoading}
+          />
+          <div
+            className={classNames({
+              "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2": !isMobile,
+              "flex flex-col gap-2 px-2": isMobile,
+            })}
+          >
+            {movies &&
+              movies.length > 0 &&
+              movies.map((movie, i) => (
+                <div
+                  key={i}
                 onClick={(e) => handleNavigateDetail(e, movie.id)}
                 className={classNames(
                   "relative group border border-light-text/5 dark:border-dark-text/5",
@@ -373,6 +409,7 @@ const Movie = () => {
         </div>
       </div>
     </CoreLayout>
+    </>
   );
 };
 

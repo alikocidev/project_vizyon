@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Ana sayfalar
+Allow: /
+Allow: /movie
+Allow: /discover
+Allow: /movie/*
+
+# Static dosyalar
+Allow: /assets/
+Allow: /images/
+Allow: /favicon.svg
+
+# Yasaklı alanlar
+Disallow: /api/
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /profile
+Disallow: /favorites
+Disallow: /discussions
+
+# Sitemap
+Sitemap: https://alikoc.dev/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
