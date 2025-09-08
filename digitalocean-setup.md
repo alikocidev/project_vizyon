@@ -90,7 +90,6 @@ php artisan migrate --force
 # Laravel optimizasyonları
 php artisan config:cache
 php artisan route:cache
-php artisan view:cache
 
 # Dosya izinleri
 chown -R www-data:www-data storage bootstrap/cache
