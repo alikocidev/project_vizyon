@@ -1,0 +1,63 @@
+@keyframes s_wave {
+    0% {
+        transform: translateX(120%) translateY(-60%);
+    }
+    50% {
+        transform: translateX(-90%) translateY(-20%);
+    }
+    100% {
+        transform: translateX(120%) translateY(-40%);
+    }
+}
+
+.box1 {
+    width: 48px;
+    height: 48px;
+    padding: 6px;
+}
+@media screen and (min-width: 2400px) {
+    .box1 {
+        /* 2k resolution */
+        width: 60px;
+        height: 60px;
+    }
+}
+@media screen and (min-width: 3840px) {
+    .box1 {
+        /* 4k resolution */
+        padding: 8px;
+        width: 72px;
+        height: 72px;
+    }
+}
+@media screen and (min-width: 2400px) {
+    .box1 .box2 svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+@media screen and (min-width: 3840px) {
+    .box1 .box2 svg {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+}
+.box1 .box4::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50%;
+    border-radius: 60%;
+    animation: s_wave 5s linear infinite;
+}
+@media screen and (min-width: 2400px) {
+    .box1 .box4::after {
+        border-radius: 80%;
+    }
+}
+@media screen and (min-width: 3840px) {
+    .box1 .box4::after {
+        border-radius: 90%;
+    }
+}

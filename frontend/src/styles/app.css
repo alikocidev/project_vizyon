@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  line-height: 1.5;
+  color: #111216;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body > div#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
+}
+
+div#root > main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  button {
+    outline: 0;
+  }
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #111216;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+/* Mobilde scrollbar'ı gizle */
+@media (max-width: 768px) {
+  * {
+    scrollbar-width: none; /* Firefox için */
+    -ms-overflow-style: none; /* Internet Explorer ve Edge için */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari ve Opera için */
+    width: 0px;
+    background: transparent;
+  }
+}
+
+/* 
+Home:SearchDiv
+*/
+#bg-slide-pic:before,
+#bg-slide-pic:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/searchbar_background.jpg");
+  background-size: 100%;
+  animation: move 125s infinite linear;
+}
+#bg-slide-pic:before {
+  right: 100%;
+}
+
+@keyframes move {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/*
+End:Home:SearchDiv
+*/
+
+/*
+Start:Home:PlatformContent
+*/
+.edge_fade_blur:after {
+  content: "";
+  width: 52px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0, #f7f2eb 100%);
+  will-change: opacity;
+  pointer-events: none;
+  z-index: 10;
+}
+.edge_fade_blur.is_fading:after {
+  transition: linear 0.3s;
+  opacity: 1;
+}
+/*
+End:Home:PlatformContent
+*/

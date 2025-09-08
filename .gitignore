@@ -1,0 +1,14 @@
+# Node.js
+node_modules/
+dist/
+build/
+
+# Laravel
+vendor/
+storage/
+.env
+.env.*
+
+# OS
+Thumbs.db
+.DS_Store

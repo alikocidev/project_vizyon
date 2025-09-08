@@ -1,0 +1,100 @@
+#multi-range-slider.slider {
+    position: relative;
+    width: 200px;
+}
+
+#multi-range-slider .slider__track,
+#multi-range-slider .slider__range {
+    position: absolute;
+}
+
+#multi-range-slider .slider__track,
+#multi-range-slider .slider__range {
+    border-radius: 3px;
+    height: 5px;
+}
+
+#multi-range-slider .slider__track {
+    width: 100%;
+    z-index: 1;
+}
+
+#multi-range-slider .slider__range {
+    z-index: 2;
+}
+
+#multi-range-slider .thumb,
+#multi-range-slider .thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#multi-range-slider .thumb {
+    pointer-events: none;
+    position: absolute;
+    height: 0;
+    width: 100%;
+    outline: none;
+}
+
+#multi-range-slider .thumb--zindex-3 {
+    z-index: 3;
+}
+
+#multi-range-slider .thumb--zindex-4 {
+    z-index: 4;
+}
+
+#multi-range-slider .thumb--zindex-5 {
+    z-index: 5;
+}
+
+#multi-range-slider .thumb::-webkit-slider-thumb {
+    background-color: #1e284d; /* primary color */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    margin-top: 4px;
+    pointer-events: all;
+    position: relative;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#multi-range-slider .thumb::-webkit-slider-thumb:hover {
+    background-color: #3356c2; /* lighter primary on hover */
+}
+
+.dark #multi-range-slider .thumb::-webkit-slider-thumb {
+    background-color: #c76f6c; /* secondary color for dark theme */
+}
+
+.dark #multi-range-slider .thumb::-webkit-slider-thumb:hover {
+    background-color: #944341; /* darker secondary on hover */
+}
+
+#multi-range-slider .thumb::-moz-range-thumb {
+    background-color: #1e284d; /* primary color */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    margin-top: 4px;
+    pointer-events: all;
+    position: relative;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#multi-range-slider .thumb::-moz-range-thumb:hover {
+    background-color: #3356c2; /* lighter primary on hover */
+}
+
+.dark #multi-range-slider .thumb::-moz-range-thumb {
+    background-color: #c76f6c; /* secondary color for dark theme */
+}
+
+.dark #multi-range-slider .thumb::-moz-range-thumb:hover {
+    background-color: #944341; /* darker secondary on hover */
+}
