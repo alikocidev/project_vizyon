@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
+import ScrollReset from "@/components/ScrollReset";
 
 import Home from "@/pages/home";
 import Login from "@/pages/auth/Login";
@@ -15,6 +16,7 @@ import Favorites from "@/pages/favorites";
 const AppRoutes = () => {
   return (
     <Router>
+      <ScrollReset />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
