@@ -176,14 +176,14 @@ const PlatformContents = () => {
         "bg-cover bg-no-repeat transition-[background] bg-[center_center]"
       )}
       style={{
-        backgroundImage: `url(assets/images/platforms/${active}/background.jpg)`,
+        backgroundImage: `url(/images/platforms/${active}/background.jpg)`,
       }}
     >
       <div className="absolute inset-0 bg-primary/70 dark:bg-dark-secondary/80 z-10"></div>
       <div className="absolute right-8 top-4">
         <img
           width={52}
-          src={`assets/images/platforms/${active}/logo.png`}
+          src={`/images/platforms/${active}/logo.png`}
           alt="platform-logo"
         />
       </div>

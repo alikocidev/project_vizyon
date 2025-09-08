@@ -17,7 +17,7 @@ export default function Footer() {
         </Link>
         <div className="ml-auto opacity-70 hover:opacity-100 transition duration-150 ease-in-out">
           <a href="https://www.themoviedb.org/" target="_blank">
-            <img className="w-32 sm:w-40" src="/assets/images/tmdb/alt-long.svg" alt="themoviedatabase" />
+            <img className="w-32 sm:w-40" src="/images/tmdb/alt-long.svg" alt="themoviedatabase" />
           </a>
         </div>
       </div>

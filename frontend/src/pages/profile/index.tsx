@@ -263,7 +263,7 @@ const Profile = () => {
       </CoreLayout>
       <img
         className="absolute inset-0 object-cover w-full h-full z-0 opacity-25 dark:opacity-5 select-none pointer-events-none"
-        src="/assets/images/profile_background.jpeg"
+        src="/images/profile_background.jpeg"
         alt="Profile Background"
       />
     </>
