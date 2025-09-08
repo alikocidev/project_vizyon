@@ -118,7 +118,7 @@ Aşağıdaki konfigürasyonu yapıştır:
 ```nginx
 server {
     listen 80;
-    server_name yourdomain.com www.yourdomain.com;
+    server_name alikoc.dev www.alikoc.dev 46.101.106.215;
     
     # Frontend (React) - Ana dizin
     root /var/www/project_vizyon/frontend/dist;
@@ -181,9 +181,9 @@ nano /var/www/project_vizyon/backend/.env
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://yourdomain.com
+APP_URL=https://alikoc.dev
 
-FRONTEND_URL=https://yourdomain.com
+FRONTEND_URL=https://alikoc.dev
 
 # Log seviyesini azalt (disk tasarrufu)
 LOG_LEVEL=error
@@ -202,7 +202,7 @@ LOG_LEVEL=error
 apt install certbot python3-certbot-nginx
 
 # SSL sertifikası al (ücretsiz)
-certbot --nginx -d yourdomain.com -d www.yourdomain.com
+certbot --nginx -d alikoc.dev -d www.alikoc.dev
 
 # Otomatik yenileme
 systemctl enable certbot.timer
