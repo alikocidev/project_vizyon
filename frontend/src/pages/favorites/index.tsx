@@ -67,7 +67,7 @@ const Favorites = () => {
 
   const handleOpenDetails = (mediaType: "movie" | "tv", mediaId: number) => {
     if (mediaType === "movie") {
-      navigate(`/movies/${mediaId}`);
+      navigate(`/movie/${mediaId}`);
     } else if (mediaType === "tv") {
       navigate(`/tv/${mediaId}`);
     }
