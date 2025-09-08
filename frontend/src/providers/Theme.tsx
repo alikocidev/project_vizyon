@@ -10,14 +10,17 @@ interface ThemeProviderProps {
 }
 
 const defaultContextValue: ThemeContextType = {
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
 };
 
-export const ThemeContext = createContext<ThemeContextType>(defaultContextValue);
+export const ThemeContext =
+  createContext<ThemeContextType>(defaultContextValue);
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>((localStorage.getItem("theme") as Theme) || defaultContextValue.theme);
+  const [theme, setTheme] = useState<Theme>(
+    (localStorage.getItem("theme") as Theme) || defaultContextValue.theme
+  );
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -29,5 +32,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };

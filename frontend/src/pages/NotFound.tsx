@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-light-primary dark:bg-dark-secondary flex items-center justify-center px-4">
+    <div className="min-h-screen bg-light-primary dark:bg-dark-secondary flex items-center justify-center px-4 select-none">
       <div className="max-w-md w-full text-center">
         <div className="mb-8">
           <h1 className="text-9xl font-bold text-primary dark:text-secondary">404</h1>
