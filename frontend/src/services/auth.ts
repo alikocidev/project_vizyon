@@ -76,7 +76,7 @@ export const postVerificationEmail = async (): Promise<{
   data: any;
 }> => {
   try {
-    const response = await apiClient.put("/email/verification-notification");
+    const response = await apiClient.post("/email/verification-notification");
     return response.data;
   } catch (error) {
     console.error("Fetch error:auth:profile:verificationEmail");
