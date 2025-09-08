@@ -14,6 +14,7 @@ import classNames from "classnames";
 import { useDevice } from "@/hooks/useDevice";
 import { useFavorite } from "@/hooks/useFavorite";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 type FilterType = "all" | "movie" | "tv";
 
@@ -29,6 +30,7 @@ const Favorites = () => {
   } = useFavoritesList();
   const { removeFavorite } = useFavorite();
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -61,6 +63,14 @@ const Favorites = () => {
   const handleLoadMore = () => {
     const mediaType = activeFilter === "all" ? undefined : activeFilter;
     loadMoreFavorites(mediaType);
+  };
+
+  const handleOpenDetails = (mediaType: "movie" | "tv", mediaId: number) => {
+    if (mediaType === "movie") {
+      navigate(`/movies/${mediaId}`);
+    } else if (mediaType === "tv") {
+      navigate(`/tv/${mediaId}`);
+    }
   };
 
   if (!user) return;
@@ -145,6 +155,9 @@ const Favorites = () => {
           >
             {favorites.map((favorite) => (
               <div
+                onClick={() =>
+                  handleOpenDetails(favorite.media_type, favorite.media_id)
+                }
                 key={favorite.id}
                 className={classNames(
                   "relative group",
@@ -180,16 +193,23 @@ const Favorites = () => {
                       <div className="relative translate-y-3 flex flex-col gap-1 transform translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                         <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
                           {formatDateToTurkishMonthDay(
-                            favorite.release_date || "",
+                            favorite.release_date || "Çok yakında",
                             true
                           )}
                         </h1>
-                        <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
-                          {genreIdsToNamesForMovies(favorite.genre_ids || [])}
-                        </h1>
-                        <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
-                          {favorite.media_type === "movie" ? "Film" : "Dizi"}
-                        </h1>
+                        {favorite.genre_ids &&
+                          favorite.genre_ids.length > 0 && (
+                            <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
+                              {genreIdsToNamesForMovies(
+                                favorite.genre_ids || []
+                              )}
+                            </h1>
+                          )}
+                        {favorite.media_type && (
+                          <h1 className="w-max whitespace-nowrap py-1 font-medium px-2 text-xs text-white bg-primary/50 dark:bg-dark-surface/75 backdrop-blur-sm">
+                            {favorite.media_type === "movie" ? "Film" : "Dizi"}
+                          </h1>
+                        )}
                       </div>
                       <div className="relative right-1 z-10 flex flex-col items-center gap-1 transform -translate-x-[-100px] group-hover:translate-x-0 transition-transform duration-300 delay-100">
                         {favorite.vote_average && (
