@@ -141,7 +141,7 @@ const PlatformContents = () => {
     if (current?.isLoad && (!current.shows || current.shows.length === 0)) {
       return (
         <div className="mt-4 text-center">
-          <p className="text-light-text/70 dark:text-dark-text/70">
+          <p className="text-light-primary/70 dark:text-dark-text/70">
             Bu platform için henüz içerik bulunamadı.
           </p>
         </div>

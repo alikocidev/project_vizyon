@@ -209,7 +209,7 @@ class TmdbFakeRepository implements TmdbRepositoryInterface
         return Result::success($fakeMovieDetail);
     }
 
-    public function getTrending($type, $page = 1, $window = 'week'): Result
+    public function getTrending($type, $window, $page = 1): Result
     {
         $fakeData = [
             [

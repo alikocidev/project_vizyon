@@ -50,12 +50,12 @@ class TmdbService
      * Get movie trending.
      * 
      * @param string $type "movie" or "tv".
-     * @param int $page for pagination.
      * @param string $window "day" or "week". Defaults to "week".
+     * @param int $page for pagination.
      */
-    public function getTrending(string $type, int $page, string $window = "week"): Result
+    public function getTrending(string $type, string $window, int $page = 1): Result
     {
-        return $this->repository->getTrending($type, $page, $window);
+        return $this->repository->getTrending($type, $window, $page);
     }
 
     /**
