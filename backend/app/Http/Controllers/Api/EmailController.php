@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EmailController extends Controller
 {
@@ -37,6 +38,7 @@ class EmailController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
+            Log::error('Email verification error: ' . $e->getMessage());
             return response()->json([
                 'message' => __('profile.email_send_failed'),
                 'success' => false,
