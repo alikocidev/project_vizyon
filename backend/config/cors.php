@@ -26,10 +26,6 @@ return [
         'http://127.0.0.1:5173',
         'https://alikoc.dev',
         'http://alikoc.dev',
-        'https://www.alikoc.dev',
-        'http://www.alikoc.dev',
-        'http://46.101.106.215',
-        'https://46.101.106.215'
     ],
 
     'allowed_origins_patterns' => [],
