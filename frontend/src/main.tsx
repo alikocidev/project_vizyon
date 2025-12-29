@@ -4,6 +4,7 @@ import { AuthProvider } from "@/providers/Auth";
 import { ThemeProvider } from "@/providers/Theme";
 import AppRoutes from "@/router";
 import { Toaster } from "react-hot-toast";
+import LinkedInCreators from "@/components/LinkedInCreators";
 
 import "@/styles/app.css";
 
@@ -24,6 +25,7 @@ function App() {
                 },
               }}
             />
+            <LinkedInCreators />
           </main>
         </AuthProvider>
       </ThemeProvider>

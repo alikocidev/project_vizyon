@@ -14,7 +14,6 @@ import { User } from "@/types";
 import useTheme from "@/hooks/useTheme";
 import { ApplicationLogo } from "@/components/ApplicationLogo";
 import { useAuth } from "@/hooks/useAuth";
-import { CiLinkedin } from "react-icons/ci";
 import { FiExternalLink } from "react-icons/fi";
 
 type ItemType = {
@@ -53,12 +52,6 @@ const HeaderItems: ItemType[] = [
     icon: RiHeartsFill,
     label: "Favoriler",
     requireAuth: true,
-  },
-  {
-    href: "https://www.linkedin.com/in/aliko/",
-    icon: CiLinkedin,
-    label: "Created by -a",
-    isLink: true,
   },
 ];
 
