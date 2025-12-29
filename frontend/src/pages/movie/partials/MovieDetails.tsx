@@ -48,8 +48,6 @@ export const MovieDetails = () => {
         const movieData = await getMovieDetail(parseInt(id));
         setMovie(movieData);
 
-        console.log(movieData);
-
         // Check if movie is favorite
         if (user) {
           const favorite = await checkFavorite({
