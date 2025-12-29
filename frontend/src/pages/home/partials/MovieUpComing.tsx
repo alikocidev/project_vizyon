@@ -138,10 +138,6 @@ const MovieUpComing = () => {
     );
   };
 
-  console.log("upComings type:", typeof upComings);
-  console.log("upComings isArray:", Array.isArray(upComings));
-  console.log("upComings value:", upComings);
-
   return (
     <>
       <div className="w-full relative max-sm:px-2 sm:my-10">
