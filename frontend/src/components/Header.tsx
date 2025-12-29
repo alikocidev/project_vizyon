@@ -254,7 +254,7 @@ export default function Header({
                   </form>
                 </motion.div>
 
-                {HeaderItems.filter((item) => !item.requireAuth || user).map(
+                {HeaderItems?.filter((item) => !item.requireAuth || user).map(
                   (item, index) => {
                     const IconComponent = item.icon;
                     return (
