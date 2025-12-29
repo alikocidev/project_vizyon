@@ -14,6 +14,8 @@ import { User } from "@/types";
 import useTheme from "@/hooks/useTheme";
 import { ApplicationLogo } from "@/components/ApplicationLogo";
 import { useAuth } from "@/hooks/useAuth";
+import { CiLinkedin } from "react-icons/ci";
+import { FiExternalLink } from "react-icons/fi";
 
 type ItemType = {
   href: string;
@@ -21,6 +23,7 @@ type ItemType = {
   label: string;
   isMobile?: boolean;
   requireAuth?: boolean;
+  isLink?: boolean;
 };
 
 const HeaderItems: ItemType[] = [
@@ -50,6 +53,12 @@ const HeaderItems: ItemType[] = [
     icon: RiHeartsFill,
     label: "Favoriler",
     requireAuth: true,
+  },
+  {
+    href: "https://www.linkedin.com/in/aliko/",
+    icon: CiLinkedin,
+    label: "Created by -a",
+    isLink: true,
   },
 ];
 
@@ -131,10 +140,12 @@ export default function Header({
                     <Link
                       key={item.href}
                       to={item.href}
+                      target={item.isLink ? "_blank" : undefined}
                       className="inline-flex items-center gap-2 px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:border-primary dark:hover:border-secondary focus:outline-none focus:text-light-text dark:focus:text-dark-text focus:border-primary dark:focus:border-secondary transition duration-150 ease-in-out"
                     >
                       <IconComponent className="h-4 w-4" />
                       {item.label}
+                      {item.isLink ? <FiExternalLink /> : null}
                     </Link>
                   );
                 })}
@@ -273,9 +284,11 @@ export default function Header({
                           to={item.href}
                           className="flex items-center gap-3 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 dark:text-neutral-400 hover:text-light-text dark:hover:text-dark-text hover:bg-light-surface dark:hover:bg-dark-surface hover:border-primary dark:hover:border-secondary focus:outline-none focus:text-light-text dark:focus:text-dark-text focus:bg-light-surface dark:focus:bg-dark-surface focus:border-primary dark:focus:border-secondary transition duration-150 ease-in-out"
                           onClick={() => setShowingNavigationDropdown(false)}
+                          target={item.isLink ? "_blank" : undefined}
                         >
                           <IconComponent className="h-5 w-5" />
                           {item.label}
+                          {item.isLink ? <FiExternalLink /> : null}
                         </Link>
                       </motion.div>
                     );
