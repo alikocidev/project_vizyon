@@ -39,10 +39,10 @@ const MovieUpComing = () => {
     setFetchVideos(id);
     getMovieVideos(id).then((videos) => {
       if (videos.length > 0) {
-        const filteredData = videos.filter(
+        const filteredData = videos?.filter(
           (item: any) => item.type === "Trailer" && item.site === "YouTube"
         );
-        if (filteredData.length > 0) {
+        if (filteredData && filteredData.length > 0) {
           setSelectedTrailer(filteredData[0].key);
         }
       }

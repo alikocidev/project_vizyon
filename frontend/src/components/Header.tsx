@@ -123,7 +123,7 @@ export default function Header({
               </div>
 
               <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                {HeaderItems.filter(
+                {HeaderItems?.filter(
                   (item) => !item.isMobile && (!item.requireAuth || user)
                 ).map((item) => {
                   const IconComponent = item.icon;
