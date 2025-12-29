@@ -12,14 +12,12 @@ const creators: Creator[] = [
   {
     name: "-a",
     linkedInUrl: "https://www.linkedin.com/in/aliko/",
-    imageUrl:
-      "https://media.licdn.com/dms/image/v2/D4D03AQFdsn-A--iWdA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1670481133919?e=1768435200&v=beta&t=uZa7UoVSXMDEfZoBeczDsVCymVF5v-mMkyBYE6KrhrU",
+    imageUrl: "images/alikoc.jpg",
   },
   {
     name: "Cio",
     linkedInUrl: "https://www.linkedin.com/in/bugra-cihan-gunduz/",
-    imageUrl:
-      "https://media.licdn.com/dms/image/v2/D4D03AQEvj0oA3SEl7w/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1675542279255?e=1768435200&v=beta&t=Hbcmmmie2zjvSvv5Z0zMWK8oUiff0vv2sQg8QkCVxuI",
+    imageUrl: "images/bugracihangunduz.jpg",
   },
 ];
 
