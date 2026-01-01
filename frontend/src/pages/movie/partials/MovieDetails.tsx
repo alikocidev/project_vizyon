@@ -24,6 +24,7 @@ import LazyLoadedImage from "@/components/LazyLoadedImage";
 import CircularProgressBar from "@/components/CircularProgressBar";
 import Loading from "@/components/Loading";
 import { MetaHead, StructuredData } from "@/components/SEO";
+import { FaLink } from "react-icons/fa";
 
 export const MovieDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -516,7 +517,8 @@ export const MovieDetails = () => {
                                 rel="noopener noreferrer"
                                 className="ml-2 text-primary dark:text-secondary font-medium hover:underline break-all"
                               >
-                                Resmi Site
+                                <span>Resmi Website</span>
+                                <FaLink className="inline-block ml-1" />
                               </a>
                             </div>
                           )}

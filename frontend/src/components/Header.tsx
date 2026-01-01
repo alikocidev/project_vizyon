@@ -109,7 +109,7 @@ export default function Header({
       <title>{title}</title>
       <nav
         className={classNames(
-          "bg-light-primary dark:bg-dark-primary shadow-2xl"
+          "bg-light-primary dark:bg-dark-primary shadow-2xl dark:shadow-none"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -154,7 +154,7 @@ export default function Header({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Film ara..."
-                    className="w-64 pl-10 pr-4 py-2 text-sm bg-light-surface dark:bg-dark-surface border border-light-text/20 dark:border-dark-text/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:border-transparent text-light-text dark:text-dark-text placeholder-light-text/50 dark:placeholder-dark-text/50"
+                    className="w-64 pl-10 pr-4 py-2 text-sm bg-light-surface dark:bg-dark-surface border-none rounded-lg focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-secondary text-light-text dark:text-dark-text placeholder-light-text/50 dark:placeholder-dark-text/50"
                   />
                   <IoSearchSharp className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-light-text/50 dark:text-dark-text/50" />
                 </div>
@@ -251,7 +251,7 @@ export default function Header({
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Film ara..."
-                        className="w-full pl-10 pr-4 py-2 text-sm bg-light-surface dark:bg-dark-surface border border-light-text/20 dark:border-dark-text/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary focus:border-transparent text-light-text dark:text-dark-text placeholder-light-text/50 dark:placeholder-dark-text/50"
+                        className="w-full pl-10 pr-4 py-2.5 text-sm bg-light-surface dark:bg-dark-surface border-none rounded-lg focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-secondary text-light-text dark:text-dark-text placeholder-light-text/50 dark:placeholder-dark-text/50"
                       />
                       <IoSearchSharp className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-light-text/50 dark:text-dark-text/50" />
                     </div>

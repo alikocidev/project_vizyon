@@ -10,12 +10,16 @@ const CoreLayout = ({
   title,
   loading = false,
   children,
-}: PropsWithChildren<{ user: User | null; title: string; loading?: boolean }>) => {
+}: PropsWithChildren<{
+  user: User | null;
+  title: string;
+  loading?: boolean;
+}>) => {
   return (
     <>
       <Header user={user} title={title} loading={loading} />
       <div className={classNames("relative my-16")}>
-        <>{children}</>
+        {children}
       </div>
       <ScrollToTopButton />
       <Footer />
