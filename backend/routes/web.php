@@ -4,18 +4,18 @@ use Illuminate\Support\Facades\Route;
 
 // API Backend Info Page
 Route::get('/', function () {
-    return view('app');
-})->name('api.info');
-
-// Login route for API authentication middleware redirect
-Route::get('/login', function () {
     return response()->json([
-        'message' => 'Authentication required',
-        'error' => 'Please authenticate using the API endpoints',
-        'login_endpoint' => url('/api/auth/login'),
-        'register_endpoint' => url('/api/auth/register')
-    ], 401);
-})->name('login');
+        'name' => config('app.name'),
+        'status' => 'running',
+        'message' => 'API Backend is active',
+        'version' => '1.0.0',
+        'endpoints' => [
+            'health' => url('/health'),
+            'api_docs' => url('/api'),
+        ],
+        'frontend_url' => config('app.frontend_url', 'http://localhost:3000'),
+    ]);
+})->name('api.info');
 
 // API Health Check
 Route::get('/health', function () {

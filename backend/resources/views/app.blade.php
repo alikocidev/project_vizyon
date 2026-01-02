@@ -26,17 +26,6 @@
             <strong>🌐 Frontend Uygulaması:</strong> 
             <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>
         </div>
-        
-        <h3>📋 API Endpoints:</h3>
-        <div class="endpoint">GET /api/movie - Film listesi</div>
-        <div class="endpoint">GET /api/movie/{id} - Film detayı</div>
-        <div class="endpoint">POST /api/auth/login - Giriş</div>
-        <div class="endpoint">POST /api/auth/register - Kayıt</div>
-        
-        <div class="info">
-            <strong>📚 API Dokumentasyonu:</strong> 
-            <a href="/api/documentation" target="_blank">API Docs</a>
-        </div>
     </div>
 </body>
 </html>
