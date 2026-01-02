@@ -32,6 +32,5 @@ Route::fallback(function () {
     return response()->json([
         'message' => 'Route not found. This is an API backend.',
         'frontend_url' => config('app.frontend_url', 'http://localhost:3000'),
-        'api_docs' => url('/api/documentation')
     ], 404);
 });
