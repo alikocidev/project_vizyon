@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\PlatformController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\TrendingController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
