@@ -11,7 +11,6 @@ Route::get('/', function () {
         'version' => '1.0.0',
         'endpoints' => [
             'health' => url('/health'),
-            'api_docs' => url('/api'),
         ],
         'frontend_url' => config('app.frontend_url', 'http://localhost:3000'),
     ]);
