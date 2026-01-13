@@ -127,10 +127,11 @@ const MovieUpComing = () => {
             )}
           ></div>
           <div className="rounded-full w-16 sm:w-20 h-16 sm:h-20 overflow-hidden border border-transparent z-10">
-            <img
-              className="w-full h-full object-cover"
+            <LazyLoadedImage
+              className="w-full h-full object-cover rounded-full"
               src={`https://image.tmdb.org/t/p/w200/${image}`}
               alt="movie-poster"
+              isExist={!!image}
             />
           </div>
         </div>
