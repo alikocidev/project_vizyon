@@ -2,6 +2,7 @@ import { useState } from "react";
 import classNames from "classnames";
 import { DiscoverFilters as DiscoverFiltersType } from "@/services/discover";
 import { Tmdb_MovieGenres } from "@/utils/misc";
+import MultiRangeSlider from "@/components/MultiRangeSlider";
 
 interface DiscoverFiltersProps {
   filters: DiscoverFiltersType;
@@ -124,31 +125,28 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
         <label className="block text-sm font-medium text-light-text dark:text-dark-text">
           Çıkış Yılı
         </label>
-        <div className="grid grid-cols-2 gap-2">
-          <input
-            type="number"
-            placeholder="Min"
-            min="1900"
+        <div className="space-y-3">
+          <MultiRangeSlider
+            min={1900}
             max={currentYear}
-            value={localFilters.primary_release_date_year_min}
-            onChange={(e) =>
-              handleInputChange("primary_release_date_year_min", e.target.value)
-            }
-            disabled={isLoading}
-            className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
+            step={1}
+            onChange={({ min, max }) => {
+              handleInputChange(
+                "primary_release_date_year_min",
+                min.toString()
+              );
+              handleInputChange(
+                "primary_release_date_year_max",
+                max.toString()
+              );
+            }}
           />
-          <input
-            type="number"
-            placeholder="Max"
-            min="1900"
-            max={currentYear}
-            value={localFilters.primary_release_date_year_max}
-            onChange={(e) =>
-              handleInputChange("primary_release_date_year_max", e.target.value)
-            }
-            disabled={isLoading}
-            className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
-          />
+          <div className="relative top-2.5 flex justify-between text-sm text-light-text/70 dark:text-dark-text/70 mt-4">
+            <span>{localFilters.primary_release_date_year_min || "1900"}</span>
+            <span>
+              {localFilters.primary_release_date_year_max || currentYear}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -157,33 +155,22 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
         <label className="block text-sm font-medium text-light-text dark:text-dark-text">
           Puan Aralığı
         </label>
-        <div className="grid grid-cols-2 gap-2">
-          <input
-            type="number"
-            placeholder="Min"
-            min="0"
-            max="10"
-            step="0.1"
-            value={localFilters.vote_average_min}
-            onChange={(e) =>
-              handleInputChange("vote_average_min", e.target.value)
-            }
-            disabled={isLoading}
-            className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
+        <div className="space-y-3">
+          <MultiRangeSlider
+            min={0}
+            max={10}
+            step={0.1}
+            onChange={({ min, max }) => {
+              handleInputChange("vote_average_min", min.toString());
+              handleInputChange("vote_average_max", max.toString());
+            }}
           />
-          <input
-            type="number"
-            placeholder="Max"
-            min="0"
-            max="10"
-            step="0.1"
-            value={localFilters.vote_average_max}
-            onChange={(e) =>
-              handleInputChange("vote_average_max", e.target.value)
-            }
-            disabled={isLoading}
-            className="px-3 py-2 border border-light-surface dark:border-dark-surface rounded-md bg-light-primary dark:bg-dark-primary text-light-text dark:text-dark-text focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-secondary disabled:opacity-50"
-          />
+          <div className="relative top-2.5 w-full flex justify-between text-sm text-light-text/70 dark:text-dark-text/70">
+            <span className="ml-1">{localFilters.vote_average_min || "0"}</span>
+            <span className="mr-0.5">
+              {localFilters.vote_average_max || "10"}
+            </span>
+          </div>
         </div>
       </div>
 
