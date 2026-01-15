@@ -52,7 +52,7 @@ const Discover = () => {
     with_original_language: "",
   });
 
-  const fetchMovies = async (isNewSearch = false) => {
+  const fetchMovies = async (isNewSearch = false, pageNumber?: number) => {
     setLoading(true);
     if (isNewSearch) {
       setMovies([]);
@@ -62,7 +62,7 @@ const Discover = () => {
     }
 
     try {
-      const currentPage = isNewSearch ? 1 : page;
+      const currentPage = pageNumber || (isNewSearch ? 1 : page);
       let newMovies: Movie[] = [];
 
       if (isSearchMode && searchQuery) {
@@ -128,7 +128,7 @@ const Discover = () => {
     const newPage = page + 1;
     setPage(newPage);
     setShowLoadMoreButton(false);
-    fetchMovies(false);
+    fetchMovies(false, newPage);
   };
 
   const handleFilterChange = (newFilters: DiscoverFiltersType) => {
