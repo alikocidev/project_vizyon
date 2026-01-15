@@ -40,6 +40,18 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
 }) => {
   const [localFilters, setLocalFilters] =
     useState<DiscoverFiltersType>(filters);
+  
+  const currentYear = new Date().getFullYear();
+  
+  // Slider değerleri için state
+  const [yearRange, setYearRange] = useState({ 
+    min: 1900, 
+    max: currentYear 
+  });
+  const [voteRange, setVoteRange] = useState({ 
+    min: 0, 
+    max: 10 
+  });
 
   const handleInputChange = (key: keyof DiscoverFiltersType, value: string) => {
     const newFilters = { ...localFilters, [key]: value };
@@ -61,10 +73,10 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
       with_original_language: "",
     };
     setLocalFilters(defaultFilters);
+    setYearRange({ min: 1900, max: currentYear });
+    setVoteRange({ min: 0, max: 10 });
     onFiltersChange(defaultFilters);
   };
-
-  const currentYear = new Date().getFullYear();
 
   return (
     <div className="space-y-6 sticky top-20">
@@ -130,7 +142,10 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             min={1900}
             max={currentYear}
             step={1}
+            defaultMinValue={yearRange.min}
+            defaultMaxValue={yearRange.max}
             onChange={({ min, max }) => {
+              setYearRange({ min, max });
               handleInputChange(
                 "primary_release_date_year_min",
                 min.toString()
@@ -142,10 +157,8 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             }}
           />
           <div className="relative top-2.5 flex justify-between text-sm text-light-text/70 dark:text-dark-text/70 mt-4">
-            <span>{localFilters.primary_release_date_year_min || "1900"}</span>
-            <span>
-              {localFilters.primary_release_date_year_max || currentYear}
-            </span>
+            <span>{yearRange.min}</span>
+            <span>{yearRange.max}</span>
           </div>
         </div>
       </div>
@@ -160,16 +173,17 @@ const DiscoverFilters: React.FC<DiscoverFiltersProps> = ({
             min={0}
             max={10}
             step={0.1}
+            defaultMinValue={voteRange.min}
+            defaultMaxValue={voteRange.max}
             onChange={({ min, max }) => {
+              setVoteRange({ min, max });
               handleInputChange("vote_average_min", min.toString());
               handleInputChange("vote_average_max", max.toString());
             }}
           />
           <div className="relative top-2.5 w-full flex justify-between text-sm text-light-text/70 dark:text-dark-text/70">
-            <span className="ml-1">{localFilters.vote_average_min || "0"}</span>
-            <span className="mr-0.5">
-              {localFilters.vote_average_max || "10"}
-            </span>
+            <span className="ml-1">{voteRange.min.toFixed(1)}</span>
+            <span className="mr-0.5">{voteRange.max.toFixed(1)}</span>
           </div>
         </div>
       </div>
