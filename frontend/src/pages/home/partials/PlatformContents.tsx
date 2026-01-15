@@ -26,6 +26,11 @@ const PlatformContents = () => {
   );
   const [active, setActive] = useState<PlatformTypes>(PLATFORM_LIST[0].name);
   const [isLoading, setIsLoading] = useState(false);
+  const [hiddenContent, setHiddenContent] = useState<Set<number>>(new Set());
+
+  const handleImageError = (contentIndex: number) => {
+    setHiddenContent((prev) => new Set(prev).add(contentIndex));
+  };
 
   const fetchPlatformContent = async (platformName: PlatformTypes) => {
     setIsLoading(true);
@@ -55,6 +60,7 @@ const PlatformContents = () => {
   const handleChangePlatform = (platformName: PlatformTypes) => {
     if (isLoading || active === platformName) return;
     setActive(platformName);
+    setHiddenContent(new Set()); // Yeni platform için hidden content'i sıfırla
     if (!platforms[platformName]?.isLoad) {
       fetchPlatformContent(platformName);
     }
@@ -97,43 +103,48 @@ const PlatformContents = () => {
       return (
         <div className="w-full overflow-auto">
           <ScrollContainer className="flex gap-4 pt-2 pb-8">
-            {current.shows.map((content, contentIndex) => {
-              const imageSet = content.imageSet?.horizontalPoster;
-              let image = undefined;
-              if (imageSet) {
-                image =
-                  imageSet.w720 ||
-                  imageSet.w600 ||
-                  imageSet.w480 ||
-                  imageSet.w360 ||
-                  imageSet.w240 ||
-                  undefined;
-              }
-              return (
-                <div
-                  key={contentIndex}
-                  className="flex flex-col items-center"
-                >
-                  <div className="w-72 rounded-lg overflow-hidden shadow">
-                    <LazyLoadedImage
-                      src={image}
-                      alt="platform-content-image"
-                      skeletonClassName="h-40"
-                      className="h-40"
-                      isExist={!!image}
-                    />
+            {current.shows
+              .map((content, contentIndex) => {
+                if (hiddenContent.has(contentIndex)) return null;
+                
+                const imageSet = content.imageSet?.horizontalPoster;
+                let image = undefined;
+                if (imageSet) {
+                  image =
+                    imageSet.w720 ||
+                    imageSet.w600 ||
+                    imageSet.w480 ||
+                    imageSet.w360 ||
+                    imageSet.w240 ||
+                    undefined;
+                }
+                return (
+                  <div
+                    key={contentIndex}
+                    className="flex flex-col items-center"
+                  >
+                    <div className="w-72 rounded-lg overflow-hidden shadow">
+                      <LazyLoadedImage
+                        src={image}
+                        alt="platform-content-image"
+                        skeletonClassName="h-40"
+                        className="h-40"
+                        isExist={!!image}
+                        onImageError={() => handleImageError(contentIndex)}
+                      />
+                    </div>
+                    <div className="mt-2 text-light-primary dark:text-dark-text text-center">
+                      <h1 className="text-lg font-semibold text-ellipsis overflow-hidden">
+                        {content.title}
+                      </h1>
+                      <h1 className="font-medium text-xs text-white/50 dark:text-dark-text/50 text-ellipsis overflow-hidden">
+                        {content.originalTitle}
+                      </h1>
+                    </div>
                   </div>
-                  <div className="mt-2 text-light-primary dark:text-dark-text text-center">
-                    <h1 className="text-lg font-semibold text-ellipsis overflow-hidden">
-                      {content.title}
-                    </h1>
-                    <h1 className="font-medium text-xs text-white/50 dark:text-dark-text/50 text-ellipsis overflow-hidden">
-                      {content.originalTitle}
-                    </h1>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+              .filter(Boolean)}
           </ScrollContainer>
         </div>
       );

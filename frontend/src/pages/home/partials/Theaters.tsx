@@ -19,6 +19,7 @@ import { getMovieTheaters } from "@/services/movie";
 const Theaters = () => {
   const [theaters, setTheaters] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hiddenMovies, setHiddenMovies] = useState<Set<number>>(new Set());
   const { theme } = useTheme();
   const navigate = useNavigate();
 
@@ -37,6 +38,10 @@ const Theaters = () => {
 
     fetchTheaters();
   }, []);
+
+  const handleImageError = (movieId: number) => {
+    setHiddenMovies((prev) => new Set(prev).add(movieId));
+  };
 
   const GridMember: React.FC<{ movie: Movie }> = ({ movie }) => {
     const { hasMoved } = useScrollContext();
@@ -68,6 +73,7 @@ const Theaters = () => {
             alt={movie.title}
             skeletonClassName="h-[420px]"
             isExist={!!movie.poster_path}
+            onImageError={() => handleImageError(movie.id)}
           />
 
           {/* Hover Overlay */}
@@ -140,7 +146,7 @@ const Theaters = () => {
               theaters &&
               theaters.length > 0 &&
               theaters
-                .filter((movie) => movie.poster_path)
+                .filter((movie) => movie.poster_path && !hiddenMovies.has(movie.id))
                 .map((movie, index) => <GridMember key={index} movie={movie} />)
             )}
           </ScrollContainer>

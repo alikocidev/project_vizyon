@@ -17,11 +17,16 @@ const MovieUpComing = () => {
   const { theme } = useTheme();
   const [upComings, setUpComings] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hiddenMovies, setHiddenMovies] = useState<Set<number>>(new Set());
   const [selectedTrailer, setSelectedTrailer] = useState<string | undefined>(
     undefined
   );
   const [fetchVideos, setFetchVideos] = useState<number | null>(null);
   const navigate = useNavigate();
+
+  const handleImageError = (movieId: number) => {
+    setHiddenMovies((prev) => new Set(prev).add(movieId));
+  };
 
   useEffect(() => {
     const fetchUpComings = () => {
@@ -103,6 +108,7 @@ const MovieUpComing = () => {
           alt={movie.title}
           skeletonClassName="min-h-[264px]"
           isExist={!!movie.poster_path}
+          onImageError={() => handleImageError(movie.id)}
         />
         <div
           onClick={handleTrailerClick}
@@ -170,7 +176,7 @@ const MovieUpComing = () => {
               upComings &&
               upComings.length > 0 &&
               upComings
-                .filter((movie) => movie.poster_path)
+                .filter((movie) => movie.poster_path && !hiddenMovies.has(movie.id))
                 .map((movie, index) => <GridMember key={index} movie={movie} />)
             )}
           </ScrollContainer>
