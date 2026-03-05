@@ -4,7 +4,7 @@
   
   <!-- Ana Sayfa -->
   <url>
-    <loc>https://alikoc.dev/</loc>
+    <loc>https://projectvizyon.alikoc.dev/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <lastmod>2024-12-09</lastmod>
@@ -12,7 +12,7 @@
   
   <!-- Film Sayfaları -->
   <url>
-    <loc>https://alikoc.dev/movie</loc>
+    <loc>https://projectvizyon.alikoc.dev/movie</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     <lastmod>2024-12-09</lastmod>
@@ -20,7 +20,7 @@
   
   <!-- Keşfet Sayfası -->
   <url>
-    <loc>https://alikoc.dev/discover</loc>
+    <loc>https://projectvizyon.alikoc.dev/discover</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <lastmod>2024-12-09</lastmod>
@@ -28,31 +28,31 @@
   
   <!-- Film Kategorileri -->
   <url>
-    <loc>https://alikoc.dev/movie?tab=popular</loc>
+    <loc>https://projectvizyon.alikoc.dev/movie?tab=popular</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://alikoc.dev/movie?tab=theaters</loc>
+    <loc>https://projectvizyon.alikoc.dev/movie?tab=theaters</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://alikoc.dev/movie?tab=upcomings</loc>
+    <loc>https://projectvizyon.alikoc.dev/movie?tab=upcomings</loc>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://alikoc.dev/movie?tab=trending</loc>
+    <loc>https://projectvizyon.alikoc.dev/movie?tab=trending</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://alikoc.dev/movie?tab=goat</loc>
+    <loc>https://projectvizyon.alikoc.dev/movie?tab=goat</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

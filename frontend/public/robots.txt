@@ -21,7 +21,7 @@ Disallow: /favorites
 Disallow: /discussions
 
 # Sitemap
-Sitemap: https://alikoc.dev/sitemap.xml
+Sitemap: https://projectvizyon.alikoc.dev/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1

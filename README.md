@@ -64,7 +64,7 @@ Each project (backend/frontend) has its own README with detailed setup instructi
 
 ## Live
 
-- https://alikoc.dev/
+- https://projectvizyon.alikoc.dev/
 
 ## Images
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/6a199cde-90d1-409c-9cf4-2af0f1ce5c32" />
