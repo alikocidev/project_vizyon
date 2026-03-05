@@ -37,8 +37,27 @@ npm run build
 Create a `.env` file in the root directory:
 
 ```
-VITE_API_URL=http://localhost:8000/api
+VITE_APP_URL=http://localhost:3000
+VITE_API_URL=http://localhost:8000/v1
 ```
+
+## Deploy on Vercel
+
+Configure these project environment variables in Vercel:
+
+```
+VITE_APP_URL=https://your-frontend.vercel.app
+VITE_API_URL=https://your-backend.up.railway.app/v1
+```
+
+Build settings:
+
+```
+Build command: npm run build
+Output directory: dist
+```
+
+For React Router deep links, keep `vercel.json` with SPA rewrite enabled.
 
 ## Project Structure
 
