@@ -20,10 +20,17 @@ return [
     'allowed_methods' => ['*'],
 
     // Comma-separated list from env keeps deploy environments configurable.
-    'allowed_origins' => array_values(array_filter(array_map(
+    // FRONTEND_URL is also appended to avoid accidental CORS lockouts.
+    'allowed_origins' => array_values(array_unique(array_filter(array_map(
         static fn (string $origin) => trim($origin),
-        explode(',', (string) env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173'))
-    ))),
+        array_merge(
+            explode(',', (string) env(
+                'CORS_ALLOWED_ORIGINS',
+                'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173,https://projectvizyon.alikoc.dev,https://www.projectvizyon.alikoc.dev'
+            )),
+            [(string) env('FRONTEND_URL', '')]
+        )
+    )))),
 
     'allowed_origins_patterns' => [],
 
